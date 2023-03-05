@@ -55,13 +55,14 @@ model MenuItem {
 }
 
 model Reservation {
-    id        String   @id @default(cuid())
-    userId    String
-    startAt   DateTime
-    endAt     DateTime
-    fee       Decimal
-    createdAt DateTime @default(now())
-    user      User     @relation(fields: [userId], references: [id])
+    id         String   @id @default(cuid())
+    userId     String
+    startAt    DateTime
+    endAt      DateTime
+    fee        Decimal
+    guestCount Int
+    createdAt  DateTime @default(now())
+    user       User     @relation(fields: [userId], references: [id])
 }
 
 model Account {
