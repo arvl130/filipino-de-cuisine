@@ -19,12 +19,15 @@ function Navbar() {
             FILIPINO DE CUISINE
           </h1>
         </div>
-        <div className="flex gap-12">
+        <div className="flex items-center gap-12">
           <span>Home</span>
           <span>Menu</span>
           <span>Reservations</span>
           <span>About Us</span>
           <span>Contact Us</span>
+          <span className="[background-color:_#ffffe8] px-6 py-1.5 rounded-full">
+            Login
+          </span>
         </div>
       </div>
     </nav>
