@@ -2,9 +2,13 @@ import "@/styles/globals.css"
 import type { AppProps } from "next/app"
 import { Inter, Karla } from "next/font/google"
 import Image from "next/image"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import { api } from "../utils/api"
 
 function Navbar() {
+  const { pathname } = useRouter()
+
   return (
     <nav className="border-b flex items-center [background-color:_#F1E9E3]">
       <div className="max-w-7xl mx-auto w-full px-6 flex justify-between items-center">
@@ -20,11 +24,23 @@ function Navbar() {
           </h1>
         </div>
         <div className="flex items-center gap-12">
-          <span>Home</span>
+          <Link href="/" className={pathname === "/" ? "font-bold" : ""}>
+            Home
+          </Link>
           <span>Menu</span>
           <span>Reservations</span>
-          <span>About Us</span>
-          <span>Contact Us</span>
+          <Link
+            href="/about"
+            className={pathname === "/about" ? "font-bold" : ""}
+          >
+            About Us
+          </Link>
+          <Link
+            href="/contact"
+            className={pathname === "/contact" ? "font-bold" : ""}
+          >
+            Contact Us
+          </Link>
           <span className="[background-color:_#ffffe8] px-6 py-1.5 rounded-full">
             Login
           </span>
