@@ -1,10 +1,8 @@
 import "@/styles/globals.css"
 import type { AppProps } from "next/app"
-import { Inter } from "next/font/google"
+import { Inter, Karla } from "next/font/google"
 import Image from "next/image"
 import { api } from "../utils/api"
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
 function Navbar() {
   return (
@@ -37,12 +35,12 @@ function Footer() {
   return (
     <footer
       className="
-      py-3 
+      px-6 py-3 
+      text-white text-sm font-medium font-karla
       [color:_#342006] [background-color:_#DBB688]
-      text-white font-medium text-sm
     "
     >
-      <div className="max-w-6xl mx-auto grid grid-cols-[36rem_1fr_1fr_1fr] pt-6 pb-5">
+      <div className="max-w-6xl mx-auto flex flex-wrap justify-center gap-x-24 gap-y-6 pt-6 pb-5">
         <div className="flex gap-2 items-center">
           <Image
             src="/assets/logo.png"
@@ -91,9 +89,14 @@ function Footer() {
   )
 }
 
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const karla = Karla({ subsets: ["latin"], variable: "--font-karla" })
+
 function App({ Component, pageProps }: AppProps) {
   return (
-    <div className={`${inter.variable} font-sans [color:_#342006]`}>
+    <div
+      className={`${inter.variable} ${karla.variable} font-sans [color:_#342006]`}
+    >
       <div className="min-h-[100svh] grid grid-rows-[4rem_1fr]">
         <Navbar />
         <Component {...pageProps} />
