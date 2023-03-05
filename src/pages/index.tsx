@@ -5,7 +5,7 @@ import Link from "next/link"
 
 function HeroSection() {
   return (
-    <div className="text-center [color:_#F5EEE9] font-semibold mt-24 mb-12">
+    <div className="text-center [color:_#F5EEE9] font-bold mt-36 mb-24">
       <p className="text-7xl md:text-9xl mb-2">WELCOME</p>
       <p className="mb-6">
         When it comes to Filipino food, nothing beats Filipino De Cuisine.
