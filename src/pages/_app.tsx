@@ -39,7 +39,7 @@ function Footer() {
     <footer
       className="
       px-6 py-3 
-      text-white text-sm font-medium font-karla
+      text-white font-medium font-karla
       [color:_#342006] [background-color:_#DBB688]
     "
     >
@@ -83,7 +83,7 @@ function Footer() {
           <p className="font-extrabold">STAY CONNECTED</p>
         </div>
       </div>
-      <div className="text-center">
+      <div className="text-center text-sm">
         <hr className="[border-color:_#342006]" />
         <p className="pt-3">
           &copy; 2023.{" "}
