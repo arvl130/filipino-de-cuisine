@@ -1,30 +1,104 @@
 import "@/styles/globals.css"
 import type { AppProps } from "next/app"
 import { Inter } from "next/font/google"
+import Image from "next/image"
 import { api } from "../utils/api"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
+function Navbar() {
+  return (
+    <nav className="border-b flex items-center px-6 [background-color:_#F1E9E3]">
+      <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
+        <div className="flex gap-2 items-center">
+          <Image
+            src="/assets/logo.png"
+            alt="Filipino de Cuisine website logo"
+            width={50}
+            height={40}
+          />
+          <h1 className="text-2xl font-medium tracking-wide">
+            FILIPINO DE CUISINE
+          </h1>
+        </div>
+        <div className="flex gap-12">
+          <span>Home</span>
+          <span>Menu</span>
+          <span>Reservations</span>
+          <span>About Us</span>
+          <span>Contact Us</span>
+        </div>
+      </div>
+    </nav>
+  )
+}
+
+function Footer() {
+  return (
+    <footer
+      className="
+      py-3 
+      [color:_#342006] [background-color:_#DBB688]
+      text-white font-medium text-sm
+    "
+    >
+      <div className="max-w-6xl mx-auto grid grid-cols-[36rem_1fr_1fr_1fr] pt-6 pb-5">
+        <div className="flex gap-2 items-center">
+          <Image
+            src="/assets/logo.png"
+            alt="Filipino de Cuisine website logo"
+            width={50}
+            height={40}
+          />
+          <h1 className="text-2xl font-medium tracking-wide">
+            FILIPINO DE CUISINE
+          </h1>
+        </div>
+        <div>
+          <p className="font-semibold">MENU</p>
+          <ul>
+            <li>Beef Dishes</li>
+            <li>Chicken Dishes</li>
+            <li>Goat Dishes</li>
+            <li>Pork Dishes</li>
+            <li>Seafoods Dishes</li>
+            <li>Vegetable Dishes</li>
+            <li>Filipino Dishes</li>
+            <li>Drinks & Beverages</li>
+          </ul>
+        </div>
+        <div>
+          <p className="font-semibold">QUICK LINKS</p>
+          <ul>
+            <li>Home</li>
+            <li>Menu</li>
+            <li>Reservations</li>
+            <li>About Us</li>
+            <li>Contact Us</li>
+            <li>FAQs</li>
+          </ul>
+        </div>
+        <div>
+          <p className="font-semibold">STAY CONNECTED</p>
+        </div>
+      </div>
+      <div className="text-center">
+        <hr className="[border-color:_#342006]" />
+        <p className="pt-3">&copy; 2023. Filipino de Cuisine</p>
+        <p>All Rights Reserved.</p>
+      </div>
+    </footer>
+  )
+}
+
 function App({ Component, pageProps }: AppProps) {
   return (
-    <div className={`${inter.variable} font-sans text-gray-900`}>
-      <div className="min-h-[100svh] grid grid-rows-[5rem_1fr]">
-        <nav className="border-b flex items-center">
-          <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
-            <h1 className="text-2xl font-semibold">Filipino de Cuisine</h1>
-            <div className="flex gap-4">
-              <span>Menu</span>
-              <span>Branches</span>
-              <span>Contact Us</span>
-              <span>About</span>
-            </div>
-          </div>
-        </nav>
+    <div className={`${inter.variable} font-sans [color:_#342006]`}>
+      <div className="min-h-[100svh] grid grid-rows-[4rem_1fr]">
+        <Navbar />
         <Component {...pageProps} />
       </div>
-      <footer className="text-center py-3 bg-gray-700 text-white font-medium text-sm">
-        &copy; 2023 SBIT-3C
-      </footer>
+      <Footer />
     </div>
   )
 }
