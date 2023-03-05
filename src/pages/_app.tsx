@@ -6,8 +6,8 @@ import { api } from "../utils/api"
 
 function Navbar() {
   return (
-    <nav className="border-b flex items-center px-6 [background-color:_#F1E9E3]">
-      <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
+    <nav className="border-b flex items-center [background-color:_#F1E9E3]">
+      <div className="max-w-7xl mx-auto w-full px-6 flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Image
             src="/assets/logo.png"
