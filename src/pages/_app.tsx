@@ -53,7 +53,7 @@ function Footer() {
           </h1>
         </div>
         <div>
-          <p className="font-semibold">MENU</p>
+          <p className="font-extrabold">MENU</p>
           <ul>
             <li>Beef Dishes</li>
             <li>Chicken Dishes</li>
@@ -66,7 +66,7 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <p className="font-semibold">QUICK LINKS</p>
+          <p className="font-extrabold">QUICK LINKS</p>
           <ul>
             <li>Home</li>
             <li>Menu</li>
@@ -77,12 +77,15 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <p className="font-semibold">STAY CONNECTED</p>
+          <p className="font-extrabold">STAY CONNECTED</p>
         </div>
       </div>
       <div className="text-center">
         <hr className="[border-color:_#342006]" />
-        <p className="pt-3">&copy; 2023. Filipino de Cuisine</p>
+        <p className="pt-3">
+          &copy; 2023.{" "}
+          <span className="[color:_#A44D08]">Filipino de Cuisine</span>
+        </p>
         <p>All Rights Reserved.</p>
       </div>
     </footer>
