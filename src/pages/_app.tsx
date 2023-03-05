@@ -81,6 +81,36 @@ function Footer() {
         </div>
         <div>
           <p className="font-extrabold">STAY CONNECTED</p>
+          <p className="flex gap-1">
+            <Image
+              src="/assets/footer/facebook.png"
+              alt="Facebook icon"
+              width={50}
+              height={50}
+              className="w-8 h-8"
+            />
+            <Image
+              src="/assets/footer/instagram.png"
+              alt="Instagram icon"
+              width={50}
+              height={50}
+              className="w-8 h-8"
+            />
+            <Image
+              src="/assets/footer/mail.png"
+              alt="Mail icon"
+              width={50}
+              height={50}
+              className="w-8 h-8"
+            />
+            <Image
+              src="/assets/footer/viber.png"
+              alt="Viber icon"
+              width={50}
+              height={50}
+              className="w-8 h-8"
+            />
+          </p>
         </div>
       </div>
       <div className="text-center text-sm">
