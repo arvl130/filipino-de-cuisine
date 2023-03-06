@@ -78,7 +78,7 @@ export default function Home() {
       <div
         className="w-full"
         style={{
-          backgroundImage: "url('/assets/homepage-wallpaper.png')",
+          backgroundImage: "url('/assets/homepage-wallpaper.jpeg')",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
