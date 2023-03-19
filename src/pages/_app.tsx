@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { api } from "../utils/api"
+import { AuthProvider } from "@/utils/auth"
 
 function Navbar() {
   const { pathname } = useRouter()
@@ -146,15 +147,17 @@ const karla = Karla({ subsets: ["latin"], variable: "--font-karla" })
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <div
-      className={`${inter.variable} ${karla.variable} font-sans [color:_#342006]`}
-    >
-      <div className="min-h-[100svh] grid grid-rows-[4rem_1fr]">
-        <Navbar />
-        <Component {...pageProps} />
+    <AuthProvider>
+      <div
+        className={`${inter.variable} ${karla.variable} font-sans [color:_#342006]`}
+      >
+        <div className="min-h-[100svh] grid grid-rows-[4rem_1fr]">
+          <Navbar />
+          <Component {...pageProps} />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </AuthProvider>
   )
 }
 

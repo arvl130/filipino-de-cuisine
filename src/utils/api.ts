@@ -1,6 +1,8 @@
 import { httpBatchLink } from "@trpc/client"
 import { createTRPCNext } from "@trpc/next"
 import type { RootRouter } from "../server/trpc/routers/root"
+import { getIdToken } from "firebase/auth"
+import { auth } from "./auth"
 
 function getBaseUrl() {
   if (typeof window !== "undefined")
@@ -29,6 +31,18 @@ export const api = createTRPCNext<RootRouter>({
            * @link https://trpc.io/docs/ssr
            **/
           url: `${getBaseUrl()}/api/trpc`,
+          /** headers are called on every request */
+          headers: async () => {
+            // Don't any additional header, if there is no logged in user.
+            const { currentUser } = auth
+            if (!currentUser) return {}
+
+            // Send Auth header, if there is a logged in user.
+            const token = await getIdToken(currentUser)
+            return {
+              Authorization: `Bearer ${token}`,
+            }
+          },
         }),
       ],
       /**
