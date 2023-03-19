@@ -56,6 +56,6 @@ export function AuthProvider(props: { children: ReactNode; [x: string]: any }) {
   )
 }
 
-export function useAuth() {
+export function useSession() {
   return useContext(AuthContext)
 }

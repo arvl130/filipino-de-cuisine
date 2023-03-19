@@ -1,10 +1,10 @@
 import { initTRPC, TRPCError } from "@trpc/server"
 import { prisma } from "../db"
 import { CreateNextContextOptions } from "@trpc/server/adapters/next"
-import { getServerAuthSession } from "../auth"
+import { getServerSession } from "../auth"
 
 export async function createContext({ req, res }: CreateNextContextOptions) {
-  const session = await getServerAuthSession({ req, res })
+  const session = await getServerSession({ req, res })
 
   return {
     user: session?.user,

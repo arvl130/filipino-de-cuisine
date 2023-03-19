@@ -29,7 +29,8 @@ const app =
     : getApp()
 
 const auth = getAuth(app)
-export async function getServerAuthSession({
+
+export async function getServerSession({
   req,
 }: {
   req: GetServerSidePropsContext["req"]
