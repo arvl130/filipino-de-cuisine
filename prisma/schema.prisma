@@ -8,57 +8,189 @@ datasource db {
 }
 
 model Message {
-    id        String   @id @default(cuid())
+    id        String   @id @default(uuid())
     name      String
     email     String
     body      String
     createdAt DateTime @default(now())
 }
 
+model Employee {
+    id            Int    @id @default(autoincrement())
+    username      String
+    password      String @db.Text
+    contactNumber String
+    position      String
+    imgUrl        String @db.Text
+    email         String
+}
+
+model Customer {
+    id                   String        @id @default(uuid())
+    displayName          String
+    email                String
+    defaultContactNumber String
+    photoUrl             String        @db.Text
+    isBlocked            Boolean
+    defaultAddress       String
+    onlineOrders         OnlineOrder[]
+    reservations         Reservation[]
+}
+
+enum Mode {
+    WalkIn
+    Online
+}
+
+enum PaymentStatus {
+    Pending
+    Fulfilled
+}
+
 model Order {
-    id        String   @id @default(cuid())
-    userId    String
-    createdAt DateTime @default(now())
-    user      User     @relation(fields: [userId], references: [id])
+    id            Int           @id @default(autoincrement())
+    mode          Mode
+    createdAt     DateTime      @default(now())
+    customerName  String
+    paymentStatus PaymentStatus
+    orderItems    OrderItem[]
+    walkInOrders  WalkInOrder[]
+    onlineOrders  OnlineOrder[]
+}
+
+model WalkInOrder {
+    id           Int     @id
+    paymentTotal Decimal
+    name         String
+    order        Order   @relation(fields: [id], references: [id])
+}
+
+model OnlineOrder {
+    id            Int      @id
+    customerId    String
+    address       String
+    contactNumber String
+    deliveryFee   Decimal
+    order         Order    @relation(fields: [id], references: [id])
+    customer      Customer @relation(fields: [customerId], references: [id])
 }
 
 model OrderItem {
-    id         String   @id @default(cuid())
-    userId     String
-    menuItemId String
-    quantity   String
-    createdAt  DateTime @default(now())
-    user       User     @relation(fields: [userId], references: [id])
+    id         Int      @id @default(autoincrement())
+    orderId    Int
+    quantity   Int
+    price      Decimal
+    discount   Decimal
+    menuItemId Int
+    order      Order    @relation(fields: [orderId], references: [id])
     menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
 }
 
 model MenuItem {
-    id          String      @id @default(cuid())
+    id          Int         @id @default(autoincrement())
     name        String
     description String
+    category    String
     price       Decimal
     isActive    Boolean
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
+    discountId  Int
+    discount    Discount    @relation(fields: [discountId], references: [id])
     orderItems  OrderItem[]
 }
 
 model Reservation {
     id         String   @id @default(cuid())
-    userId     String
+    customerId String
     startAt    DateTime
     endAt      DateTime
     fee        Decimal
     guestCount Int
     createdAt  DateTime @default(now())
-    user       User     @relation(fields: [userId], references: [id])
+    customer   Customer @relation(fields: [customerId], references: [id])
 }
 
-model User {
-    id            String        @id @default(cuid())
-    address       String
-    contactNumber String
-    orders        Order[]
-    orderItems    OrderItem[]
-    reservations  Reservation[]
+model Discount {
+    id        Int        @id @default(autoincrement())
+    endAt     DateTime
+    startAt   DateTime
+    amount    Decimal
+    menuItems MenuItem[]
+}
+
+model Sales {
+    id       Int      @id @default(autoincrement())
+    price    Decimal
+    quantity Int
+    total    Decimal
+    soldAt   DateTime
+}
+
+enum Status {
+    Overstock
+    Understock
+    InBalance
+}
+
+model Equipment {
+    id          Int     @id @default(autoincrement())
+    name        String
+    description String
+    price       Decimal
+    quantity    Int
+    status      Status
+}
+
+model Supplier {
+    id             Int             @id @default(autoincrement())
+    name           String
+    description    String
+    contactNumber  String
+    emailAddress   String
+    address        String
+    purchaseOrders PurchaseOrder[]
+}
+
+model PurchaseOrder {
+    id                 Int                 @id @default(autoincrement())
+    createdAt          DateTime            @default(now())
+    supplierId         Int
+    supplier           Supplier            @relation(fields: [supplierId], references: [id])
+    purchaseOrderItems PurchaseOrderItem[]
+}
+
+model PurchaseOrderItem {
+    id              Int           @id @default(autoincrement())
+    name            String
+    quantity        Int
+    purchaseOrderId Int
+    purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+}
+
+model Ingredient {
+    id                    Int                    @id @default(autoincrement())
+    name                  String
+    description           String
+    price                 Decimal
+    quantity              Int
+    status                Status
+    createdAt             DateTime               @default(now())
+    updatedAt             DateTime               @updatedAt
+    dailyReservationItems DailyReservationItem[]
+}
+
+model DailyReservation {
+    id                    Int                    @id @default(autoincrement())
+    name                  String
+    description           String
+    status                Status
+    dailyReservationItems DailyReservationItem[]
+}
+
+model DailyReservationItem {
+    id                 Int              @id @default(autoincrement())
+    ingredientId       Int
+    dailyReservationId Int
+    quantity           Int
+    ingredient         Ingredient       @relation(fields: [ingredientId], references: [id])
+    dailyReservation   DailyReservation @relation(fields: [dailyReservationId], references: [id])
 }
