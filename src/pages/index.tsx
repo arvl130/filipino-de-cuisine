@@ -1,72 +1,287 @@
-import { api } from "@/utils/api"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
 
 function HeroSection() {
   return (
-    <div className="text-center [color:_#F5EEE9] font-bold mt-36 mb-24">
-      <p className="text-7xl md:text-9xl mb-2">WELCOME</p>
-      <p className="mb-6">
-        When it comes to Filipino food, nothing beats Filipino De Cuisine.
-      </p>
-      <div className="text-center">
-        <Link
-          href={"/"}
-          className="inline-block px-4 py-1.5 text-white text-lg transition duration-200 hover:bg-yellow-500 [background-color:_#DEA02C] rounded-lg font-bold"
-        >
-          ORDER NOW
-        </Link>
+    <section className="max-w-6xl mx-auto px-6 grid grid-cols-[1fr_32rem] h-[calc(100svh_-_4rem)]">
+      <div className="flex flex-col justify-center">
+        <p className="text-3xl font-bold">Welcome to Filipino de Cuisine!</p>
+        <p className="[color:_#78716C]">
+          Your destination for authentic and delicious Filipino food. Our
+          passion is to bring the flavors of the Philippines to your table, with
+          dishes that are rich in tradition and culture.
+        </p>
+        <div className="inline-flex gap-3 mt-3">
+          <Link
+            href="/"
+            className="px-6 [background-color:_#10B981] text-white text-lg rounded-md pb-2 pt-3 font-semibold"
+          >
+            Order Now
+          </Link>
+          <Link
+            href="/"
+            className="px-6 [color:_#10B981] [border-color:_#10B981] border text-white text-lg rounded-md pb-2 pt-3 font-semibold"
+          >
+            Book a Reservation
+          </Link>
+        </div>
       </div>
-    </div>
+      <div className="flex items-center">
+        <Image
+          src="/assets/home/adobo.png"
+          width={1000}
+          height={1000}
+          alt="Adobo with rice on a plate"
+        />
+      </div>
+    </section>
   )
 }
 
-function DishesSection() {
+function QuoteSection() {
   return (
-    <div
-      className="grid grid-cols-4 items-center overflow-x-clip pb-5"
-      style={{
-        background: "linear-gradient(180deg, transparent 50%, #DBB688 50%)",
-      }}
-    >
-      <Image
-        src="/assets/homepage-dish1.png"
-        alt="dish 1"
-        width={300}
-        height={300}
-        className="z-[4] w-full aspect-square scale-110"
-      />
-      <Image
-        src="/assets/homepage-dish2.png"
-        alt="dish 2"
-        width={300}
-        height={300}
-        className="z-[3] w-full aspect-square scale-110"
-      />
-      <Image
-        src="/assets/homepage-dish3.png"
-        alt="dish 3"
-        width={300}
-        height={300}
-        className="z-[2] w-full aspect-square scale-110"
-      />
-      <Image
-        src="/assets/homepage-dish4.png"
-        alt="dish 4"
-        width={300}
-        height={300}
-        className="z-[1] w-full aspect-square scale-110"
-      />
-    </div>
+    <section className="bg-black text-white px-6 py-12 text-center font-inika text-3xl">
+      &ldquo;A taste of tradition in every bite.&rdquo;
+    </section>
+  )
+}
+
+function TestimonialsSectionItem() {
+  return (
+    <article className="bg-white rounded-md px-6 pt-4">
+      <div className="flex items-center gap-6 mb-3">
+        <div className="[box-shadow:_0px_4px_4px_rgba(0,_0,_0,_0.25)] [background-color:_#F5F5F5] h-24 aspect-square rounded-full">
+          <Image
+            src="/assets/home/user-icon.png"
+            alt="Customer profile picture"
+            width={96}
+            height={96}
+          />
+        </div>
+        <p className="font-bold text-xl">John Doe</p>
+      </div>
+      <p className="text-center [color:_#78716C]">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non
+        quis exercitationem culpa nesciunt nihil aut nostrum explicabo
+      </p>
+      <div className="text-center translate-y-4">
+        <div className="inline-block bg-black text-white px-6 pt-2 pb-1 text-2xl rounded-lg">
+          ★★★★<span className="[color:_#78716C]">★</span>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+function TestimonialsSection() {
+  return (
+    <section className="[background-color:_#F5F5F5] px-6 pt-8 pb-20">
+      <div>
+        <h2 className="[color:_#78716C] text-center mb-3">Client Feedback</h2>
+        <p className="text-black font-bold text-2xl text-center mb-10">
+          See what our clients say about our services
+        </p>
+      </div>
+      <div className="grid grid-cols-3 gap-10 max-w-6xl mx-auto">
+        <TestimonialsSectionItem />
+        <TestimonialsSectionItem />
+        <TestimonialsSectionItem />
+      </div>
+    </section>
+  )
+}
+
+function FeaturedDishesSectionItem({
+  menuItem,
+}: {
+  menuItem: {
+    name: string
+    description: string
+    category: string
+    price: number
+    imageUrl: string
+  }
+}) {
+  return (
+    <article className="-translate-y-16 grid grid-rows-[200px_1fr]">
+      <div className="flex justify-center">
+        <Image
+          src={menuItem.imageUrl}
+          height={200}
+          width={200}
+          alt={menuItem.name}
+          className="translate-y-24 object-cover"
+        />
+      </div>
+      <div className="border [border-color:_#78716C] rounded-2xl px-6 pt-24 text-center grid grid-rows-[auto_auto_1fr_auto_auto]">
+        <h3 className="font-bold text-2xl">{menuItem.name}</h3>
+        <p className="[color:_#78716C] my-1">{menuItem.category}</p>
+        <p className="mb-5 flex items-center">{menuItem.description}</p>
+        <p className="font-bold text-red-500 text-3xl leading-5">
+          ₱ {menuItem.price}
+        </p>
+        <div>
+          <Link
+            href="/"
+            className="inline-block [background-color:_#10B981] text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md translate-y-5"
+          >
+            Add to Basket
+          </Link>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+const featuredSectionItems = [
+  {
+    id: 1,
+    name: "Chicken Adobo",
+    category: "Lunch / Dinner",
+    description:
+      "Chicken adobo is a popular Filipino dish made with chicken thighs or drumsticks, simmered in a mixture of vinegar, soy sauce, garlic, and bay leaves. The dish has a tangy, savory flavor with a hint of sweetness.",
+    price: 120.0,
+    imageUrl: "/assets/home/adobo.png",
+  },
+  {
+    id: 2,
+    name: "Cocoa Champorado",
+    category: "Breakfast",
+    description:
+      "Cocoa champorado is a sweet Filipino breakfast dish made with glutinous rice, cocoa powder, and milk. ",
+    price: 80.0,
+    imageUrl: "/assets/home/champorado.png",
+  },
+  {
+    id: 3,
+    name: "Palabok",
+    category: "Breakfast",
+    description:
+      "Palabok is a popular Filipino noodle dish made with rice noodles, a savory shrimp sauce, and an array of toppings such as shrimp, hard-boiled eggs, crushed pork rinds, and green onions.",
+    price: 99.0,
+    imageUrl: "/assets/home/palabok.png",
+  },
+]
+
+function FeaturedDishesSection() {
+  return (
+    <section className="[border-color:_#F5F5F5] border-2 pt-8 px-6">
+      <div className="grid grid-cols-[4rem_1fr_4rem]">
+        <div className="flex justify-end">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-10 h-10 [color:_#10B981]"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+            />
+          </svg>
+        </div>
+        <div className="text-center">
+          <h2 className="[color:_#78716C] mb-3">Customers Pick</h2>
+          <p className="font-bold text-2xl">Featured Dishes</p>
+        </div>
+        <div></div>
+      </div>
+      <div className="grid justify-between grid-cols-[repeat(3,_20rem)] max-w-6xl mx-auto">
+        {featuredSectionItems.map((menuItem) => {
+          return (
+            <FeaturedDishesSectionItem key={menuItem.id} menuItem={menuItem} />
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+function StepsSection() {
+  return (
+    <section className="px-6 max-w-5xl mx-auto grid gap-12 grid-cols-[1fr_auto_1fr_auto_1fr] py-24">
+      <article>
+        <p className="[color:_#E0E0E0] text-5xl font-bold">01</p>
+        <h3 className="font-semibold">Online Reservation</h3>
+        <p className="[color:_#78716C] text-justify">
+          To make a reservation, simply fill out the form with your desired date
+          and time, as well as the number of guests.{" "}
+        </p>
+      </article>
+      <div className="flex items-center">
+        <div className="[background-color:_#E0E0E0] w-[2px] h-16"></div>
+      </div>
+      <article>
+        <p className="[color:_#E0E0E0] text-5xl font-bold">02</p>
+        <h3 className="font-semibold">Online Order Simply</h3>
+        <p className="[color:_#78716C] text-justify">
+          Browse our menu and select your desired dishes, then add them to your
+          cart. Proceed to checkout and enter your contact and payment
+          information.
+        </p>
+      </article>
+      <div className="flex items-center">
+        <div className="[background-color:_#E0E0E0] w-[2px] h-16"></div>
+      </div>
+      <article>
+        <p className="[color:_#E0E0E0] text-5xl font-bold">03</p>
+        <h3 className="font-semibold">Fast Delivery</h3>
+        <p className="[color:_#78716C] text-justify">
+          Our fast delivery service ensures that you can enjoy your favorite
+          Filipino dishes without the hassle of cooking or leaving your home.
+        </p>
+      </article>
+    </section>
+  )
+}
+
+function CallToActionSection() {
+  return (
+    <section className="px-6 pb-20 pt-6 max-w-5xl mx-auto grid grid-cols-2 gap-12">
+      <div className="flex justify-end">
+        <Image
+          src="/assets/home/call-to-action.png"
+          width={400}
+          height={400}
+          alt="Kare-Kare"
+          className="w-full aspect-square rounded-2xl object-cover"
+        />
+      </div>
+      <div className="flex flex-col gap-8 justify-center">
+        <p className="font-inika text-2xl">
+          Don&apos;t miss out on the mouth-watering flavors of Filipino de
+          Cuisine!
+        </p>
+        <div className="inline-flex gap-3">
+          <Link
+            href="/"
+            className="px-6 [background-color:_#10B981] text-lg text-white rounded-md pb-2 pt-3 font-semibold"
+          >
+            Order Now
+          </Link>
+          <Link
+            href="/"
+            className="px-6 [color:_#10B981] [border-color:_#10B981] border text-lg text-white rounded-md pb-2 pt-3 font-semibold"
+          >
+            Book a Reservation
+          </Link>
+        </div>
+        <Link
+          href="/"
+          className=" [color:_#10B981] text-white rounded-md font-semibold text-lg"
+        >
+          Find our Nearest Branch »
+        </Link>
+      </div>
+    </section>
   )
 }
 
 export default function Home() {
-  const { data } = api.hello.useQuery({
-    text: "world!",
-  })
-
   return (
     <>
       <Head>
@@ -75,18 +290,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div
-        className="w-full"
-        style={{
-          backgroundImage: "url('/assets/homepage-wallpaper.jpeg')",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      >
-        <main className="pt-4 items-center w-full grid grid-rows-[1fr_auto] h-full">
+      <div className="w-full">
+        <main className="items-center ">
           <HeroSection />
-          <DishesSection />
+          <QuoteSection />
+          <TestimonialsSection />
+          <FeaturedDishesSection />
+          <StepsSection />
+          <CallToActionSection />
         </main>
       </div>
     </>

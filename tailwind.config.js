@@ -6,8 +6,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", ...fontFamily.sans],
-        karla: "var(--font-karla)",
+        sans: ["var(--font-hind)", ...fontFamily.sans],
+        inika: ["var(--font-inika)"],
+        karla: ["var(--font-karla)"],
       },
     },
   },

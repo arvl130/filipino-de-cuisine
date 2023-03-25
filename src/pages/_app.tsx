@@ -1,6 +1,6 @@
 import "@/styles/globals.css"
 import type { AppProps } from "next/app"
-import { Inter, Karla } from "next/font/google"
+import { Hind, Inika, Karla } from "next/font/google"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -8,43 +8,27 @@ import { api } from "../utils/api"
 import { AuthProvider } from "@/utils/auth"
 
 function Navbar() {
-  const { pathname } = useRouter()
-
   return (
-    <nav className="border-b flex items-center [background-color:_#F1E9E3]">
-      <div className="max-w-7xl mx-auto w-full px-6 flex justify-between items-center">
-        <div className="flex gap-2 items-center">
-          <Image
-            src="/assets/logo.png"
-            alt="Filipino de Cuisine website logo"
-            width={50}
-            height={40}
-          />
-          <h1 className="text-2xl font-medium tracking-wide">
-            FILIPINO DE CUISINE
-          </h1>
-        </div>
-        <div className="flex items-center gap-12">
-          <Link href="/" className={pathname === "/" ? "font-bold" : ""}>
+    <nav>
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 font-semibold text-lg">
+        <div className="flex gap-6 items-center">
+          <Link href="/" className="[color:_#10B981]">
             Home
           </Link>
-          <span>Menu</span>
-          <span>Reservations</span>
+          •<Link href="/">Menu</Link>•<Link href="/">Reservation</Link>
+        </div>
+        <h1 className="font-inika font-bold text-2xl">
+          <span className="uppercase [color:_#DC2626]">Filipino</span>{" "}
+          <span className="uppercase [color:_#78716C]">de Cuisine</span>
+        </h1>
+        <div className="flex gap-6 items-center">
+          <Link href="/">About</Link>•<Link href="/">Contact</Link>•
           <Link
-            href="/about"
-            className={pathname === "/about" ? "font-bold" : ""}
+            href="/"
+            className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-bold"
           >
-            About Us
+            Sign In
           </Link>
-          <Link
-            href="/contact"
-            className={pathname === "/contact" ? "font-bold" : ""}
-          >
-            Contact Us
-          </Link>
-          <span className="[background-color:_#ffffe8] px-6 py-1.5 rounded-full">
-            Login
-          </span>
         </div>
       </div>
     </nav>
@@ -53,103 +37,73 @@ function Navbar() {
 
 function Footer() {
   return (
-    <footer
-      className="
-      px-6 py-3 
-      text-white font-medium font-karla
-      [color:_#342006] [background-color:_#DBB688]
-    "
-    >
-      <div className="max-w-6xl mx-auto flex flex-wrap justify-center gap-x-24 gap-y-6 pt-6 pb-5">
-        <div className="flex gap-2 items-center">
-          <Image
-            src="/assets/logo.png"
-            alt="Filipino de Cuisine website logo"
-            width={50}
-            height={40}
-          />
-          <h1 className="text-2xl font-medium tracking-wide">
-            FILIPINO DE CUISINE
-          </h1>
-        </div>
-        <div>
-          <p className="font-extrabold">MENU</p>
-          <ul>
-            <li>Beef Dishes</li>
-            <li>Chicken Dishes</li>
-            <li>Goat Dishes</li>
-            <li>Pork Dishes</li>
-            <li>Seafoods Dishes</li>
-            <li>Vegetable Dishes</li>
-            <li>Filipino Dishes</li>
-            <li>Drinks & Beverages</li>
-          </ul>
-        </div>
-        <div>
-          <p className="font-extrabold">QUICK LINKS</p>
-          <ul>
-            <li>Home</li>
-            <li>Menu</li>
-            <li>Reservations</li>
-            <li>About Us</li>
-            <li>Contact Us</li>
-            <li>FAQs</li>
-          </ul>
-        </div>
-        <div>
-          <p className="font-extrabold">STAY CONNECTED</p>
-          <p className="flex gap-1">
-            <Image
-              src="/assets/footer/facebook.png"
-              alt="Facebook icon"
-              width={50}
-              height={50}
-              className="w-8 h-8"
-            />
-            <Image
-              src="/assets/footer/instagram.png"
-              alt="Instagram icon"
-              width={50}
-              height={50}
-              className="w-8 h-8"
-            />
-            <Image
-              src="/assets/footer/mail.png"
-              alt="Mail icon"
-              width={50}
-              height={50}
-              className="w-8 h-8"
-            />
-            <Image
-              src="/assets/footer/viber.png"
-              alt="Viber icon"
-              width={50}
-              height={50}
-              className="w-8 h-8"
-            />
-          </p>
-        </div>
+    <footer className="bg-black text-white px-6">
+      <p className="text-center font-inika text-xl font-bold pt-16 pb-5">
+        <span className="uppercase [color:_#DC2626]">Filipino</span>{" "}
+        <span className="uppercase [color:_#78716C]">de Cuisine</span>
+      </p>
+      <ul className="flex gap-6 flex-wrap justify-center font-semibold py-3">
+        <li>Home</li>•<li>Menu</li>•<li>Reservation</li>•<li>About</li>•
+        <li>Contact</li>•<li>Legal Terms</li>
+      </ul>
+      <div className="flex gap-10 py-3 justify-center items-center">
+        <Image
+          src="/assets/footer/facebook.png"
+          alt="Facebook icon"
+          height={36}
+          width={36}
+        />
+        <Image
+          src="/assets/footer/instagram.png"
+          alt="Instagram icon"
+          height={36}
+          width={36}
+        />
+        <Image
+          src="/assets/footer/gmail.png"
+          alt="Gmail icon"
+          height={36}
+          width={36}
+        />
+        <Image
+          src="/assets/footer/viber.png"
+          alt="Viber icon"
+          height={36}
+          width={36}
+        />
       </div>
-      <div className="text-center text-sm">
-        <hr className="[border-color:_#342006]" />
-        <p className="pt-3">
-          &copy; 2023.{" "}
-          <span className="[color:_#A44D08]">Filipino de Cuisine</span>
+      <div className="[color:_#78716C] text-center pt-4 pb-6 font-medium text-sm">
+        <p className="font-karla leading-5">
+          &copy; 2023. <span className="text-white">Filipino de Cuisine</span>
         </p>
-        <p>All Rights Reserved.</p>
+        <p className="leading-5">All Rights Reserved.</p>
       </div>
     </footer>
   )
 }
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const karla = Karla({ subsets: ["latin"], variable: "--font-karla" })
+const hind = Hind({
+  subsets: ["latin"],
+  variable: "--font-hind",
+  weight: ["400", "500", "600", "700"],
+})
+
+const inika = Inika({
+  subsets: ["latin"],
+  variable: "--font-inika",
+  weight: ["400", "700"],
+})
+
+const karla = Karla({
+  subsets: ["latin"],
+  variable: "--font-karla",
+})
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <div
-        className={`${inter.variable} ${karla.variable} font-sans [color:_#342006]`}
+        className={`${hind.variable} ${inika.variable} ${karla.variable} font-sans`}
       >
         <div className="min-h-[100svh] grid grid-rows-[4rem_1fr]">
           <Navbar />
