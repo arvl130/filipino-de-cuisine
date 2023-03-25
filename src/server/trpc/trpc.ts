@@ -2,6 +2,7 @@ import { initTRPC, TRPCError } from "@trpc/server"
 import { prisma } from "../db"
 import { CreateNextContextOptions } from "@trpc/server/adapters/next"
 import { getServerSession } from "../auth"
+import SuperJSON from "superjson"
 
 export async function createContext({ req, res }: CreateNextContextOptions) {
   const session = await getServerSession({ req, res })
@@ -12,7 +13,12 @@ export async function createContext({ req, res }: CreateNextContextOptions) {
   }
 }
 
-const t = initTRPC.context<typeof createContext>().create()
+const t = initTRPC.context<typeof createContext>().create({
+  transformer: SuperJSON,
+  errorFormatter({ shape }) {
+    return shape
+  },
+})
 
 export const router = t.router
 export const publicProcedure = t.procedure

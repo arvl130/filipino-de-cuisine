@@ -3,6 +3,7 @@ import { createTRPCNext } from "@trpc/next"
 import type { RootRouter } from "../server/trpc/routers/root"
 import { getIdToken } from "firebase/auth"
 import { auth } from "./auth"
+import SuperJSON from "superjson"
 
 function getBaseUrl() {
   if (typeof window !== "undefined")
@@ -24,6 +25,7 @@ function getBaseUrl() {
 export const api = createTRPCNext<RootRouter>({
   config({ ctx }) {
     return {
+      transformer: SuperJSON,
       links: [
         httpBatchLink({
           /**
