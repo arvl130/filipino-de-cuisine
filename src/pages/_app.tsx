@@ -3,7 +3,6 @@ import type { AppProps } from "next/app"
 import { Hind, Inika, Karla } from "next/font/google"
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import { api } from "../utils/api"
 import { AuthProvider } from "@/utils/auth"
 
@@ -25,7 +24,7 @@ function Navbar() {
           <Link href="/">About</Link>•<Link href="/">Contact</Link>•
           <Link
             href="/"
-            className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-bold"
+            className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
           >
             Sign In
           </Link>
