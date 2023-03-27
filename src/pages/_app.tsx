@@ -9,7 +9,7 @@ import { AuthProvider } from "@/utils/auth"
 function Navbar() {
   return (
     <nav>
-      <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 font-semibold text-lg">
+      <div className="h-full max-w-7xl mx-auto flex justify-between items-center py-4 px-6 font-semibold text-lg">
         <div className="flex gap-6 items-center">
           <Link href="/" className="[color:_#10B981]">
             Home
