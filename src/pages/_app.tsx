@@ -5,24 +5,51 @@ import Image from "next/image"
 import Link from "next/link"
 import { api } from "../utils/api"
 import { AuthProvider } from "@/utils/auth"
+import { useRouter } from "next/router"
 
 function Navbar() {
+  const { pathname } = useRouter()
   return (
     <nav>
       <div className="h-full max-w-7xl mx-auto flex justify-between items-center py-4 px-6 font-semibold text-lg">
         <div className="flex gap-6 items-center">
-          <Link href="/" className="[color:_#10B981]">
+          <Link href="/" className={pathname === "/" ? `[color:_#10B981]` : ""}>
             Home
           </Link>
-          •<Link href="/menu">Menu</Link>•
-          <Link href="/reservation">Reservation</Link>
+          •
+          <Link
+            href="/menu"
+            className={pathname === "/menu" ? `[color:_#10B981]` : ""}
+          >
+            Menu
+          </Link>
+          •
+          <Link
+            href="/reservation"
+            className={pathname === "/reservation" ? `[color:_#10B981]` : ""}
+          >
+            Reservation
+          </Link>
         </div>
         <h1 className="font-inika font-bold text-2xl">
           <span className="uppercase [color:_#DC2626]">Filipino</span>{" "}
           <span className="uppercase [color:_#78716C]">de Cuisine</span>
         </h1>
         <div className="flex gap-6 items-center">
-          <Link href="/about">About</Link>•<Link href="/contact">Contact</Link>•
+          <Link
+            href="/about"
+            className={pathname === "/about" ? `[color:_#10B981]` : ""}
+          >
+            About
+          </Link>
+          •
+          <Link
+            href="/contact"
+            className={pathname === "/contact" ? `[color:_#10B981]` : ""}
+          >
+            Contact
+          </Link>
+          •
           <Link
             href="/signin"
             className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
