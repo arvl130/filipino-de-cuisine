@@ -14,16 +14,17 @@ function Navbar() {
           <Link href="/" className="[color:_#10B981]">
             Home
           </Link>
-          •<Link href="/">Menu</Link>•<Link href="/">Reservation</Link>
+          •<Link href="/menu">Menu</Link>•
+          <Link href="/reservation">Reservation</Link>
         </div>
         <h1 className="font-inika font-bold text-2xl">
           <span className="uppercase [color:_#DC2626]">Filipino</span>{" "}
           <span className="uppercase [color:_#78716C]">de Cuisine</span>
         </h1>
         <div className="flex gap-6 items-center">
-          <Link href="/">About</Link>•<Link href="/">Contact</Link>•
+          <Link href="/about">About</Link>•<Link href="/contact">Contact</Link>•
           <Link
-            href="/"
+            href="/signin"
             className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
           >
             Sign In
