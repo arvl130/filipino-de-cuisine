@@ -1,3 +1,4 @@
+import { MenuItem } from "@/components/menu/MenuItem"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
@@ -42,7 +43,7 @@ function HeroSection() {
 function QuoteSection() {
   return (
     <section className="bg-black text-white px-6 py-12 text-center font-inika text-3xl">
-      &ldquo;A taste of tradition in every bite.&rdquo;
+      &ldquo; The taste of tradition in every bite. &rdquo;
     </section>
   )
 }
@@ -79,7 +80,7 @@ function TestimonialsSection() {
     <section className="[background-color:_#F5F5F5] px-6 pt-8 pb-20">
       <div>
         <h2 className="[color:_#78716C] text-center mb-3">Client Feedback</h2>
-        <p className="text-black font-bold text-2xl text-center mb-10">
+        <p className="text-black font-bold text-3xl text-center mb-10">
           See what our clients say about our services
         </p>
       </div>
@@ -92,49 +93,7 @@ function TestimonialsSection() {
   )
 }
 
-function FeaturedDishesSectionItem({
-  menuItem,
-}: {
-  menuItem: {
-    name: string
-    description: string
-    category: string
-    price: number
-    imageUrl: string
-  }
-}) {
-  return (
-    <article className="-translate-y-16 grid grid-rows-[200px_1fr]">
-      <div className="flex justify-center">
-        <Image
-          src={menuItem.imageUrl}
-          height={200}
-          width={200}
-          alt={menuItem.name}
-          className="translate-y-24 object-cover"
-        />
-      </div>
-      <div className="border [border-color:_#78716C] rounded-2xl px-6 pt-24 text-center grid grid-rows-[auto_auto_1fr_auto_auto]">
-        <h3 className="font-bold text-2xl">{menuItem.name}</h3>
-        <p className="[color:_#78716C] my-1">{menuItem.category}</p>
-        <p className="mb-5 flex items-center">{menuItem.description}</p>
-        <p className="font-bold text-red-500 text-3xl leading-5">
-          ₱ {menuItem.price}
-        </p>
-        <div>
-          <Link
-            href="/"
-            className="inline-block [background-color:_#10B981] text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md translate-y-5"
-          >
-            Add to Basket
-          </Link>
-        </div>
-      </div>
-    </article>
-  )
-}
-
-const featuredSectionItems = [
+const menuItems = [
   {
     id: 1,
     name: "Chicken Adobo",
@@ -166,7 +125,7 @@ const featuredSectionItems = [
 
 function FeaturedDishesSection() {
   return (
-    <section className="[border-color:_#F5F5F5] border-2 pt-8 px-6">
+    <section className="[border-color:_#F5F5F5] border-2 pt-8 pb-12 px-6">
       <div className="grid grid-cols-[4rem_1fr_4rem]">
         <div className="flex justify-end">
           <svg
@@ -186,15 +145,13 @@ function FeaturedDishesSection() {
         </div>
         <div className="text-center">
           <h2 className="[color:_#78716C] mb-3">Customers Pick</h2>
-          <p className="font-bold text-2xl">Featured Dishes</p>
+          <p className="font-bold text-3xl mb-12">Featured Dishes</p>
         </div>
         <div></div>
       </div>
-      <div className="grid justify-between grid-cols-[repeat(3,_20rem)] max-w-6xl mx-auto">
-        {featuredSectionItems.map((menuItem) => {
-          return (
-            <FeaturedDishesSectionItem key={menuItem.id} menuItem={menuItem} />
-          )
+      <div className="flex justify-center gap-28 max-w-6xl mx-auto">
+        {menuItems.map((menuItem) => {
+          return <MenuItem key={menuItem.id} menuItem={menuItem} />
         })}
       </div>
     </section>
