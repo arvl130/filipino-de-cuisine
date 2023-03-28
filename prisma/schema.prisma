@@ -96,6 +96,7 @@ model MenuItem {
     discountId  Int
     discount    Discount    @relation(fields: [discountId], references: [id])
     orderItems  OrderItem[]
+    imgUrl      String      @db.Text
 }
 
 model Reservation {
