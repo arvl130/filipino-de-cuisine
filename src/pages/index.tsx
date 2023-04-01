@@ -1,4 +1,5 @@
-import { MenuItem } from "@/components/menu/MenuItem"
+import { MenuItem as FeaturedDishesSectionItem } from "@/components/menu/MenuItem"
+import { Prisma } from "@prisma/client"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
@@ -100,8 +101,9 @@ const menuItems = [
     category: "Lunch / Dinner",
     description:
       "Chicken adobo is a popular Filipino dish made with chicken thighs or drumsticks, simmered in a mixture of vinegar, soy sauce, garlic, and bay leaves. The dish has a tangy, savory flavor with a hint of sweetness.",
-    price: 120.0,
-    imageUrl: "/assets/home/adobo.png",
+    price: new Prisma.Decimal(120.0),
+    imgUrl: "/assets/home/adobo.png",
+    isActive: true,
   },
   {
     id: 2,
@@ -109,8 +111,9 @@ const menuItems = [
     category: "Breakfast",
     description:
       "Cocoa champorado is a sweet Filipino breakfast dish made with glutinous rice, cocoa powder, and milk. ",
-    price: 80.0,
-    imageUrl: "/assets/home/champorado.png",
+    price: new Prisma.Decimal(80.0),
+    imgUrl: "/assets/home/champorado.png",
+    isActive: true,
   },
   {
     id: 3,
@@ -118,8 +121,9 @@ const menuItems = [
     category: "Breakfast",
     description:
       "Palabok is a popular Filipino noodle dish made with rice noodles, a savory shrimp sauce, and an array of toppings such as shrimp, hard-boiled eggs, crushed pork rinds, and green onions.",
-    price: 99.0,
-    imageUrl: "/assets/home/palabok.png",
+    price: new Prisma.Decimal(99.0),
+    imgUrl: "/assets/home/palabok.png",
+    isActive: true,
   },
 ]
 
@@ -151,7 +155,9 @@ function FeaturedDishesSection() {
       </div>
       <div className="flex justify-center gap-28 max-w-6xl mx-auto">
         {menuItems.map((menuItem) => {
-          return <MenuItem key={menuItem.id} menuItem={menuItem} />
+          return (
+            <FeaturedDishesSectionItem key={menuItem.id} menuItem={menuItem} />
+          )
         })}
       </div>
     </section>
