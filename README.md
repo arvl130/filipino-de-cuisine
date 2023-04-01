@@ -29,7 +29,7 @@ $ cp .env.template .env
 $ vi .env # type :wq! to exit
 ```
 
-4. Push the schema to the database (this will also generate an ERD under `prisma/ERD.svg`).
+4. Push the schema to the database.
 
 ```sh
 $ pnpm prisma db push
