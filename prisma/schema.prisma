@@ -87,16 +87,15 @@ model OrderItem {
 }
 
 model MenuItem {
-    id          Int         @id @default(autoincrement())
-    name        String
-    description String
-    category    String
-    price       Decimal
-    isActive    Boolean
-    discountId  Int
-    discount    Discount    @relation(fields: [discountId], references: [id])
-    orderItems  OrderItem[]
-    imgUrl      String      @db.Text
+    id           Int            @id @default(autoincrement())
+    name         String
+    description  String
+    category     String
+    price        Decimal
+    isActive     Boolean
+    orderItems   OrderItem[]
+    imgUrl       String         @db.Text
+    DiscountItem DiscountItem[]
 }
 
 model Reservation {
@@ -111,11 +110,19 @@ model Reservation {
 }
 
 model Discount {
-    id        Int        @id @default(autoincrement())
-    endAt     DateTime
-    startAt   DateTime
-    amount    Decimal
-    menuItems MenuItem[]
+    id           Int            @id @default(autoincrement())
+    endAt        DateTime
+    startAt      DateTime
+    amount       Decimal
+    DiscountItem DiscountItem[]
+}
+
+model DiscountItem {
+    id         Int      @id @default(autoincrement())
+    discountId Int
+    menuItemId Int
+    discount   Discount @relation(fields: [discountId], references: [id])
+    menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
 }
 
 model Sales {
