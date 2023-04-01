@@ -16,13 +16,13 @@ function HeroSection() {
         </p>
         <div className="inline-flex gap-3 mt-3">
           <Link
-            href="/"
+            href="/menu"
             className="px-6 [background-color:_#10B981] text-white text-lg rounded-md pb-2 pt-3 font-semibold"
           >
             Order Now
           </Link>
           <Link
-            href="/"
+            href="/reservation"
             className="px-6 [color:_#10B981] [border-color:_#10B981] border text-white text-lg rounded-md pb-2 pt-3 font-semibold"
           >
             Book a Reservation
@@ -221,23 +221,23 @@ function CallToActionSection() {
         </p>
         <div className="inline-flex gap-3">
           <Link
-            href="/"
+            href="/menu"
             className="px-6 [background-color:_#10B981] text-lg text-white rounded-md pb-2 pt-3 font-semibold"
           >
             Order Now
           </Link>
           <Link
-            href="/"
+            href="/reservation"
             className="px-6 [color:_#10B981] [border-color:_#10B981] border text-lg text-white rounded-md pb-2 pt-3 font-semibold"
           >
             Book a Reservation
           </Link>
         </div>
         <Link
-          href="/"
+          href="/menu"
           className=" [color:_#10B981] text-white rounded-md font-semibold text-lg"
         >
-          Find our Nearest Branch »
+          Explore our menu »
         </Link>
       </div>
     </section>
