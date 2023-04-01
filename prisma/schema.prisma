@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
 }
 
 model Message {
@@ -63,6 +64,8 @@ model WalkInOrder {
     paymentTotal Decimal
     name         String
     order        Order   @relation(fields: [id], references: [id])
+
+    @@index([id])
 }
 
 model OnlineOrder {
@@ -73,6 +76,9 @@ model OnlineOrder {
     deliveryFee   Decimal
     order         Order    @relation(fields: [id], references: [id])
     customer      Customer @relation(fields: [customerId], references: [id])
+
+    @@index([id])
+    @@index([customerId])
 }
 
 model OrderItem {
@@ -84,6 +90,9 @@ model OrderItem {
     menuItemId Int
     order      Order    @relation(fields: [orderId], references: [id])
     menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+
+    @@index([orderId])
+    @@index([menuItemId])
 }
 
 model MenuItem {
@@ -107,6 +116,8 @@ model Reservation {
     guestCount Int
     createdAt  DateTime @default(now())
     customer   Customer @relation(fields: [customerId], references: [id])
+
+    @@index([customerId])
 }
 
 model Discount {
@@ -123,6 +134,9 @@ model DiscountItem {
     menuItemId Int
     discount   Discount @relation(fields: [discountId], references: [id])
     menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+
+    @@index([discountId])
+    @@index([menuItemId])
 }
 
 model Sales {
@@ -164,6 +178,8 @@ model PurchaseOrder {
     supplierId         Int
     supplier           Supplier            @relation(fields: [supplierId], references: [id])
     purchaseOrderItems PurchaseOrderItem[]
+
+    @@index([supplierId])
 }
 
 model PurchaseOrderItem {
@@ -172,6 +188,8 @@ model PurchaseOrderItem {
     quantity        Int
     purchaseOrderId Int
     purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+
+    @@index([purchaseOrderId])
 }
 
 model Ingredient {
@@ -201,4 +219,7 @@ model DailyReservationItem {
     quantity           Int
     ingredient         Ingredient       @relation(fields: [ingredientId], references: [id])
     dailyReservation   DailyReservation @relation(fields: [dailyReservationId], references: [id])
+
+    @@index([ingredientId])
+    @@index([dailyReservationId])
 }
