@@ -147,7 +147,7 @@ function OrderItemsSectionItem({
         </div>
       </div>
       <div className="flex items-center justify-center font-medium">
-        ₱ {menuItem.price.toFixed(2)}
+        ₱ {(menuItem.price.toNumber() * selectedItem.quantity).toFixed(2)}
       </div>
       <div className="flex items-center">
         <button type="button" onClick={() => removeItem(menuItem.id)}>
