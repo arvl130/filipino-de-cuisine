@@ -21,7 +21,7 @@ export function MenuItem({ menuItem }: { menuItem: MenuItem }) {
         <p className="[color:_#78716C] my-1">{menuItem.category}</p>
         <p className="mb-5 flex items-center">{menuItem.description}</p>
         <p className="font-bold text-red-500 text-3xl">
-          ₱ {menuItem.price.toFixed(2)}
+          ₱ {menuItem.price.toNumber()}
         </p>
       </div>
       <div className="text-center">
