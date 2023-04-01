@@ -89,7 +89,7 @@ model OrderItem {
 model MenuItem {
     id           Int            @id @default(autoincrement())
     name         String
-    description  String
+    description  String         @db.VarChar(500)
     category     String
     price        Decimal
     isActive     Boolean
