@@ -56,7 +56,7 @@ import Link from "next/link"
                 or privacy practices of these websites. You acknowledge and agree that we shall not be liable 
                 for any damages or losses arising from your use of these third-party websites.
                 <br></br> <br></br>
-                7. Children's Privacy: Our website is not intended for children under the age of 13, and we do 
+                7. Children&apos;s Privacy: Our website is not intended for children under the age of 13, and we do 
                  not knowingly collect personal information from children under the age of 13. If we learn that
                  we have collected personal information from a child under the age of 13, we will promptly 
                  delete that information.

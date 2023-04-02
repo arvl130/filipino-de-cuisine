@@ -26,7 +26,7 @@ export default function HeaderSection() {
 
         <div className="description">
             <h6>
-            Welcome to Filipino de Cuisine restaurant's website. By accessing or using our website, you 
+            Welcome to Filipino de Cuisine restaurant&apos;s website. By accessing or using our website, you 
             agree to be bound by the following terms and conditions:
             </h6>
             <p>
@@ -38,7 +38,7 @@ export default function HeaderSection() {
               2. User Conduct: You agree to use our website only for lawful purposes and in a manner that does
                not infringe upon the rights of others or interfere with the operation of our website. You may 
                not upload, post, transmit, distribute, or otherwise publish any content that is unlawful, 
-               harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, invasive of another's 
+               harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, invasive of another&apos;s 
                privacy, or otherwise objectionable.
               <br></br> <br></br>
               3. Reservation: You may make a reservation for a table at our restaurant through our website. 
@@ -61,7 +61,7 @@ export default function HeaderSection() {
                <br></br> <br></br>
               8. Indemnification: You agree to indemnify, defend, and hold harmless Filipino de Cuisine 
               restaurant and its affiliates, officers, directors, employees, agents, and licensors from any 
-              claim, demand, or damage, including reasonable attorneys' fees, arising out of your use of our 
+              claim, demand, or damage, including reasonable attorneys&apos; fees, arising out of your use of our 
               website or your violation of these terms and conditions.
               <br></br> <br></br>
               9. Modification of Terms: We reserve the right to modify these terms and conditions at any 
