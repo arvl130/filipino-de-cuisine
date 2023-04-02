@@ -1,3 +1,139 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/*terms-and-condition Page*/
+section.terms-and-condition-header div.header {
+height: 300px;
+grid-template-columns: 6fr 1fr;
+display: grid;
+background: #10B981;
+
+}
+
+section.terms-and-condition-header div.header h1 {
+   
+padding-left: 9rem;
+font-style: normal;
+font-weight: 700;
+font-size: 40px;
+line-height: 64px;
+
+
+color: #FFFFFF;
+
+
+}
+
+section.terms-and-condition-header div.header h4 {
+   
+padding-left: 9rem;
+padding-top: 5rem;
+font-style: normal;
+font-weight: 600;
+font-size: 23px;
+line-height: 37px;
+color: #FFFFFF;
+
+
+}
+
+section.terms-and-condition-header div.header p {
+
+padding-left: 9rem;
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 32px;
+
+color: #FFFFFF;
+
+}
+
+section.terms-and-condition-header div.header div.image {
+    padding-top: 8rem;
+    padding-left: 4rem;
+}
+
+section.terms-and-condition-header div.description p{
+
+padding-top: 5rem;
+padding-left: 11rem;
+padding-right: 9rem;
+padding-bottom: 5rem;
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 32px;
+
+color: #000000;
+}
+
+/*Privacy Page*/
+
+section.privacy div.header {
+height: 300px;
+grid-template-columns: 1fr 11fr;
+display: grid;
+background: #10B981;
+}
+
+section.privacy div.header h4 {
+    padding-left: 3rem;
+    padding-top: 5rem;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 37px;
+    color: #FFFFFF;
+}
+
+section.privacy div.header h1 {
+    padding-left: 3rem;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 64px;
+    color: #FFFFFF;
+}
+
+section.privacy div.header p {
+    padding-left: 3rem;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+    color: #FFFFFF;
+}
+
+section.privacy div.description h6{
+padding-left: 10rem;
+padding-right:9rem;
+padding-top:5rem;
+padding-bottom: 5rem;
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 32px;
+
+color: #000000;
+}
+
+section.privacy div.description p {
+    padding-left: 11rem;
+    padding-right: 9rem;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    
+    color: #000000;
+}
+
+
+section.privacy div.header div.image{
+    padding-top: 8rem;
+    padding-left: 4rem;
+
+}
