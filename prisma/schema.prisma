@@ -26,16 +26,12 @@ model Employee {
     email         String
 }
 
-model Customer {
-    id                   String        @id @default(uuid())
-    displayName          String
-    email                String
+model CustomerInfo {
+    id                   String   @id @default(uuid())
+    dateOfBirth          DateTime
     defaultContactNumber String
-    photoUrl             String        @db.Text
-    isBlocked            Boolean
     defaultAddress       String
-    onlineOrders         OnlineOrder[]
-    reservations         Reservation[]
+    isBlocked            Boolean  @default(false)
 }
 
 enum Mode {
@@ -69,16 +65,14 @@ model WalkInOrder {
 }
 
 model OnlineOrder {
-    id            Int      @id
+    id            Int     @id
     customerId    String
     address       String
     contactNumber String
     deliveryFee   Decimal
-    order         Order    @relation(fields: [id], references: [id])
-    customer      Customer @relation(fields: [customerId], references: [id])
+    order         Order   @relation(fields: [id], references: [id])
 
     @@index([id])
-    @@index([customerId])
 }
 
 model OrderItem {
@@ -115,9 +109,6 @@ model Reservation {
     fee        Decimal
     guestCount Int
     createdAt  DateTime @default(now())
-    customer   Customer @relation(fields: [customerId], references: [id])
-
-    @@index([customerId])
 }
 
 model Discount {

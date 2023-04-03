@@ -4,7 +4,7 @@ import { Hind, Inika, Karla } from "next/font/google"
 import Image from "next/image"
 import Link from "next/link"
 import { api } from "../utils/api"
-import { AuthProvider } from "@/utils/auth"
+import { AuthProvider, useSession } from "@/utils/auth"
 import { useRouter } from "next/router"
 import SuperJSON from "superjson"
 import { Decimal } from "decimal.js"
@@ -20,6 +20,7 @@ SuperJSON.registerCustom<Decimal, string>(
 
 function Navbar() {
   const { pathname } = useRouter()
+  const { isAuthenticated } = useSession()
   return (
     <nav>
       <div className="h-full max-w-7xl mx-auto flex justify-between items-center py-4 px-6 font-semibold text-lg">
@@ -61,12 +62,25 @@ function Navbar() {
             Contact
           </Link>
           •
-          <Link
-            href="/signin"
-            className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
-          >
-            Sign In
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link
+                href="/account"
+                className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
+              >
+                Account
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/signin"
+                className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
+              >
+                Sign In
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

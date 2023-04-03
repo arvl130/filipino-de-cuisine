@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { publicProcedure, router } from "../trpc"
 import { menuItemRouter } from "./menuItem"
+import { customerInfoRouter } from "./customerInfo"
 
 export const rootRouter = router({
   hello: publicProcedure
@@ -15,6 +16,7 @@ export const rootRouter = router({
       }
     }),
   menuItem: menuItemRouter,
+  customerInfo: customerInfoRouter,
 })
 
 export type RootRouter = typeof rootRouter
