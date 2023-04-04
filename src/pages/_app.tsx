@@ -20,7 +20,7 @@ SuperJSON.registerCustom<Decimal, string>(
 
 function Navbar() {
   const { pathname } = useRouter()
-  const { isAuthenticated } = useSession()
+  const { isAuthenticated, isLoading } = useSession()
   return (
     <nav>
       <div className="h-full max-w-7xl mx-auto flex justify-between items-center py-4 px-6 font-semibold text-lg">
@@ -62,23 +62,27 @@ function Navbar() {
             Contact
           </Link>
           •
-          {isAuthenticated ? (
-            <>
-              <Link
-                href="/account"
-                className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
-              >
-                Account
-              </Link>
-            </>
+          {isLoading ? (
+            <span className="w-28 text-center [background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold">
+              <br />
+            </span>
           ) : (
             <>
-              <Link
-                href="/signin"
-                className="[background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
-              >
-                Sign In
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  href="/account"
+                  className="w-28 text-center [background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
+                >
+                  Account
+                </Link>
+              ) : (
+                <Link
+                  href="/signin"
+                  className="w-28 text-center [background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
+                >
+                  Sign In
+                </Link>
+              )}
             </>
           )}
         </div>
