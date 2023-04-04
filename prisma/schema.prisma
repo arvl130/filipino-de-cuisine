@@ -65,14 +65,31 @@ model WalkInOrder {
 }
 
 model OnlineOrder {
-    id            Int     @id
-    customerId    String
-    address       String
-    contactNumber String
-    deliveryFee   Decimal
-    order         Order   @relation(fields: [id], references: [id])
+    id             Int            @id
+    customerId     String
+    address        String
+    contactNumber  String
+    deliveryFee    Decimal
+    deliveryStatus DeliveryStatus
+    order          Order          @relation(fields: [id], references: [id])
 
     @@index([id])
+}
+
+enum DeliveryStatus {
+    Pending
+    Preparing
+    OutForDelivery
+    Received
+    Cancelled
+}
+
+model Rate {
+    id         Int      @id @default(autoincrement())
+    rating     String
+    review     String
+    createdAt  DateTime @default(now())
+    customerId String
 }
 
 model OrderItem {
