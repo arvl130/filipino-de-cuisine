@@ -11,9 +11,9 @@ function MenuPageSections({ menuItems }: { menuItems: MenuItem[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-[4rem_1fr_4rem] mb-12">
+      <div className="grid sm:grid-cols-[4rem_1fr_4rem] mb-12">
         {/* Basket */}
-        <div>
+        <div className="flex justify-end sm:jusify-start mb-3 sm:mb-0">
           <Link href="/basket">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,7 @@ function MenuPageSections({ menuItems }: { menuItems: MenuItem[] }) {
           </Link>
         </div>
         {/* Tabs */}
-        <div className="flex justify-center gap-16 font-bold">
+        <div className="flex flex-wrap justify-center gap-y-3 gap-x-3 lg:gap-x-16 font-bold">
           <button
             type="button"
             onClick={() => setSelectedTab("APPETIZER")}

@@ -6,14 +6,14 @@ export function MenuItem({ menuItem }: { menuItem: MenuItem }) {
   const { selectedItems, addItem, removeItem } = useBasketStore()
 
   return (
-    <article className="relative w-[20rem] grid grid-rows-[auto_1fr]">
+    <article className="relative w-[min(100%,_20rem)] grid grid-rows-[auto_1fr]">
       <div className="h-24 z-[1]">
         <Image
           src={menuItem.imgUrl}
           height={200}
           width={200}
           alt={menuItem.name}
-          className="object-contain rounded-full h-48 w-48 left-0 right-0 mx-auto"
+          className="object-contain rounded-full w-[min(100%,_12rem)] aspect-square left-0 right-0 mx-auto"
         />
       </div>
       <div className="border [border-color:_#78716C] rounded-2xl px-6 pt-24 pb-8 text-center grid grid-rows-[auto_auto_1fr_auto_auto]">
