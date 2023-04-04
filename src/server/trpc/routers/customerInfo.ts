@@ -28,6 +28,7 @@ export const customerInfoRouter = router({
           dateOfBirth: new Date(input.dateOfBirth),
         },
         create: {
+          id: ctx.user.uid,
           defaultAddress: input.defaultAddress,
           defaultContactNumber: input.defaultContactNumber,
           dateOfBirth: new Date(input.dateOfBirth),

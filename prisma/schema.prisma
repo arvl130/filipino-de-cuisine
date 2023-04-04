@@ -27,7 +27,7 @@ model Employee {
 }
 
 model CustomerInfo {
-    id                   String   @id @default(uuid())
+    id                   String   @id @db.VarChar(28)
     dateOfBirth          DateTime
     defaultContactNumber String
     defaultAddress       String
@@ -66,7 +66,7 @@ model WalkInOrder {
 
 model OnlineOrder {
     id             Int            @id
-    customerId     String
+    customerId     String         @db.VarChar(28)
     address        String
     contactNumber  String
     deliveryFee    Decimal
@@ -89,7 +89,7 @@ model Rate {
     rating     String
     review     String
     createdAt  DateTime @default(now())
-    customerId String
+    customerId String   @db.VarChar(28)
 }
 
 model OrderItem {
@@ -120,7 +120,7 @@ model MenuItem {
 
 model Reservation {
     id         String   @id @default(cuid())
-    customerId String
+    customerId String   @db.VarChar(28)
     startAt    DateTime
     endAt      DateTime
     fee        Decimal
