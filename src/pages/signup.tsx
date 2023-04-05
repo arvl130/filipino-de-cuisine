@@ -5,7 +5,12 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { api } from "@/utils/api"
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth"
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signOut,
+  updateProfile,
+} from "firebase/auth"
 import { FirebaseError } from "firebase/app"
 import { useRouter } from "next/router"
 
@@ -60,18 +65,21 @@ export default function SignInPage() {
           <form
             onSubmit={handleSubmit(async (formData) => {
               try {
-                console.log("formData", formData)
                 const auth = getAuth()
-                await createUserWithEmailAndPassword(
+                const { user } = await createUserWithEmailAndPassword(
                   auth,
                   formData.email,
                   formData.password
                 )
+                await updateProfile(user, {
+                  displayName: formData.name,
+                })
                 await updateCustomerInfo({
                   dateOfBirth: formData.dateOfBirth,
                   defaultAddress: formData.defaultAddress,
                   defaultContactNumber: formData.defaultContactNumber,
                 })
+                await signOut(auth)
                 router.push("/signin")
               } catch (e) {
                 if (e instanceof FirebaseError) {
