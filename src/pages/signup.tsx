@@ -107,7 +107,7 @@ export default function SignInPage() {
                 <p className="text-red-600 mt-1">{errors.name.message}.</p>
               )}
               <p className="text-stone-500 text-sm mt-1">
-                Your name cannot be changed later.
+                This cannot be changed later.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3 mb-3">
@@ -156,6 +156,9 @@ export default function SignInPage() {
                   {errors.defaultAddress.message}.
                 </p>
               )}
+              <p className="text-stone-500 text-sm mt-1">
+                Orders can only be delivered to addresses in Quezon City.
+              </p>
             </div>
             <div className="flex flex-col mb-3">
               <label htmlFor="" className="font-medium">
