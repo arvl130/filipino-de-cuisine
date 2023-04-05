@@ -9,6 +9,7 @@ import { useRouter } from "next/router"
 import SuperJSON from "superjson"
 import { Decimal } from "decimal.js"
 import { useState } from "react"
+import Head from "next/head"
 
 SuperJSON.registerCustom<Decimal, string>(
   {
@@ -290,6 +291,14 @@ function App({ Component, pageProps }: AppProps) {
       <div
         className={`${hind.variable} ${inika.variable} ${karla.variable} font-sans`}
       >
+        <Head>
+          <title>Filipino de Cuisine</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta
+            name="description"
+            content="A taste of tradition in every bite"
+          />
+        </Head>
         <div className="min-h-[100svh]">
           <Navbar />
           <Component {...pageProps} />
