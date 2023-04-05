@@ -5,6 +5,13 @@ const VALID_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
 const VALID_CONTACT_NUMBER = /^09\d{9}$/
 
 export const customerInfoRouter = router({
+  get: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.customerInfo.findUnique({
+      where: {
+        id: ctx.user.uid,
+      },
+    })
+  }),
   update: protectedProcedure
     .input(
       z.object({
