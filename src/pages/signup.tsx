@@ -132,6 +132,7 @@ export default function SignInPage() {
                 </label>
                 <input
                   type="text"
+                  placeholder="09XXYYYZZZZ"
                   className="bg-neutral-100 rounded-md px-2 py-1 w-full"
                   {...register("defaultContactNumber")}
                 />
