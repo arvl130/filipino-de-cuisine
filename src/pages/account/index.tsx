@@ -55,7 +55,7 @@ function AuthenticatedPage({ user }: { user: User }) {
 
   return (
     <div className="grid grid-cols-[16rem_1fr]">
-      <AccountPageSwitcher />
+      <AccountPageSwitcher user={user} />
       <section>
         <h2 className="px-6 border-b border-stone-400 text-2xl font-semibold pb-3">
           My Account

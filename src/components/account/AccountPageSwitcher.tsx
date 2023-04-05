@@ -1,14 +1,14 @@
-import { getAuth, signOut } from "firebase/auth"
+import { User, getAuth, signOut } from "firebase/auth"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-export function AccountPageSwitcher() {
+export function AccountPageSwitcher({ user }: { user: User }) {
   const { pathname } = useRouter()
   return (
     <aside>
       <p className="text-stone-500 pl-[calc(4px_+_0.5rem_+_1.5rem)] mb-6">
         Welcome back, <br />
-        <span className="text-black font-medium">Mariel</span>.
+        <span className="text-black font-medium">{user.displayName}</span>.
       </p>
       <ul className="grid gap-2">
         <li className="grid grid-cols-[4px_1fr] gap-2">
