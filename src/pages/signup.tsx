@@ -13,6 +13,7 @@ import {
 } from "firebase/auth"
 import { FirebaseError } from "firebase/app"
 import { useRouter } from "next/router"
+import { useState } from "react"
 
 const VALID_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
 const VALID_CONTACT_NUMBER = /^09\d{9}$/
@@ -54,6 +55,8 @@ export default function SignInPage() {
   })
   const { mutateAsync: updateCustomerInfo } =
     api.customerInfo.update.useMutation()
+  const [isSigningUp, setIsSigningUp] = useState(false)
+
   return (
     <main className="max-w-6xl mx-auto my-12 w-full px-6">
       <div className="flex justify-center">
@@ -65,20 +68,25 @@ export default function SignInPage() {
           <form
             onSubmit={handleSubmit(async (formData) => {
               try {
+                setIsSigningUp(true)
+
                 const auth = getAuth()
                 const { user } = await createUserWithEmailAndPassword(
                   auth,
                   formData.email,
                   formData.password
                 )
+
                 await updateProfile(user, {
                   displayName: formData.name,
                 })
+
                 await updateCustomerInfo({
                   dateOfBirth: formData.dateOfBirth,
                   defaultAddress: formData.defaultAddress,
                   defaultContactNumber: formData.defaultContactNumber,
                 })
+
                 await signOut(auth)
                 router.push("/signin")
               } catch (e) {
@@ -91,6 +99,8 @@ export default function SignInPage() {
                 } else {
                   console.log("Unhandled error:", e)
                 }
+              } finally {
+                setIsSigningUp(false)
               }
             })}
           >
@@ -212,9 +222,10 @@ export default function SignInPage() {
             <p className="mb-6 text-right"></p>
             <button
               type="submit"
-              className="bg-emerald-500 hover:bg-emerald-400 transition duration-200 mb-1 text-lg text-white font-semibold w-full py-2 rounded-md"
+              disabled={isSigningUp}
+              className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 mb-1 text-lg text-white font-semibold w-full py-2 rounded-md"
             >
-              Sign Up
+              {isSigningUp ? <>Signing up ...</> : <>Sign Up</>}
             </button>
             <p className="text-sm text-stone-500">
               By signing up, you agree to the{" "}
