@@ -96,19 +96,6 @@ export default function SignInPage() {
           >
             <div className="flex flex-col mb-3">
               <label htmlFor="" className="font-medium">
-                Email
-              </label>
-              <input
-                type="email"
-                className="bg-neutral-100 rounded-md px-2 py-1 w-full"
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="text-red-600 mt-1">{errors.email.message}.</p>
-              )}
-            </div>
-            <div className="flex flex-col mb-3">
-              <label htmlFor="" className="font-medium">
                 Name
               </label>
               <input
@@ -168,6 +155,19 @@ export default function SignInPage() {
                 <p className="text-red-600 mt-1">
                   {errors.defaultAddress.message}.
                 </p>
+              )}
+            </div>
+            <div className="flex flex-col mb-3">
+              <label htmlFor="" className="font-medium">
+                Email
+              </label>
+              <input
+                type="email"
+                className="bg-neutral-100 rounded-md px-2 py-1 w-full"
+                {...register("email")}
+              />
+              {errors.email && (
+                <p className="text-red-600 mt-1">{errors.email.message}.</p>
               )}
             </div>
             <div className="grid grid-cols-2 gap-x-3 mb-1">
