@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth"
 import { useRouter } from "next/router"
+import { useState } from "react"
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -23,6 +24,7 @@ export default function SignInPage() {
   } = useForm<formType>({
     resolver: zodResolver(formSchema),
   })
+  const [isSigningIn, setIsSigningIn] = useState(false)
 
   return (
     <main className="max-w-6xl mx-auto my-12 w-full px-6">
@@ -34,13 +36,20 @@ export default function SignInPage() {
           <h2 className="font-semibold text-xl text-center">Sign In</h2>
           <form
             onSubmit={handleSubmit(async (formData) => {
-              const auth = getAuth()
-              await signInWithEmailAndPassword(
-                auth,
-                formData.email,
-                formData.password
-              )
-              router.push("/account")
+              try {
+                setIsSigningIn(true)
+                const auth = getAuth()
+                await signInWithEmailAndPassword(
+                  auth,
+                  formData.email,
+                  formData.password
+                )
+                router.push("/account")
+              } catch (e) {
+                console.log("Generic error occured:", e)
+              } finally {
+                setIsSigningIn(false)
+              }
             })}
           >
             <div className="flex flex-col mb-3">
@@ -76,9 +85,10 @@ export default function SignInPage() {
             </p>
             <button
               type="submit"
-              className="bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white font-semibold w-full py-2 rounded-md text-lg"
+              disabled={isSigningIn}
+              className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white font-semibold w-full py-2 rounded-md text-lg"
             >
-              Sign In
+              {isSigningIn ? <>Signing in ...</> : <>Sign In</>}
             </button>
           </form>
           <div className="flex justify-center items-center my-6">
