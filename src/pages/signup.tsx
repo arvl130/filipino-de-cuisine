@@ -110,7 +110,7 @@ export default function SignInPage() {
               </label>
               <input
                 type="text"
-                className="bg-neutral-100 rounded-md px-2 py-1 w-full"
+                className="bg-neutral-100 rounded-md px-4 py-2 w-full"
                 {...register("name")}
               />
               {errors.name && (
@@ -127,7 +127,7 @@ export default function SignInPage() {
                 </label>
                 <input
                   type="date"
-                  className="bg-neutral-100 rounded-md px-2 py-1 w-full"
+                  className="bg-neutral-100 rounded-md px-4 py-2 w-full"
                   {...register("dateOfBirth")}
                 />
                 {errors.dateOfBirth && (
@@ -143,7 +143,7 @@ export default function SignInPage() {
                 <input
                   type="text"
                   placeholder="09XXYYYZZZZ"
-                  className="bg-neutral-100 rounded-md px-2 py-1 w-full"
+                  className="bg-neutral-100 rounded-md px-4 py-2 w-full"
                   {...register("defaultContactNumber")}
                 />
                 {errors.defaultContactNumber && (
@@ -159,7 +159,7 @@ export default function SignInPage() {
               </label>
               <input
                 type="text"
-                className="bg-neutral-100 rounded-md px-2 py-1 w-full"
+                className="bg-neutral-100 rounded-md px-4 py-2 w-full"
                 {...register("defaultAddress")}
               />
               {errors.defaultAddress && (
@@ -177,7 +177,7 @@ export default function SignInPage() {
               </label>
               <input
                 type="email"
-                className="bg-neutral-100 rounded-md px-2 py-1 w-full"
+                className="bg-neutral-100 rounded-md px-4 py-2 w-full"
                 {...register("email")}
               />
               {errors.email && (
@@ -191,7 +191,7 @@ export default function SignInPage() {
                 </label>
                 <input
                   type="password"
-                  className="bg-neutral-100 rounded-md px-2 py-1 w-full"
+                  className="bg-neutral-100 rounded-md px-4 py-2 w-full"
                   {...register("password")}
                 />
                 {errors.password && (
@@ -206,7 +206,7 @@ export default function SignInPage() {
                 </label>
                 <input
                   type="password"
-                  className="bg-neutral-100 rounded-md px-2 py-1 w-full"
+                  className="bg-neutral-100 rounded-md px-4 py-2 w-full"
                   {...register("confirmPassword")}
                 />
                 {errors.confirmPassword && (
