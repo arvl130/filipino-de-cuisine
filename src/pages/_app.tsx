@@ -211,11 +211,34 @@ function Footer() {
         <span className="uppercase [color:_#78716C]">de Cuisine</span>
       </p>
       <ul className="hidden md:flex gap-6 flex-wrap justify-center font-semibold py-3">
-        <li>Home</li>•<li>Menu</li>•<li>Reservation</li>•<li>About</li>•
-        <li>Contact</li>•<li>Legal Terms</li>
+        <li>
+          <Link href="/">Home</Link>
+        </li>
+        •
+        <li>
+          <Link href="/menu">Menu</Link>
+        </li>
+        •
+        <li>
+          <Link href="/reservation">Reservation</Link>
+        </li>
+        •
+        <li>
+          <Link href="/about">About</Link>
+        </li>
+        •
+        <li>
+          <Link href="/contact">Contact</Link>
+        </li>
+        •
+        <li>
+          <Link href="/terms-and-condition">Legal Terms</Link>
+        </li>
       </ul>
       <ul className="md:hidden text-center font-semibold py-3">
-        <li>Home</li>
+        <li>
+          <Link href="/">Home</Link>
+        </li>
         <li className="mt-1">
           <Link href="/menu">Menu</Link>
         </li>
