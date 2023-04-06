@@ -232,7 +232,7 @@ function Footer() {
         </li>
         •
         <li>
-          <Link href="/terms-and-condition">Legal Terms</Link>
+          <Link href="/terms-and-conditions">Legal Terms</Link>
         </li>
       </ul>
       <ul className="md:hidden text-center font-semibold py-3">
@@ -252,7 +252,7 @@ function Footer() {
           <Link href="/contact">Contact</Link>
         </li>
         <li className="mt-1">
-          <Link href="/terms-and-condition">Legal Terms</Link>
+          <Link href="/terms-and-conditions">Legal Terms</Link>
         </li>
       </ul>
       <div className="flex flex-wrap gap-y-3 gap-x-10 py-3 justify-center items-center">

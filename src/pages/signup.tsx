@@ -230,7 +230,7 @@ export default function SignInPage() {
             <p className="text-sm text-stone-500">
               By signing up, you agree to the{" "}
               <Link
-                href="/terms-and-condition"
+                href="/terms-and-conditions"
                 className="text-emerald-500 font-medium"
               >
                 Terms of Service

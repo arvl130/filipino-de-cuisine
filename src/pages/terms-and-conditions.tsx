@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-export default function HeaderSection() {
+export default function TermsAndConditionsPage() {
   return (
     <section className="terms-and-condition-header">
       <div className="termsandcondition">

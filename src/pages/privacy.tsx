@@ -8,7 +8,7 @@ export default function HeaderSection() {
         <div className="[background-color:_#10b981] h-72 flex items-center">
           <div className="max-w-5xl mx-auto grid grid-cols-[4rem_1fr] items-center w-full px-6">
             <div className="image">
-              <Link href={"/terms-and-condition"}>
+              <Link href={"/terms-and-conditions"}>
                 <Image
                   src="/assets/privacy/symbol2.png"
                   alt="next"
