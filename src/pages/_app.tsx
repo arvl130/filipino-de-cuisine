@@ -99,7 +99,7 @@ function Navbar() {
             </Link>
             •
             {isLoading ? (
-              <span className="w-28 text-center [background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold">
+              <span className="w-28 text-center bg-emerald-300 text-white px-4 py-2 rounded-full font-semibold">
                 <br />
               </span>
             ) : (
@@ -107,14 +107,14 @@ function Navbar() {
                 {isAuthenticated ? (
                   <Link
                     href="/account"
-                    className="w-28 text-center [background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
+                    className="w-28 text-center bg-emerald-500 text-white px-4 py-2 rounded-full font-semibold"
                   >
                     Account
                   </Link>
                 ) : (
                   <Link
                     href="/signin"
-                    className="w-28 text-center [background-color:_#10B981] text-white px-4 py-2 rounded-full font-semibold"
+                    className="w-28 text-center bg-emerald-500 text-white px-4 py-2 rounded-full font-semibold"
                   >
                     Sign In
                   </Link>
