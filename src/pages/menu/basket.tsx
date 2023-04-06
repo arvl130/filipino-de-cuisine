@@ -1,14 +1,18 @@
 import { api } from "@/utils/api"
-import { MenuItem } from "@prisma/client"
 import Image from "next/image"
 import Link from "next/link"
 import { useBasketStore } from "@/stores/basket"
+import { useSession } from "@/utils/auth"
+import { useRouter } from "next/router"
 
 function OrderSummarySection() {
   const { selectedItems } = useBasketStore()
   const { data, isLoading, isError } = api.menuItem.getManyById.useQuery({
     ids: selectedItems.flatMap((selectedItem) => selectedItem.id),
   })
+
+  const { isAuthenticated, isLoading: isLoadingSession } = useSession()
+  const router = useRouter()
 
   if (isLoading)
     return (
@@ -39,7 +43,17 @@ function OrderSummarySection() {
   }, 0)
 
   return (
-    <section>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        if (!isAuthenticated) {
+          console.log("Unimplemented: checkout without account.")
+          return
+        }
+
+        router.push("/menu/checkout")
+      }}
+    >
       <article className="bg-neutral-100 mb-3 grid grid-rows-[auto_1fr_auto_auto] min-h-[14rem]">
         <h3 className="px-8 pt-4 pb-3">
           <div className="border-b border-stone-500 pb-2 font-semibold text-lg">
@@ -68,13 +82,23 @@ function OrderSummarySection() {
           <p>₱ {subTotal}</p>
         </div>
       </article>
-      <button
-        type="submit"
-        className="bg-emerald-500 text-white w-full rounded-md py-3 font-bold text-xl"
-      >
-        Check Out
-      </button>
-    </section>
+      {isLoadingSession ? (
+        <>
+          <span className="bg-emerald-300 inline-block text-white w-full rounded-md py-3 font-semibold text-xl text-center">
+            <br />
+          </span>
+        </>
+      ) : (
+        <>
+          <button
+            type="submit"
+            className="bg-emerald-500 text-white w-full rounded-md py-3 font-semibold text-xl"
+          >
+            Checkout
+          </button>
+        </>
+      )}
+    </form>
   )
 }
 
@@ -223,10 +247,10 @@ export default function BasketPage() {
         </Link>
         <h2 className="font-bold text-2xl flex items-end">Basket</h2>
       </div>
-      <form className="grid grid-cols-[1fr_20rem] gap-8">
+      <div className="grid grid-cols-[1fr_20rem] gap-8">
         <OrderItemsSection />
         <OrderSummarySection />
-      </form>
+      </div>
     </main>
   )
 }
