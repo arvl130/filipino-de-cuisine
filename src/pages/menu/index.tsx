@@ -14,7 +14,7 @@ function MenuPageSections({ menuItems }: { menuItems: MenuItem[] }) {
       <div className="grid sm:grid-cols-[4rem_1fr_4rem] mb-12">
         {/* Basket */}
         <div className="flex justify-end sm:jusify-start mb-3 sm:mb-0">
-          <Link href="/basket">
+          <Link href="/menu/basket">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

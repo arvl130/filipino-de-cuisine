@@ -54,7 +54,7 @@ function OrderSummarySection() {
           <input
             type="text"
             placeholder="Enter a voucher code"
-            className="[background-color:_#d9d9d9] placeholder:text-black px-4 py-1 rounded-md w-full"
+            className="[background-color:_#d9d9d9] placeholder:text-stone-600 px-4 py-2 rounded-md w-full"
           />
           <button
             type="button"
