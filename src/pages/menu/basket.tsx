@@ -1,9 +1,10 @@
 import { api } from "@/utils/api"
-import Image from "next/image"
 import Link from "next/link"
 import { useBasketStore } from "@/stores/basket"
 import { useSession } from "@/utils/auth"
 import { useRouter } from "next/router"
+import { OrderItemsSection } from "@/components/menu/OrderItemsSection"
+import { CircledArrowLeft } from "@/components/HeroIcons"
 
 function OrderSummarySection() {
   const { selectedItems } = useBasketStore()
@@ -102,150 +103,14 @@ function OrderSummarySection() {
   )
 }
 
-function OrderItemsSectionItem({
-  selectedItem,
-}: {
-  selectedItem: { id: number; quantity: number }
-}) {
-  const { removeItem, incrementItemQuantity, decrementItemQuantity } =
-    useBasketStore()
-  const {
-    data: menuItem,
-    isLoading,
-    isError,
-  } = api.menuItem.getOne.useQuery({
-    id: selectedItem.id,
-  })
-
-  if (isLoading)
-    return (
-      <article className="h-36 flex justify-center items-center">
-        Loading ...
-      </article>
-    )
-
-  if (isError)
-    return (
-      <article className="h-36 flex justify-center items-center">
-        Loading ...
-      </article>
-    )
-
-  if (menuItem === undefined || menuItem === null)
-    return (
-      <article className="h-36 flex justify-center items-center">
-        No data found.
-      </article>
-    )
-
-  return (
-    <article className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-neutral-100 h-36">
-      <div>
-        <Image
-          alt="Adobo"
-          src={menuItem.imgUrl}
-          width={100}
-          height={100}
-          className="h-full w-36 object-contain"
-        />
-      </div>
-      <div className="flex items-center font-medium">{menuItem.name}</div>
-      <div className="flex items-center justify-center font-medium">
-        ₱ {menuItem.price.toFixed(2)}
-      </div>
-      <div className="flex items-center">
-        <div className="[background-color:_#d9d9d9] rounded-full w-full grid grid-cols-[1fr_2rem_1fr]">
-          <button
-            type="button"
-            onClick={() => decrementItemQuantity(selectedItem.id)}
-          >
-            -
-          </button>
-          <span className="text-center py-2">{selectedItem.quantity}</span>
-          <button
-            type="button"
-            onClick={() => incrementItemQuantity(selectedItem.id)}
-          >
-            +
-          </button>
-        </div>
-      </div>
-      <div className="flex items-center justify-center font-medium">
-        ₱ {(menuItem.price.toNumber() * selectedItem.quantity).toFixed(2)}
-      </div>
-      <div className="flex items-center">
-        <button type="button" onClick={() => removeItem(menuItem.id)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
-    </article>
-  )
-}
-
-function OrderItemsSection() {
-  const { selectedItems } = useBasketStore()
-  return (
-    <section>
-      <div className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-neutral-100 text-stone-500">
-        <div className="text-center">Product</div>
-        <div></div>
-        <div className="text-center">Price</div>
-        <div className="text-center">Quantity</div>
-        <div className="text-center">Total</div>
-        <div></div>
-      </div>
-      {selectedItems.length === 0 ? (
-        <div className="text-center mt-3">No items selected</div>
-      ) : (
-        <>
-          {selectedItems.map((selectedItem) => {
-            return (
-              <OrderItemsSectionItem
-                key={selectedItem.id}
-                selectedItem={selectedItem}
-              />
-            )
-          })}
-        </>
-      )}
-    </section>
-  )
-}
-
 export default function BasketPage() {
   return (
     <main className="max-w-6xl mx-auto w-full px-6 py-12">
       <div className="flex items-center gap-2 mb-6">
         <Link href="/menu" className="[color:_#10B981]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-10 h-10"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          <CircledArrowLeft />
         </Link>
-        <h2 className="font-bold text-2xl flex items-end">Basket</h2>
+        <h2 className="font-semibold text-2xl flex items-end">Basket</h2>
       </div>
       <div className="grid grid-cols-[1fr_20rem] gap-8">
         <OrderItemsSection />
