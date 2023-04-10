@@ -9,6 +9,18 @@ interface BasketState {
   removeItem: (id: number) => void
   incrementItemQuantity: (id: number) => void
   decrementItemQuantity: (id: number) => void
+  orderDetails: {
+    customerName: string
+    contactNumber: string
+    destinationAddress: string
+    additionalNotes: string
+  }
+  setOrderDetails: (orderDetails: {
+    customerName?: string
+    contactNumber?: string
+    destinationAddress?: string
+    additionalNotes?: string
+  }) => void
 }
 
 export const useBasketStore = create<BasketState>((set) => ({
@@ -47,6 +59,25 @@ export const useBasketStore = create<BasketState>((set) => ({
           }
         } else return selectedItem
       }),
+    }))
+  },
+  orderDetails: {
+    customerName: "",
+    contactNumber: "",
+    destinationAddress: "",
+    additionalNotes: "",
+  },
+  setOrderDetails(newOrderDetails) {
+    set(({ orderDetails }) => ({
+      orderDetails: {
+        customerName: newOrderDetails.customerName ?? orderDetails.customerName,
+        contactNumber:
+          newOrderDetails.contactNumber ?? orderDetails.contactNumber,
+        destinationAddress:
+          newOrderDetails.destinationAddress ?? orderDetails.destinationAddress,
+        additionalNotes:
+          newOrderDetails.additionalNotes ?? orderDetails.additionalNotes,
+      },
     }))
   },
 }))
