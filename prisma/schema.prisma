@@ -49,7 +49,7 @@ model Order {
     mode          Mode
     createdAt     DateTime      @default(now())
     customerName  String
-    paymentStatus PaymentStatus
+    paymentStatus PaymentStatus @default(Pending)
     orderItems    OrderItem[]
     walkInOrders  WalkInOrder[]
     onlineOrders  OnlineOrder[]
@@ -65,13 +65,14 @@ model WalkInOrder {
 }
 
 model OnlineOrder {
-    id             Int            @id
-    customerId     String         @db.VarChar(28)
-    address        String
-    contactNumber  String
-    deliveryFee    Decimal
-    deliveryStatus DeliveryStatus
-    order          Order          @relation(fields: [id], references: [id])
+    id              Int            @id
+    customerId      String         @db.VarChar(28)
+    address         String
+    contactNumber   String
+    paymentIntentId String         @unique @db.VarChar(27)
+    deliveryFee     Decimal
+    deliveryStatus  DeliveryStatus @default(Pending)
+    order           Order          @relation(fields: [id], references: [id])
 
     @@index([id])
 }
