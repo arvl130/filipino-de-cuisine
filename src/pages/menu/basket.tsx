@@ -55,7 +55,7 @@ function OrderSummarySection() {
         router.push("/menu/checkout")
       }}
     >
-      <article className="bg-neutral-100 mb-3 grid grid-rows-[auto_1fr_auto_auto] min-h-[14rem]">
+      <article className="bg-stone-100 mb-3 grid grid-rows-[auto_1fr_auto_auto] min-h-[14rem]">
         <h3 className="px-8 pt-4 pb-3">
           <div className="border-b border-stone-500 pb-2 font-semibold text-lg">
             Order Summary
@@ -83,20 +83,22 @@ function OrderSummarySection() {
           <p>₱ {subTotal}</p>
         </div>
       </article>
-      {isLoadingSession ? (
+      {selectedItems.length > 0 && (
         <>
-          <span className="bg-emerald-300 inline-block text-white w-full rounded-md py-3 font-semibold text-xl text-center">
-            <br />
-          </span>
-        </>
-      ) : (
-        <>
-          <button
-            type="submit"
-            className="bg-emerald-500 text-white w-full rounded-md py-3 font-semibold text-xl"
-          >
-            Checkout
-          </button>
+          {isLoadingSession ? (
+            <>
+              <span className="bg-emerald-300 inline-block text-white w-full rounded-md py-3 font-semibold text-xl text-center">
+                <br />
+              </span>
+            </>
+          ) : (
+            <button
+              type="submit"
+              className="bg-emerald-500 disabled:bg-emerald-400 text-white w-full rounded-md py-3 font-semibold text-xl"
+            >
+              Checkout
+            </button>
+          )}
         </>
       )}
     </form>
