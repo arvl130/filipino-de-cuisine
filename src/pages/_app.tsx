@@ -107,14 +107,14 @@ function Navbar() {
                 {isAuthenticated ? (
                   <Link
                     href="/account"
-                    className="w-28 text-center bg-emerald-500 text-white px-4 py-2 rounded-full font-semibold"
+                    className="w-28 text-center bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white px-4 py-2 rounded-full font-semibold"
                   >
                     Account
                   </Link>
                 ) : (
                   <Link
                     href="/signin"
-                    className="w-28 text-center bg-emerald-500 text-white px-4 py-2 rounded-full font-semibold"
+                    className="w-28 text-center bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white px-4 py-2 rounded-full font-semibold"
                   >
                     Sign In
                   </Link>
