@@ -272,7 +272,7 @@ async function main() {
       },
       {
         id: 27,
-        name: "Astrang Papaya",
+        name: "Atsarang Papaya",
         description:
           "Atchara, also known as pickled papaya, is a Filipino condiment made with shredded unripe papaya, carrots, ginger, garlic, vinegar, and sugar.",
         category: "Appetizer",
