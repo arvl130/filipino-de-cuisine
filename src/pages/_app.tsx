@@ -206,10 +206,19 @@ function Navbar() {
 function Footer() {
   return (
     <footer className="bg-black text-white px-6">
-      <p className="text-center font-inika text-xl font-bold pt-16 pb-5">
-        <span className="uppercase [color:_#DC2626]">Filipino</span>{" "}
-        <span className="uppercase [color:_#78716C]">de Cuisine</span>
-      </p>
+      <div className="pt-16 pb-5 text-center">
+        <Image
+          src="/assets/website-logo.png"
+          alt="Logo of Filipino de Cuisine"
+          height={100}
+          width={100}
+          className="inline-block"
+        />
+        <p className="text-center font-inika text-xl font-bold">
+          <span className="uppercase [color:_#DC2626]">Filipino</span>{" "}
+          <span className="uppercase [color:_#78716C]">de Cuisine</span>
+        </p>
+      </div>
       <ul className="hidden md:flex gap-6 flex-wrap justify-center font-semibold py-3">
         <li>
           <Link href="/">Home</Link>
