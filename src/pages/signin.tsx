@@ -46,9 +46,8 @@ export default function SignInPage() {
                 )
                 router.push("/account")
               } catch (e) {
-                console.log("Generic error occured:", e)
-              } finally {
                 setIsSigningIn(false)
+                console.log("Generic error occured:", e)
               }
             })}
           >
