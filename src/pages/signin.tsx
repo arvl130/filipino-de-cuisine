@@ -44,6 +44,13 @@ export default function SignInPage() {
                   formData.email,
                   formData.password
                 )
+
+                const { returnUrl } = router.query
+                if (typeof returnUrl === "string") {
+                  router.push(returnUrl)
+                  return
+                }
+
                 router.push("/account")
               } catch (e) {
                 setIsSigningIn(false)

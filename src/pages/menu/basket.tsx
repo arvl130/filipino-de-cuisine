@@ -47,12 +47,17 @@ function OrderSummarySection() {
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        if (!isAuthenticated) {
-          console.log("Unimplemented: checkout without account.")
+        if (isAuthenticated) {
+          router.push("/menu/checkout")
           return
         }
 
-        router.push("/menu/checkout")
+        router.push({
+          pathname: "/signin",
+          query: {
+            returnUrl: "/menu/checkout",
+          },
+        })
       }}
     >
       <article className="bg-stone-100 mb-3 grid grid-rows-[auto_1fr_auto_auto] min-h-[14rem]">
