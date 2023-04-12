@@ -11,7 +11,11 @@ export const onlineOrderRouter = router({
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.onlineOrder.findMany({
       include: {
-        order: true,
+        order: {
+          include: {
+            orderItems: true,
+          },
+        },
       },
     })
   }),
