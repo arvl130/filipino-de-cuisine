@@ -294,7 +294,14 @@ function OrderSummarySection() {
   } = useForm<paymentMethodType>({
     resolver: zodResolver(paymentMethodSchema),
   })
-  const { mutateAsync: createOrder } = api.onlineOrder.create.useMutation()
+  const { mutate: createOrder, isLoading: isCreatingOrder } =
+    api.onlineOrder.create.useMutation({
+      onSuccess: ({ paymentUrl }) => {
+        // When we successfully create an order, extract the generated
+        // payment URL and go to that page.
+        location.href = paymentUrl
+      },
+    })
 
   // Delivery fee is 80 Pesos.
   const deliveryFee = 80
@@ -350,11 +357,11 @@ function OrderSummarySection() {
 
   return (
     <form
-      onSubmit={handleSubmit(async (formData) => {
+      onSubmit={handleSubmit((formData) => {
         if (formData.selectedItems.length === 0) return
 
         const [firstItem, ...otherItems] = formData.selectedItems
-        const { paymentUrl } = await createOrder({
+        createOrder({
           customerName: formData.customerName,
           contactNumber: formData.contactNumber,
           address: formData.address,
@@ -363,7 +370,6 @@ function OrderSummarySection() {
           deliveryFee: formData.deliveryFee,
           paymentMethod: formData.paymentMethod,
         })
-        location.href = paymentUrl
       })}
     >
       <div className="border border-stone-300 px-8 py-4 rounded-2xl mb-4">
@@ -419,7 +425,8 @@ function OrderSummarySection() {
       {selectedItems.length > 0 && (
         <button
           type="submit"
-          className="bg-emerald-500 disabled:bg-emerald-400 text-white w-full rounded-md py-3 font-semibold text-xl"
+          disabled={isCreatingOrder}
+          className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white w-full rounded-md py-3 font-semibold text-xl"
         >
           Place Order
         </button>
