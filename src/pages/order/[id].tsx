@@ -12,18 +12,23 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 function SourceStatus({
-  id,
-  refetchPaymentIntentStatus,
+  sourceId,
+  paymentIntentId,
 }: {
-  id: string
-  paymentIntent: PaymentIntent
-  refetchPaymentIntentStatus: () => void
+  sourceId: string
+  paymentIntentId: string
 }) {
   const { data, isLoading, isError } = api.payment.getSource.useQuery({
-    id,
+    id: sourceId,
   })
-  const { mutateAsync: refreshPaymentIntent } =
-    api.payment.refreshPaymentIntent.useMutation()
+  const { refetch } = api.payment.getPaymentIntent.useQuery({
+    id: paymentIntentId,
+  })
+
+  const { mutate: refreshPaymentIntent } =
+    api.payment.refreshPaymentIntent.useMutation({
+      onSuccess: () => refetch(),
+    })
 
   const {
     register,
@@ -41,13 +46,12 @@ function SourceStatus({
     <div>
       {data.data.attributes.status === "expired" && (
         <form
-          onSubmit={handleSubmit(async (formData) => {
-            await refreshPaymentIntent({
+          onSubmit={handleSubmit((formData) =>
+            refreshPaymentIntent({
               id: data.data.id,
               paymentMethod: formData.paymentMethod,
             })
-            refetchPaymentIntentStatus()
-          })}
+          )}
         >
           <p className="mb-1">
             The payment session for this order expired. Please choose a new
@@ -109,8 +113,10 @@ function PaymentIntentStatus({ id }: { id: string }) {
       id,
     })
 
-  const { mutateAsync: refreshPaymentIntent } =
-    api.payment.refreshPaymentIntent.useMutation()
+  const { mutate: refreshPaymentIntent } =
+    api.payment.refreshPaymentIntent.useMutation({
+      onSuccess: () => refetch(),
+    })
 
   const {
     register,
@@ -146,26 +152,22 @@ function PaymentIntentStatus({ id }: { id: string }) {
               </p>
             ) : (
               <SourceStatus
-                id={
+                sourceId={
                   data.data.attributes.next_action.redirect.url.split("id=")[1]
                 }
-                paymentIntent={data}
-                refetchPaymentIntentStatus={() => {
-                  refetch()
-                }}
+                paymentIntentId={data.data.id}
               />
             )}
           </>
         )}
         {data.data.attributes.status === "awaiting_payment_method" && (
           <form
-            onSubmit={handleSubmit(async (formData) => {
-              await refreshPaymentIntent({
+            onSubmit={handleSubmit((formData) =>
+              refreshPaymentIntent({
                 id: data.data.id,
                 paymentMethod: formData.paymentMethod,
               })
-              refetch()
-            })}
+            )}
           >
             <p className="mb-1">
               No payment has yet been made for this order. Please choose a
@@ -627,9 +629,11 @@ function CancelOrderSection({
   const { refetch } = api.onlineOrder.getOne.useQuery({
     id: onlineOrder.id,
   })
-  const { mutate, isLoading } = api.onlineOrder.cancel.useMutation({
-    onSuccess: () => refetch(),
-  })
+  const { mutate: cancelOrder, isLoading } = api.onlineOrder.cancel.useMutation(
+    {
+      onSuccess: () => refetch(),
+    }
+  )
 
   if (onlineOrder.deliveryStatus !== "Pending") return <></>
 
@@ -641,7 +645,7 @@ function CancelOrderSection({
           className="bg-red-600 hover:bg-red-500 disabled:bg-red-300 transition duration-200 text-white px-4 py-2 rounded-lg font-semibold text-lg"
           disabled={isLoading}
           onClick={() =>
-            mutate({
+            cancelOrder({
               id: onlineOrder.id,
             })
           }
