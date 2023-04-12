@@ -385,7 +385,7 @@ function OrderSummarySection() {
           </label>
         </fieldset>
         {errors.paymentMethod && (
-          <p className="text-red-600">{errors.paymentMethod.message}.</p>
+          <p className="text-red-600">Please choose a payment method.</p>
         )}
       </div>
 
