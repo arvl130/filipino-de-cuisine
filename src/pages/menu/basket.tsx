@@ -94,7 +94,7 @@ function OrderSummarySection() {
           ) : (
             <button
               type="submit"
-              className="bg-emerald-500 disabled:bg-emerald-400 text-white w-full rounded-md py-3 font-semibold text-xl"
+              className="bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white w-full rounded-md py-3 font-semibold text-xl"
             >
               Checkout
             </button>
