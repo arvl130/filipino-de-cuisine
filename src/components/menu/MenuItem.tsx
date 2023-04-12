@@ -37,7 +37,7 @@ export function MenuItem({ menuItem }: { menuItem: MenuItem }) {
         ) : (
           <button
             onClick={() => addItem(menuItem.id, 1)}
-            className="inline-block [background-color:_#10B981] w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5"
+            className="inline-block bg-emerald-500 hover:bg-emerald-400 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5"
           >
             Add to Basket
           </button>
