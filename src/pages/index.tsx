@@ -18,13 +18,13 @@ function HeroSection() {
         <div className="inline-flex gap-3 mt-3">
           <Link
             href="/menu"
-            className="px-6 bg-emerald-500 text-white text-lg rounded-md pb-2 pt-3 font-semibold"
+            className="px-6 bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white text-lg rounded-md pb-2 pt-3 font-semibold"
           >
             Order Now
           </Link>
           <Link
             href="/reservation"
-            className="px-6 text-emerald-500 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
+            className="px-6 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 hover:text-white transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
           >
             Book a Reservation
           </Link>
@@ -212,13 +212,13 @@ function CallToActionSection() {
         <div className="inline-flex gap-3">
           <Link
             href="/menu"
-            className="px-6 bg-emerald-500 text-lg text-white rounded-md pb-2 pt-3 font-semibold"
+            className="px-6 bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white text-lg rounded-md pb-2 pt-3 font-semibold"
           >
             Order Now
           </Link>
           <Link
             href="/reservation"
-            className="px-6 text-emerald-500 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
+            className="px-6 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 hover:text-white transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
           >
             Book a Reservation
           </Link>
