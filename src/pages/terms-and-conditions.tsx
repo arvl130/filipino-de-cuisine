@@ -5,7 +5,7 @@ export default function TermsAndConditionsPage() {
   return (
     <section className="terms-and-condition-header">
       <div className="termsandcondition">
-        <div className="[background-color:_#10b981] h-72 flex items-center">
+        <div className="bg-emerald-500 h-72 flex items-center">
           <div className="max-w-5xl mx-auto grid grid-cols-[1fr_auto] items-center w-full px-6">
             <div>
               <h4 className="text-white font-semibold text-xl mb-2">

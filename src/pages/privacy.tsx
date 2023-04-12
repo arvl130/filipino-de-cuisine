@@ -5,7 +5,7 @@ export default function HeaderSection() {
   return (
     <section className="privacy">
       <div className="privacy">
-        <div className="[background-color:_#10b981] h-72 flex items-center">
+        <div className=" bg-emerald-500 h-72 flex items-center">
           <div className="max-w-5xl mx-auto grid grid-cols-[4rem_1fr] items-center w-full px-6">
             <div className="image">
               <Link href={"/terms-and-conditions"}>

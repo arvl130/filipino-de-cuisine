@@ -674,7 +674,7 @@ function DeliveryStatus() {
   return (
     <>
       <div className="flex items-center gap-2 mb-6">
-        <Link href="/menu/basket" className="[color:_#10B981]">
+        <Link href="/menu/basket" className="text-emerald-500">
           <CircledArrowLeft />
         </Link>
         <h2 className="font-semibold text-2xl flex items-end">

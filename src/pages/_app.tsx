@@ -32,14 +32,14 @@ function Navbar() {
           <div className="hidden lg:flex gap-6 items-center">
             <Link
               href="/"
-              className={router.pathname === "/" ? `[color:_#10B981]` : ""}
+              className={router.pathname === "/" ? "text-emerald-500" : ""}
             >
               Home
             </Link>
             •
             <Link
               href="/menu"
-              className={router.pathname === "/menu" ? `[color:_#10B981]` : ""}
+              className={router.pathname === "/menu" ? "text-emerald-500" : ""}
             >
               Menu
             </Link>
@@ -47,7 +47,7 @@ function Navbar() {
             <Link
               href="/reservation"
               className={
-                router.pathname === "/reservation" ? `[color:_#10B981]` : ""
+                router.pathname === "/reservation" ? "text-emerald-500" : ""
               }
             >
               Reservation
@@ -84,7 +84,7 @@ function Navbar() {
           <div className="hidden lg:flex gap-6 items-center">
             <Link
               href="/about"
-              className={router.pathname === "/about" ? `[color:_#10B981]` : ""}
+              className={router.pathname === "/about" ? "text-emerald-500" : ""}
             >
               About
             </Link>
@@ -92,7 +92,7 @@ function Navbar() {
             <Link
               href="/contact"
               className={
-                router.pathname === "/contact" ? `[color:_#10B981]` : ""
+                router.pathname === "/contact" ? "text-emerald-500" : ""
               }
             >
               Contact
@@ -130,7 +130,7 @@ function Navbar() {
               onClick={() => {
                 setIsMenuVisible(false)
               }}
-              className={`${router.pathname === "/" ? `[color:_#10B981]` : ""}`}
+              className={`${router.pathname === "/" ? "text-emerald-500" : ""}`}
             >
               Home
             </Link>
@@ -138,7 +138,7 @@ function Navbar() {
               href="/menu"
               onClick={() => setIsMenuVisible(false)}
               className={`pt-1 ${
-                router.pathname === "/menu" ? `[color:_#10B981]` : ""
+                router.pathname === "/menu" ? "text-emerald-500" : ""
               }`}
             >
               Menu
@@ -147,7 +147,7 @@ function Navbar() {
               href="/reservation"
               onClick={() => setIsMenuVisible(false)}
               className={`pt-1 ${
-                router.pathname === "/reservation" ? `[color:_#10B981]` : ""
+                router.pathname === "/reservation" ? "text-emerald-500" : ""
               }`}
             >
               Reservation
@@ -156,7 +156,7 @@ function Navbar() {
               href="/about"
               onClick={() => setIsMenuVisible(false)}
               className={`pt-1 ${
-                router.pathname === "/about" ? `[color:_#10B981]` : ""
+                router.pathname === "/about" ? "text-emerald-500" : ""
               }`}
             >
               About
@@ -165,7 +165,7 @@ function Navbar() {
               href="/contact"
               onClick={() => setIsMenuVisible(false)}
               className={`pt-1 ${
-                router.pathname === "/contact" ? `[color:_#10B981]` : ""
+                router.pathname === "/contact" ? "text-emerald-500" : ""
               }`}
             >
               Contact
@@ -177,7 +177,7 @@ function Navbar() {
                     href="/account"
                     onClick={() => setIsMenuVisible(false)}
                     className={`pt-1 ${
-                      router.pathname === "/account" ? `[color:_#10B981]` : ""
+                      router.pathname === "/account" ? "text-emerald-500" : ""
                     }`}
                   >
                     Account
@@ -187,7 +187,7 @@ function Navbar() {
                     href="/signin"
                     onClick={() => setIsMenuVisible(false)}
                     className={`pt-1 ${
-                      router.pathname === "/signin" ? `[color:_#10B981]` : ""
+                      router.pathname === "/signin" ? "text-emerald-500" : ""
                     }`}
                   >
                     Sign In

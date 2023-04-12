@@ -18,13 +18,13 @@ function HeroSection() {
         <div className="inline-flex gap-3 mt-3">
           <Link
             href="/menu"
-            className="px-6 [background-color:_#10B981] text-white text-lg rounded-md pb-2 pt-3 font-semibold"
+            className="px-6 bg-emerald-500 text-white text-lg rounded-md pb-2 pt-3 font-semibold"
           >
             Order Now
           </Link>
           <Link
             href="/reservation"
-            className="px-6 [color:_#10B981] [border-color:_#10B981] border text-white text-lg rounded-md pb-2 pt-3 font-semibold"
+            className="px-6 text-emerald-500 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
           >
             Book a Reservation
           </Link>
@@ -212,20 +212,20 @@ function CallToActionSection() {
         <div className="inline-flex gap-3">
           <Link
             href="/menu"
-            className="px-6 [background-color:_#10B981] text-lg text-white rounded-md pb-2 pt-3 font-semibold"
+            className="px-6 bg-emerald-500 text-lg text-white rounded-md pb-2 pt-3 font-semibold"
           >
             Order Now
           </Link>
           <Link
             href="/reservation"
-            className="px-6 [color:_#10B981] [border-color:_#10B981] border text-lg text-white rounded-md pb-2 pt-3 font-semibold"
+            className="px-6 text-emerald-500 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
           >
             Book a Reservation
           </Link>
         </div>
         <Link
           href="/menu"
-          className=" [color:_#10B981] text-white rounded-md font-semibold text-lg"
+          className=" text-emerald-500 rounded-md font-semibold text-lg"
         >
           Explore our menu »
         </Link>

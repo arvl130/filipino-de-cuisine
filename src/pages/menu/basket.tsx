@@ -109,7 +109,7 @@ export default function BasketPage() {
   return (
     <main className="max-w-6xl mx-auto w-full px-6 py-12">
       <div className="flex items-center gap-2 mb-6">
-        <Link href="/menu" className="[color:_#10B981]">
+        <Link href="/menu" className="text-emerald-500">
           <CircledArrowLeft />
         </Link>
         <h2 className="font-semibold text-2xl flex items-end">Basket</h2>
