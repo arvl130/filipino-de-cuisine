@@ -214,84 +214,284 @@ function OrderStatusSection({
   }
 }) {
   return (
-    <section className="grid grid-cols-4 text-center py-12">
+    <section
+      className={`grid ${
+        onlineOrder.deliveryStatus !== "Cancelled" ? "grid-cols-4" : ""
+      } text-center pt-6 pb-12 px-12`}
+    >
       {onlineOrder.deliveryStatus === "Pending" && (
         <>
           <div>
-            <div className="my-3 bg-red-600 h-2 rounded-l-md"></div>
-            <span className="font-medium">Order Confirmed</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 rounded-l-md w-full flex items-center">
+                <div className="h-1 w-full bg-red-600 rounded-l"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/confirmed.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-20 w-20"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Order Confirmed</div>
           </div>
           <div>
-            <div className="my-3 bg-stone-500 h-2"></div>
-            <span className="font-medium">Preparing in the Kitchen</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full flex items-center"></div>
+              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/preparing.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-16 w-16"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Preparing in the Kitchen</div>
           </div>
           <div>
-            <div className="my-3 bg-stone-500 h-2"></div>
-            <span className="font-medium">On the way</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full flex items-center"></div>
+              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/on-the-way.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-14 w-14"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">On the way</div>
           </div>
           <div>
-            <div className="my-3 bg-stone-500 h-2 rounded-r-md"></div>
-            <span className="font-medium">Order Delivered</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full rounded-r-md flex items-center"></div>
+              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/delivered.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-14 w-14"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Order Delivered</div>
           </div>
         </>
       )}
       {onlineOrder.deliveryStatus === "Preparing" && (
         <>
           <div>
-            <div className="my-3 bg-red-600 h-2 rounded-l-md"></div>
-            <span className="font-medium">Order Confirmed</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 rounded-l-md w-full flex items-center">
+                <div className="h-1 w-full bg-red-600 rounded-l"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/confirmed.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-20 w-20"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Order Confirmed</div>
           </div>
           <div>
-            <div className="my-3 bg-red-600 h-2"></div>
-            <span className="font-medium">Preparing in the Kitchen</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full flex items-center">
+                <div className="h-1 w-full bg-red-600"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/preparing.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-16 w-16"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Preparing in the Kitchen</div>
           </div>
           <div>
-            <div className="my-3 bg-stone-500 h-2"></div>
-            <span className="font-medium">On the way</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full flex items-center"></div>
+              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/on-the-way.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-14 w-14"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">On the way</div>
           </div>
           <div>
-            <div className="my-3 bg-stone-500 h-2 rounded-r-md"></div>
-            <span className="font-medium">Order Delivered</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full rounded-r-md flex items-center"></div>
+              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/delivered.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-14 w-14"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Order Delivered</div>
           </div>
         </>
       )}
       {onlineOrder.deliveryStatus === "OutForDelivery" && (
         <>
           <div>
-            <div className="my-3 bg-red-600 h-2 rounded-l-md"></div>
-            <span className="font-medium">Order Confirmed</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 rounded-l-md w-full flex items-center">
+                <div className="h-1 w-full bg-red-600 rounded-l"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/confirmed.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-20 w-20"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Order Confirmed</div>
           </div>
           <div>
-            <div className="my-3 bg-red-600 h-2"></div>
-            <span className="font-medium">Preparing in the Kitchen</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full flex items-center">
+                <div className="h-1 w-full bg-red-600"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/preparing.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-16 w-16"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Preparing in the Kitchen</div>
           </div>
           <div>
-            <div className="my-3 bg-red-600 h-2"></div>
-            <span className="font-medium">On the way</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full flex items-center">
+                <div className="h-1 w-full bg-red-600"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/on-the-way.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-14 w-14"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">On the way</div>
           </div>
           <div>
-            <div className="my-3 bg-stone-500 h-2 rounded-r-md"></div>
-            <span className="font-medium">Order Delivered</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full rounded-r-md flex items-center"></div>
+              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/delivered.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-14 w-14"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Order Delivered</div>
           </div>
         </>
       )}
       {onlineOrder.deliveryStatus === "Received" && (
         <>
           <div>
-            <div className="my-3 bg-red-600 h-2 rounded-l-md"></div>
-            <span className="font-medium">Order Confirmed</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 rounded-l-md w-full flex items-center">
+                <div className="h-1 w-full bg-red-600 rounded-l"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/confirmed.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-20 w-20"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Order Confirmed</div>
           </div>
           <div>
-            <div className="my-3 bg-red-600 h-2"></div>
-            <span className="font-medium">Preparing in the Kitchen</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full flex items-center">
+                <div className="h-1 w-full bg-red-600"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/preparing.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-16 w-16"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Preparing in the Kitchen</div>
           </div>
           <div>
-            <div className="my-3 bg-red-600 h-2"></div>
-            <span className="font-medium">On the way</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full flex items-center">
+                <div className="h-1 w-full bg-red-600"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/on-the-way.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-14 w-14"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">On the way</div>
           </div>
           <div>
-            <div className="my-3 bg-red-600 h-2 rounded-r-md"></div>
-            <span className="font-medium">Order Delivered</span>
+            <div className="h-24 flex items-center relative">
+              <div className="bg-stone-500 h-2 w-full rounded-r-md flex items-center">
+                <div className="h-1 w-full bg-red-600 rounded-r"></div>
+              </div>
+              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+                <Image
+                  src="/assets/orders/delivered.png"
+                  alt="idk"
+                  height={100}
+                  width={100}
+                  className="h-14 w-14"
+                />
+              </div>
+            </div>
+            <div className="font-medium mt-1">Order Delivered</div>
           </div>
         </>
       )}
@@ -347,7 +547,7 @@ export function OrderItemsSectionItem({
           className="h-full w-36 object-contain"
         />
       </div>
-      <div className="flex items-center font-medium">{menuItem.name}</div>
+      <div className="flex items-center font-medium px-6">{menuItem.name}</div>
       <div className="flex items-center justify-center font-medium">
         ₱ {menuItem.price.toFixed(2)}
       </div>
@@ -415,6 +615,47 @@ function OrderItemsSection({
   )
 }
 
+function CancelOrderSection({
+  onlineOrder,
+}: {
+  onlineOrder: OnlineOrder & {
+    order: Order & {
+      orderItems: OrderItem[]
+    }
+  }
+}) {
+  const { refetch } = api.onlineOrder.getOne.useQuery({
+    id: onlineOrder.id,
+  })
+  const { mutate, isLoading } = api.onlineOrder.cancel.useMutation({
+    onSuccess: () => refetch(),
+  })
+
+  if (onlineOrder.deliveryStatus !== "Pending") return <></>
+
+  return (
+    <section className="text-right max-w-4xl mx-auto pt-3">
+      <p className="mb-1">
+        <button
+          type="button"
+          className="bg-red-600 hover:bg-red-500 disabled:bg-red-300 transition duration-200 text-white px-4 py-2 rounded-lg font-semibold text-lg"
+          disabled={isLoading}
+          onClick={() =>
+            mutate({
+              id: onlineOrder.id,
+            })
+          }
+        >
+          Cancel Order
+        </button>
+      </p>
+      <p className="text-stone-500 text-sm">
+        * You will not be able to cancel once the order is being prepared.
+      </p>
+    </section>
+  )
+}
+
 function DeliveryStatus() {
   const { query } = useRouter()
   const { data, isLoading, isError } = api.onlineOrder.getOne.useQuery(
@@ -436,7 +677,7 @@ function DeliveryStatus() {
           Delivery Status
         </h2>
       </div>
-      <p>Order ID: {query.id}</p>
+      <p className="px-12">Order ID: {query.id}</p>
 
       {isLoading ? (
         <>Loading ...</>
@@ -450,6 +691,7 @@ function DeliveryStatus() {
                 <>
                   <OrderStatusSection onlineOrder={data} />
                   <OrderItemsSection onlineOrder={data} />
+                  <CancelOrderSection onlineOrder={data} />
                 </>
               ) : (
                 <>No order found.</>
