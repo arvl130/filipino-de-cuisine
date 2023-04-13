@@ -309,7 +309,7 @@ const hind = Hind({
 const inika = Inika({
   subsets: ["latin"],
   variable: "--font-inika",
-  weight: ["400", "700"],
+  weight: ["700"],
 })
 
 const karla = Karla({
