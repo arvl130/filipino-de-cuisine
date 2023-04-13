@@ -9,6 +9,7 @@ module.exports = {
         sans: ["var(--font-hind)", ...fontFamily.sans],
         inika: ["var(--font-inika)"],
         karla: ["var(--font-karla)"],
+        inter: ["var(--font-inter)"],
       },
     },
   },
