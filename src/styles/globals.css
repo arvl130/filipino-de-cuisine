@@ -2,99 +2,250 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /*terms-and-condition Page*/
-section.terms-and-condition-header .header h1 {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 64px;
+section.terms-and-condition-header div.header {
+height: 300px;
+grid-template-columns: 6fr 1fr;
+display: grid;
+background: #10B981;
 
-  color: #ffffff;
 }
 
-section.terms-and-condition-header .header h4 {
-  padding-top: 5rem;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 23px;
-  line-height: 37px;
-  color: #ffffff;
+section.terms-and-condition-header div.header h1 {
+   
+padding-left: 9rem;
+font-style: normal;
+font-weight: 700;
+font-size: 40px;
+line-height: 64px;
+
+
+color: #FFFFFF;
+
+
 }
 
-section.terms-and-condition-header .header p {
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 32px;
+section.terms-and-condition-header div.header h4 {
+   
+padding-left: 9rem;
+padding-top: 5rem;
+font-style: normal;
+font-weight: 600;
+font-size: 23px;
+line-height: 37px;
+color: #FFFFFF;
 
-  color: #ffffff;
+
 }
 
-section.terms-and-condition-header .description li {
-  font-style: normal;
-  font-weight: 400;
-  line-height: 32px;
+section.terms-and-condition-header div.header p {
 
-  color: #000000;
+padding-left: 9rem;
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 32px;
+
+color: #FFFFFF;
+
+}
+
+section.terms-and-condition-header div.header div.image {
+    padding-top: 8rem;
+    padding-left: 4rem;
+}
+
+section.terms-and-condition-header div.description p{
+
+padding-top: 5rem;
+padding-left: 11rem;
+padding-right: 9rem;
+padding-bottom: 5rem;
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 32px;
+
+color: #000000;
 }
 
 /*Privacy Page*/
 
-section.privacy .header {
-  height: 300px;
-  grid-template-columns: 1fr 11fr;
-  display: grid;
-  background: #10b981;
+section.privacy div.header {
+height: 300px;
+grid-template-columns: 1fr 11fr;
+display: grid;
+background: #10B981;
 }
 
-section.privacy .header h4 {
-  padding-left: 3rem;
-  padding-top: 5rem;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 23px;
-  line-height: 37px;
-  color: #ffffff;
+section.privacy div.header h4 {
+    padding-left: 3rem;
+    padding-top: 5rem;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 37px;
+    color: #FFFFFF;
 }
 
-section.privacy .header h1 {
-  padding-left: 3rem;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 64px;
-  color: #ffffff;
+section.privacy div.header h1 {
+    padding-left: 3rem;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 64px;
+    color: #FFFFFF;
 }
 
-section.privacy .header p {
-  padding-left: 3rem;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 32px;
-  color: #ffffff;
+section.privacy div.header p {
+    padding-left: 3rem;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+    color: #FFFFFF;
 }
 
-section.privacy .description h6 {
-  font-style: normal;
-  font-weight: 400;
-  line-height: 32px;
+section.privacy div.description h6{
+padding-left: 10rem;
+padding-right:9rem;
+padding-top:5rem;
+padding-bottom: 5rem;
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 32px;
 
-  color: #000000;
+color: #000000;
 }
 
-section.privacy .description p {
-  padding-left: 11rem;
-  padding-right: 9rem;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 32px;
-
-  color: #000000;
+section.privacy div.description p {
+    padding-left: 11rem;
+    padding-right: 9rem;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    
+    color: #000000;
 }
 
-section.privacy .header .image {
-  padding-top: 8rem;
-  padding-left: 4rem;
+
+section.privacy div.header div.image{
+    padding-top: 8rem;
+    padding-left: 4rem;
+
+}
+
+/*ABOUT*/
+
+section.about div.description {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+}
+
+section.about div.description div.aboutus h1 {
+padding-left: 5rem;
+padding-top:  5rem;
+font-style: normal;
+font-weight: 700;
+font-size: 40px;
+line-height: 64px;
+
+text-align: justify;
+letter-spacing: 0.1em;
+
+color: #000000;
+}
+
+section.about div.description div.aboutus p{
+padding-left: 5rem;
+padding-right: 5rem;
+font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 32px;
+text-align: justify;
+letter-spacing: 0.1em;
+
+color: #342006;
+}
+
+section.about div.description div.aboutus h2{
+    padding-left: 5rem;
+padding-top: 7rem;
+font-style: normal;
+font-weight: 900;
+font-size: 200px;
+line-height: 242px;
+color: rgba(16, 185, 129, 0.7);
+}
+
+section.about div.description div.background{
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(16, 185, 129, 0.7) 56.25%, #10B981 98.44%);
+
+}
+
+section.about div.description div.background div.image{
+    padding-top: 3rem;
+    padding-left: 6rem;
+}
+
+
+section.about div.description div.background div.food {
+padding-top: 2rem;
+font-style: normal;
+font-weight: 900;
+font-size: 200px;
+line-height: 242px;
+color: #FFFFFF;
+}
+
+section.description div.second{
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+}
+
+section.description div.second div.image{
+    padding-top: 5rem;
+    padding-left: 5rem;
+}
+
+section.description div.second div.paragraph{
+padding-left: 2rem;
+padding-top: 10rem;
+padding-right: 3rem;
+font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 32px;
+text-align: justify;
+letter-spacing: 0.1em;
+
+color: #000000;
+}
+
+section.last div.description{
+    padding-left: 5rem;
+    padding-top: 5rem;
+    padding-right: 3rem;
+    padding-bottom: 5rem;
+    background: white;
+}
+section.last div.description p{
+    padding-left: 5rem;
+    padding-top: 5rem;
+    padding-right: 5rem;
+    padding-bottom: 5rem;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 32px;
+    text-align: justify;
+    letter-spacing: 0.1em;
+    
+    color: #000000;
+    background: linear-gradient(180deg, #10B981 0%, rgba(16, 185, 129, 0.7) 25%, rgba(16, 185, 129, 0) 100%);
+
 }
