@@ -50,9 +50,13 @@ function CustomerInfoSection({
   )
 }
 
-function AuthenticatedPage({ user }: { user: User }) {
-  const { data, isLoading, isError } = api.customerInfo.get.useQuery()
-
+function AuthenticatedPage({
+  user,
+  customerInfo,
+}: {
+  user: User
+  customerInfo: CustomerInfo
+}) {
   return (
     <div className="grid grid-cols-[16rem_1fr]">
       <AccountPageSwitcher user={user} />
@@ -60,23 +64,7 @@ function AuthenticatedPage({ user }: { user: User }) {
         <h2 className="px-6 border-b border-stone-400 text-2xl font-semibold pb-3">
           My Account
         </h2>
-        {isLoading ? (
-          <p className="p-6">Loading customer ...</p>
-        ) : (
-          <>
-            {isError ? (
-              <>An error occured while loading customer information ...</>
-            ) : (
-              <>
-                {data === null ? (
-                  <>No customer information found.</>
-                ) : (
-                  <CustomerInfoSection user={user} customerInfo={data} />
-                )}
-              </>
-            )}
-          </>
-        )}
+        <CustomerInfoSection user={user} customerInfo={customerInfo} />
       </section>
     </div>
   )
@@ -86,7 +74,9 @@ export default function MyAccountPage() {
   return (
     <main className="max-w-7xl mx-auto w-full px-3 sm:px-6 py-4 sm:py-12">
       <ProtectedPage>
-        {(user) => <AuthenticatedPage user={user} />}
+        {({ user, customerInfo }) => (
+          <AuthenticatedPage user={user} customerInfo={customerInfo} />
+        )}
       </ProtectedPage>
     </main>
   )

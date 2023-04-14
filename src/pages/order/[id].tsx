@@ -737,7 +737,7 @@ export default function ViewOrderPage() {
   return (
     <main className="max-w-7xl mx-auto w-full px-3 sm:px-6 py-4 sm:py-12">
       <ProtectedPage>
-        {(user) => <AuthenticatedPage user={user} />}
+        {({ user }) => <AuthenticatedPage user={user} />}
       </ProtectedPage>
     </main>
   )
