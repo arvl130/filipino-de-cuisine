@@ -1,3 +1,4 @@
+import { updateProfile } from "@/server/auth"
 import { protectedProcedure, router } from "../trpc"
 import { z } from "zod"
 
@@ -15,6 +16,7 @@ export const customerInfoRouter = router({
   update: protectedProcedure
     .input(
       z.object({
+        displayName: z.string().min(1),
         dateOfBirth: z.string().regex(VALID_DATE_REGEX, {
           message: "Invalid date",
         }),
@@ -24,8 +26,8 @@ export const customerInfoRouter = router({
         }),
       })
     )
-    .mutation(({ input, ctx }) => {
-      return ctx.prisma.customerInfo.upsert({
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.customerInfo.upsert({
         where: {
           id: ctx.user.uid,
         },
@@ -40,6 +42,10 @@ export const customerInfoRouter = router({
           defaultContactNumber: input.defaultContactNumber,
           dateOfBirth: new Date(input.dateOfBirth),
         },
+      })
+
+      await updateProfile(ctx.user, {
+        displayName: input.displayName,
       })
     }),
 })

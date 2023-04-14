@@ -4,7 +4,12 @@ import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth"
+import {
+  signInWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth"
 import { useRouter } from "next/router"
 import { useState } from "react"
 
@@ -38,6 +43,7 @@ export default function SignInPage() {
             onSubmit={handleSubmit(async (formData) => {
               try {
                 setIsSigningIn(true)
+
                 const auth = getAuth()
                 await signInWithEmailAndPassword(
                   auth,
@@ -105,15 +111,30 @@ export default function SignInPage() {
           <form className="mb-3">
             <button
               type="submit"
-              className="w-full [background-color:_#3b5998] text-white font-semibold py-2 rounded-full mb-3"
+              className="bg-blue-600 hover:bg-blue-500 transition duration-200  rounded-full text-white font-semibold w-full py-2 mb-3"
             >
               Sign In with Facebook
             </button>
             <button
-              type="submit"
-              className="w-full [background-color:_#ea4335] text-white font-semibold py-2 rounded-full"
+              type="button"
+              disabled={isSigningIn}
+              className="bg-red-600 hover:bg-red-500 disabled:bg-red-400 transition duration-200 rounded-full text-white font-semibold w-full py-2"
+              onClick={async () => {
+                try {
+                  setIsSigningIn(true)
+
+                  const auth = getAuth()
+                  const provider = new GoogleAuthProvider()
+
+                  await signInWithPopup(auth, provider)
+                  router.push("/account")
+                } catch (e) {
+                  setIsSigningIn(false)
+                  console.log("Unhandled error:", e)
+                }
+              }}
             >
-              Sign In with Google
+              {isSigningIn ? <>Signing in ...</> : <>Sign In with Google</>}
             </button>
           </form>
           <p className="text-stone-500 text-center">

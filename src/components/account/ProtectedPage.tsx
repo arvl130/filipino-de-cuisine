@@ -30,7 +30,12 @@ export function ProtectedPage({
     if (router.isReady && !isLoadingSession) {
       if (isAuthenticated) {
         if (!isLoadingCustomerInfo && !customerInfo)
-          router.push("/account/fill-in-profile")
+          router.push({
+            pathname: "/account/fill-in-profile",
+            query: {
+              returnUrl: router.pathname,
+            },
+          })
       } else {
         router.push("/signin")
       }

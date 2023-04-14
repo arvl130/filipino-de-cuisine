@@ -1,5 +1,5 @@
 import { getApps, getApp, initializeApp, cert } from "firebase-admin/app"
-import { getAuth } from "firebase-admin/auth"
+import { UserRecord, getAuth } from "firebase-admin/auth"
 import { GetServerSidePropsContext } from "next"
 
 const {
@@ -29,6 +29,22 @@ const app =
     : getApp()
 
 const auth = getAuth(app)
+
+export async function updateProfile(
+  user: UserRecord,
+  {
+    displayName,
+    photoURL,
+  }: {
+    displayName?: string | null
+    photoURL?: string | null
+  }
+) {
+  await auth.updateUser(user.uid, {
+    displayName,
+    photoURL,
+  })
+}
 
 export async function getServerSession({
   req,
