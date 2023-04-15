@@ -1,6 +1,6 @@
 import { CircledArrowLeft } from "@/components/HeroIcons"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
-import { PaymentIntent } from "@/server/payment-gateway"
+import { LoadingSpinner } from "@/components/loading"
 import { api } from "@/utils/api"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { OnlineOrder, Order, OrderItem } from "@prisma/client"
@@ -38,7 +38,7 @@ function SourceStatus({
     resolver: zodResolver(paymentMethodSchema),
   })
 
-  if (isLoading) return <div>Loading ...</div>
+  if (isLoading) return <LoadingSpinner />
   if (isError) return <div>An error occured.</div>
   if (!data) return <div>No source found.</div>
 
@@ -131,7 +131,7 @@ function PaymentIntentStatus({ id, orderId }: { id: string; orderId: number }) {
     resolver: zodResolver(paymentMethodSchema),
   })
 
-  if (isLoading) return <div>Loading ...</div>
+  if (isLoading) return <LoadingSpinner />
   if (isError) return <div>An error occured</div>
   if (!data) return <div>No payment intent found.</div>
 
@@ -533,14 +533,14 @@ export function OrderItemsSectionItem({
   if (isLoading)
     return (
       <article className="h-36 flex justify-center items-center">
-        Loading ...
+        <LoadingSpinner />
       </article>
     )
 
   if (isError)
     return (
       <article className="h-36 flex justify-center items-center">
-        Loading ...
+        <LoadingSpinner />
       </article>
     )
 
@@ -697,7 +697,7 @@ function DeliveryStatus() {
       <p className="px-12">Order ID: {query.id}</p>
 
       {isLoading ? (
-        <>Loading ...</>
+        <LoadingSpinner />
       ) : (
         <>
           {isError ? (
@@ -732,7 +732,7 @@ function AuthenticatedPage({ user }: { user: User }) {
     }
   )
 
-  if (isLoading) return <div>Loading ...</div>
+  if (isLoading) return <LoadingSpinner />
   if (isError) return <div>An error occured</div>
   if (!data) return <div>No order found.</div>
 
