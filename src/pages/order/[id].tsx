@@ -540,7 +540,7 @@ export function OrderItemsSectionItem({
   if (isError)
     return (
       <article className="h-36 flex justify-center items-center">
-        <LoadingSpinner />
+        An error occured while loading menu item.
       </article>
     )
 

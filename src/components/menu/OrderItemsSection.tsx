@@ -2,6 +2,7 @@ import { useBasketStore } from "@/stores/basket"
 import { api } from "@/utils/api"
 import Image from "next/image"
 import { CrossMark } from "../HeroIcons"
+import { LoadingSpinner } from "../loading"
 
 function OrderItemsSectionItem({
   selectedItem,
@@ -21,14 +22,14 @@ function OrderItemsSectionItem({
   if (isLoading)
     return (
       <article className="h-36 flex justify-center items-center">
-        Loading ...
+        <LoadingSpinner />
       </article>
     )
 
   if (isError)
     return (
       <article className="h-36 flex justify-center items-center">
-        Loading ...
+        An error occured while loading menu item.
       </article>
     )
 
