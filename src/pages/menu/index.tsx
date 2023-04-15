@@ -1,4 +1,5 @@
 import { Basket } from "@/components/HeroIcons"
+import { LoadingSpinner } from "@/components/loading"
 import { MenuItem as MenuPageSectionItem } from "@/components/menu/MenuItem"
 import { api } from "@/utils/api"
 import { MenuItem } from "@prisma/client"
@@ -85,9 +86,11 @@ export default function MenuPage() {
   const { data, isError, isLoading } = api.menuItem.getAll.useQuery()
 
   return (
-    <main className="max-w-6xl mx-auto w-full px-6 py-12">
+    <main className="max-w-6xl mx-auto w-full px-6 py-12 h-[calc(100svh_-_4rem)]">
       {isLoading ? (
-        <>Loading ...</>
+        <div className="h-full flex justify-center items-center">
+          <LoadingSpinner />
+        </div>
       ) : (
         <>
           {isError ? (
