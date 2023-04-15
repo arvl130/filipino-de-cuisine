@@ -1,96 +1,88 @@
 import Image from "next/image"
 import Head from "next/head"
 
- function AboutSection() {
+function AboutSection() {
   return (
-  <section className="about">
+    <section className="about">
       <div className="description">
         <div className="aboutus">
-        <h1>about us</h1>
-        <br></br>
+          <h1>about us</h1>
+          <br></br>
           <p>
-        Welcome to Filipino de Cuisine Restaurant, where we offer a unique dining experience that 
-        showcases the flavors of Filipino cuisine. Our restaurant is dedicated to providing delicious, 
-        high-quality food that is made with fresh ingredients and authentic Filipino recipes.
-        </p>
+            Welcome to Filipino de Cuisine Restaurant, where we offer a unique
+            dining experience that showcases the flavors of Filipino cuisine.
+            Our restaurant is dedicated to providing delicious, high-quality
+            food that is made with fresh ingredients and authentic Filipino
+            recipes.
+          </p>
 
-        <h2> Filipino </h2>
+          <h2> Filipino </h2>
         </div>
 
         <div className="background">
-        <div className="image">
-        <Image
-          src="/assets/ABOUT/PLATE DESIGN.png"
-          width={350}
-          height={350}
-          alt="Palabok"
-        />
-         </div>
+          <div className="image">
+            <Image
+              src="/assets/about/PLATE DESIGN.png"
+              width={350}
+              height={350}
+              alt="Palabok"
+            />
+          </div>
 
-        <div className="food">
-        <h1>food</h1>
-     </div>
-      
+          <div className="food">
+            <h1>food</h1>
+          </div>
+        </div>
       </div>
-      </div>
-    
-
-      
-      
     </section>
-  ) 
-  
-  
-  
+  )
 }
 
 function DescriptionSection() {
   return (
     <section className="description">
       <div className="second">
-    <div className="image">
-    <Image
-          src="/assets/ABOUT/IMAGE.jpg"
-          width={609}
-          height={500}
-          alt="Palabok"
-        />
-      </div>
-     
-      <div className="paragraph">
-      
-      <p>
-      Our team is passionate about food and creating memorable dining experiences for our customers. 
-      Our chefs have years of experience in preparing Filipino dishes, and they bring that expertise
-      to our restaurant. We believe that food is more than just sustenance - it is a way to connect
-      with others and experience new cultures.
-      <br></br> <br></br>
-      At Filipino de Cuisine Restaurant, we strive to create an atmosphere that is welcoming and warm.
-      We want our customers to feel like they are part of our family when they visit us. We take pride 
-       in providing exceptional customer service and ensuring that every customer leaves satisfied.
-        </p>
-        
+        <div className="image">
+          <Image
+            src="/assets/about/IMAGE.jpg"
+            width={609}
+            height={500}
+            alt="Palabok"
+          />
+        </div>
 
-
-
+        <div className="paragraph">
+          <p>
+            Our team is passionate about food and creating memorable dining
+            experiences for our customers. Our chefs have years of experience in
+            preparing Filipino dishes, and they bring that expertise to our
+            restaurant. We believe that food is more than just sustenance - it
+            is a way to connect with others and experience new cultures.
+            <br></br> <br></br>
+            At Filipino de Cuisine Restaurant, we strive to create an atmosphere
+            that is welcoming and warm. We want our customers to feel like they
+            are part of our family when they visit us. We take pride in
+            providing exceptional customer service and ensuring that every
+            customer leaves satisfied.
+          </p>
+        </div>
       </div>
-      </div>
-      </section>
+    </section>
   )
 }
-
 
 function LastSection() {
   return (
     <section className="last">
       <div className="description">
-      <p>Our menu features a variety of Filipino dishes, including classic favorites like adobo, 
-        sinigang, and lechon, as well as unique dishes that showcase the diversity of Filipino cuisine. 
-        We use only the freshest ingredients and traditional cooking techniques to ensure that our dishes
-        are authentic and delicious.</p>
+        <p>
+          Our menu features a variety of Filipino dishes, including classic
+          favorites like adobo, sinigang, and lechon, as well as unique dishes
+          that showcase the diversity of Filipino cuisine. We use only the
+          freshest ingredients and traditional cooking techniques to ensure that
+          our dishes are authentic and delicious.
+        </p>
       </div>
-      
-      
     </section>
   )
 }
@@ -109,14 +101,8 @@ export default function about() {
           <AboutSection />
           <DescriptionSection />
           <LastSection />
-         
         </main>
       </div>
     </>
   )
 }
-
-
-
-
-  
