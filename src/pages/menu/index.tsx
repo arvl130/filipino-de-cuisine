@@ -86,7 +86,7 @@ export default function MenuPage() {
   const { data, isError, isLoading } = api.menuItem.getAll.useQuery()
 
   return (
-    <main className="max-w-6xl mx-auto w-full px-6 py-12 h-[calc(100svh_-_4rem)]">
+    <main className="max-w-6xl mx-auto w-full px-6 py-12 min-h-[calc(100svh_-_4rem)]">
       {isLoading ? (
         <div className="h-full flex justify-center items-center">
           <LoadingSpinner />
