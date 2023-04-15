@@ -2,6 +2,7 @@ import { api } from "@/utils/api"
 import { useSession } from "@/utils/auth"
 import { useRouter } from "next/router"
 import { ReactNode, useEffect } from "react"
+import { LoadingSpinner } from "../loading"
 
 export function SignInSignUpRedirector({ children }: { children: ReactNode }) {
   const router = useRouter()
@@ -58,6 +59,6 @@ export function SignInSignUpRedirector({ children }: { children: ReactNode }) {
     router,
   ])
 
-  if (isLoadingSession) return <>Loading session ...</>
+  if (isLoadingSession) return <LoadingSpinner />
   return <>{children}</>
 }

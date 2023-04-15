@@ -4,6 +4,7 @@ import { CustomerInfo } from "@prisma/client"
 import { User } from "firebase/auth"
 import { useRouter } from "next/router"
 import { ReactNode, useEffect } from "react"
+import { LoadingSpinner } from "../loading"
 
 export function ProtectedPage({
   children,
@@ -48,17 +49,16 @@ export function ProtectedPage({
     customerInfo,
   ])
 
-  if (isLoadingSession) return <p>Loading ...</p>
-  if (!isAuthenticated) return <></>
+  if (isLoadingSession || !isAuthenticated) return <LoadingSpinner />
   if (!user)
     return (
       <p>Invalid state reached. Authenticated, but no session was found.</p>
     )
 
-  if (isLoadingCustomerInfo) return <p>Loading ...</p>
+  if (isLoadingCustomerInfo) return <LoadingSpinner />
   if (isErrorCustomerInfo)
     return <p>An error occured while retrieving profile.</p>
-  if (!customerInfo) return <></>
+  if (!customerInfo) return <LoadingSpinner />
 
   return <>{children({ user, customerInfo })}</>
 }

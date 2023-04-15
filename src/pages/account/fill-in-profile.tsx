@@ -9,6 +9,7 @@ import { ReactNode, useEffect, useState } from "react"
 import { CustomerInfo } from "@prisma/client"
 import { useSession } from "@/utils/auth"
 import { getAuth } from "firebase/auth"
+import { LoadingSpinner } from "@/components/loading"
 
 export function ProtectedPage({
   children,
@@ -57,14 +58,13 @@ export function ProtectedPage({
     customerInfo,
   ])
 
-  if (isLoadingSession) return <p>Loading ...</p>
-  if (!isAuthenticated) return <></>
+  if (isLoadingSession && !isAuthenticated) return <LoadingSpinner />
   if (!user)
     return (
       <p>Invalid state reached. Authenticated, but no session was found.</p>
     )
 
-  if (isLoadingCustomerInfo) return <p>Loading ...</p>
+  if (isLoadingCustomerInfo) return <LoadingSpinner />
   if (isErrorCustomerInfo)
     return <p>An error occured while loading your profile.</p>
 
@@ -114,7 +114,7 @@ function AuthenticatedPage({
     onError: () => setIsUpdatingProfile(false),
   })
 
-  if (customerInfo) return <></>
+  if (customerInfo) return <LoadingSpinner />
 
   return (
     <div className="[box-shadow:_0px_1px_4px_1px_rgba(0,_0,_0,_0.25)] rounded-2xl shadow-md px-8 py-6 max-w-2xl mx-auto grid grid-cols-[1fr_14rem]">
