@@ -29,10 +29,8 @@ export default async function handler(
     })
 
     if (!onlineOrder) {
-      // Keep this on status 200 for now, so that we don't accidentally
-      // cause the web hook to keep pinging here when no order is found.
-      res.json({
-        message: "Could not find",
+      res.status(404).json({
+        message: "No such order for given payment",
       })
       return
     }
