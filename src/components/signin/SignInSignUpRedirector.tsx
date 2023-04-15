@@ -59,6 +59,6 @@ export function SignInSignUpRedirector({ children }: { children: ReactNode }) {
     router,
   ])
 
-  if (isLoadingSession) return <LoadingSpinner />
+  if (isLoadingSession || isAuthenticated) return <LoadingSpinner />
   return <>{children}</>
 }
