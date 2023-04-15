@@ -32,9 +32,30 @@ export function ProtectedPage({
   })
 
   useEffect(() => {
-    if (router.isReady && !isLoadingSession && !isAuthenticated)
-      router.push("/signin")
-  }, [router, isLoadingSession, isAuthenticated])
+    if (!isLoadingSession) {
+      if (isAuthenticated) {
+        if (!isLoadingCustomerInfo && !isErrorCustomerInfo && customerInfo) {
+          const { returnUrl } = router.query
+          if (typeof returnUrl === "string") {
+            router.push({
+              pathname: returnUrl,
+            })
+            return
+          }
+          router.push("/account")
+        }
+      } else {
+        router.push("/signin")
+      }
+    }
+  }, [
+    router,
+    isLoadingSession,
+    isAuthenticated,
+    isLoadingCustomerInfo,
+    isErrorCustomerInfo,
+    customerInfo,
+  ])
 
   if (isLoadingSession) return <p>Loading ...</p>
   if (!isAuthenticated) return <></>
@@ -73,7 +94,6 @@ function AuthenticatedPage({
   user: User
   customerInfo: CustomerInfo | null
 }) {
-  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -94,22 +114,7 @@ function AuthenticatedPage({
     onError: () => setIsUpdatingProfile(false),
   })
 
-  // If the customer profile is available, redirect to the Account page.
-  useEffect(() => {
-    if (customerInfo) {
-      const { returnUrl } = router.query
-      if (typeof returnUrl === "string") {
-        router.push({
-          pathname: returnUrl,
-        })
-        return
-      }
-
-      router.push("/account")
-    }
-  }, [customerInfo, router])
-
-  if (customerInfo) return <>Loading ...</>
+  if (customerInfo) return <></>
 
   return (
     <div className="[box-shadow:_0px_1px_4px_1px_rgba(0,_0,_0,_0.25)] rounded-2xl shadow-md px-8 py-6 max-w-2xl mx-auto grid grid-cols-[1fr_14rem]">
