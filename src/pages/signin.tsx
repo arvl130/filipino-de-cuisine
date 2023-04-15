@@ -8,6 +8,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  FacebookAuthProvider,
 } from "firebase/auth"
 import { useState } from "react"
 import { SignInSignUpSwitcher } from "@/components/signin/SignInSignUpSwitcher"
@@ -104,10 +105,24 @@ export default function SignInPage() {
             </div>
             <form className="mb-3">
               <button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-500 transition duration-200  rounded-full text-white font-semibold w-full py-2 mb-3"
+                type="button"
+                disabled={isSigningIn}
+                className="bg-blue-600 hover:bg-blue-500 disabled:bg-blue-400 transition duration-200  rounded-full text-white font-semibold w-full py-2 mb-3"
+                onClick={async () => {
+                  try {
+                    setIsSigningIn(true)
+
+                    const auth = getAuth()
+                    const provider = new FacebookAuthProvider()
+
+                    await signInWithPopup(auth, provider)
+                  } catch (e) {
+                    setIsSigningIn(false)
+                    console.log("Unhandled error:", e)
+                  }
+                }}
               >
-                Sign In with Facebook
+                {isSigningIn ? <>Signing in ...</> : <>Sign In with Facebook</>}
               </button>
               <button
                 type="button"
