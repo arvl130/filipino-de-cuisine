@@ -107,10 +107,15 @@ const paymentMethodSchema = z.object({
 
 type paymentMethodType = z.infer<typeof paymentMethodSchema>
 
-function PaymentIntentStatus({ id }: { id: string }) {
+function PaymentIntentStatus({ id, orderId }: { id: string; orderId: number }) {
   const { data, isLoading, isError, refetch } =
     api.payment.getPaymentIntent.useQuery({
       id,
+    })
+
+  const { refetch: refetchOrder, isRefetching } =
+    api.onlineOrder.getOne.useQuery({
+      id: orderId,
     })
 
   const { mutate: refreshPaymentIntent } =
@@ -135,9 +140,17 @@ function PaymentIntentStatus({ id }: { id: string }) {
       <h2 className="font-semibold text-2xl mb-3">Payment Status</h2>
       <div className="max-w-xl mx-auto bg-stone-100 px-6 py-4 rounded-lg">
         {data.data.attributes.status === "succeeded" && (
-          <p className="text-center">
-            Payment succeeded. Try refreshing this page.
-          </p>
+          <div className="text-center">
+            <p className="mb-1">Payment succeeded. Try refreshing this page.</p>
+            <button
+              type="button"
+              disabled={isRefetching}
+              className="px-4 pb-2 pt-3 w-32 bg-blue-500 hover:bg-blue-400 disabled:bg-blue-300 transition duration-200 text-white font-medium rounded-md inline-block"
+              onClick={() => refetchOrder()}
+            >
+              {isRefetching ? <>Refreshing ...</> : <>Refresh</>}
+            </button>
+          </div>
         )}
         {data.data.attributes.status === "processing" && (
           <p className="text-center">
@@ -726,7 +739,7 @@ function AuthenticatedPage({ user }: { user: User }) {
   return (
     <div>
       {data.order.paymentStatus === "Pending" && (
-        <PaymentIntentStatus id={data.paymentIntentId} />
+        <PaymentIntentStatus id={data.paymentIntentId} orderId={data.id} />
       )}
       {data.order.paymentStatus === "Fulfilled" && <DeliveryStatus />}
     </div>
