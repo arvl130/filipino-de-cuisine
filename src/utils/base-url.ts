@@ -3,6 +3,10 @@ export function getBaseUrl() {
     // browser should use relative path
     return ""
 
+  if (process.env.BASE_URL)
+    // defined in environment variables
+    return `https://${process.env.BASE_URL}`
+
   if (process.env.VERCEL_URL)
     // reference for vercel.com
     return `https://${process.env.VERCEL_URL}`
