@@ -249,3 +249,162 @@ section.last div.description p{
     background: linear-gradient(180deg, #10B981 0%, rgba(16, 185, 129, 0.7) 25%, rgba(16, 185, 129, 0) 100%);
 
 }
+
+/*CONTACT*/
+
+section.contact-us div.contact{
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+}
+
+section.contact-us div.contact div.contactus h6{
+    padding-top: 5rem;
+padding-left: 7rem;
+font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 32px;
+color: #000000;
+}
+
+section.contact-us div.contact div.contactus h1{
+padding-left: 7rem;
+font-style: normal;
+font-weight: 700;
+font-size: 40px;
+line-height: 64px;
+color: #000000;
+}
+
+section.contact-us div.contact div.contactus p{
+    padding-left: 7rem;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 32px;
+    
+    color: #000000;
+}
+
+section.contact-us div.contact div.details{
+padding-top: 1rem;
+grid-template-columns: 95px 450px;
+display: grid;
+
+}
+
+section.contact-us div.contact div.details div.bg{
+padding-left: 7rem;
+padding-top: 2rem;
+}
+
+section.contact-us div.contact div.details div.img{
+    padding-left: 1.5rem;
+    padding-top: 1.5rem;
+width: 95px;
+height: 95px;
+left: 140px;
+top: 348px;
+
+background: #000000;
+box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+border-radius: 5px;
+}
+
+section.contact-us div.contact div.details div.location h1{
+    padding-top: 3rem;
+padding-left: 8rem;
+font-style: normal;
+font-weight: 600;
+font-size: 22px;
+line-height: 35px;
+
+color: #000000;
+
+}
+
+section.contact-us div.contact div.details div.location p{
+    padding-left: 8rem;
+    font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 32px;
+
+color: #000000;
+}
+
+section.contact-us div.contact div.form{
+padding-top: 8rem;
+padding-bottom: 8rem;
+
+}
+
+section.contact-us div.contact div.form div.contactform{
+width: 526px;
+height: 556px;
+left: 768px;
+top: 187px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+}
+
+section.contact-us div.contact div.form div.contactform form.textbox{
+    padding-top: 3rem;
+    padding-left: 3rem;
+font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 32px;
+color: #000000;
+}
+
+section.contact-us div.contact div.form div.contactform form.textbox input.name{
+    padding-top: 1rem;
+    width: 419px;
+    height: 50px;
+    left: 821px;
+    top: 279px;
+    
+    background: #F5F5F5;
+    border-radius: 5px;
+}
+
+section.contact-us div.contact div.form div.contactform form.textbox input.email{
+width: 419px;
+height: 50px;
+left: 821px;
+top: 395px;
+
+background: #F5F5F5;
+border-radius: 5px;
+}
+
+section.contact-us div.contact div.form div.contactform form.textbox input.message{
+width: 419px;
+height: 112px;
+left: 821px;
+top: 511px;
+
+background: #F5F5F5;
+border-radius: 5px;
+}
+
+section.contact-us div.contact div.form div.contactform button{
+width: 419px;
+height: 50px;
+left: 821px;
+top: 647px;
+
+background: #10B981;
+border-radius: 5px;
+}
+section.contact-us div.contact div.form div.contactform button h4{
+font-style: normal;
+font-weight: 700;
+font-size: 25px;
+line-height: 35px;
+text-align: center;
+
+color: #FFFFFF;
+}
