@@ -243,6 +243,10 @@ function Footer() {
         <li>
           <Link href="/terms-and-conditions">Legal Terms</Link>
         </li>
+        •
+        <li>
+          <Link href="/faq">FAQs</Link>
+        </li>
       </ul>
       <ul className="md:hidden text-center font-semibold py-3">
         <li>
@@ -259,6 +263,9 @@ function Footer() {
         </li>
         <li className="mt-1">
           <Link href="/contact">Contact</Link>
+        </li>
+        <li className="mt-1">
+          <Link href="/faq">FAQs</Link>
         </li>
         <li className="mt-1">
           <Link href="/terms-and-conditions">Legal Terms</Link>
