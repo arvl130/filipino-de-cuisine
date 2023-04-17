@@ -2,409 +2,395 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /*terms-and-condition Page*/
 section.terms-and-condition-header div.header {
-height: 300px;
-grid-template-columns: 6fr 1fr;
-display: grid;
-background: #10B981;
-
+  height: 300px;
+  grid-template-columns: 6fr 1fr;
+  display: grid;
+  background: #10b981;
 }
 
 section.terms-and-condition-header div.header h1 {
-   
-padding-left: 9rem;
-font-style: normal;
-font-weight: 700;
-font-size: 40px;
-line-height: 64px;
+  padding-left: 9rem;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 64px;
 
-
-color: #FFFFFF;
-
-
+  color: #ffffff;
 }
 
 section.terms-and-condition-header div.header h4 {
-   
-padding-left: 9rem;
-padding-top: 5rem;
-font-style: normal;
-font-weight: 600;
-font-size: 23px;
-line-height: 37px;
-color: #FFFFFF;
-
-
+  padding-left: 9rem;
+  padding-top: 5rem;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 23px;
+  line-height: 37px;
+  color: #ffffff;
 }
 
 section.terms-and-condition-header div.header p {
+  padding-left: 9rem;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 32px;
 
-padding-left: 9rem;
-font-style: normal;
-font-weight: 600;
-font-size: 20px;
-line-height: 32px;
-
-color: #FFFFFF;
-
+  color: #ffffff;
 }
 
 section.terms-and-condition-header div.header div.image {
-    padding-top: 8rem;
-    padding-left: 4rem;
+  padding-top: 8rem;
+  padding-left: 4rem;
 }
 
-section.terms-and-condition-header div.description p{
+section.terms-and-condition-header div.description p {
+  padding-top: 5rem;
+  padding-left: 11rem;
+  padding-right: 9rem;
+  padding-bottom: 5rem;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 32px;
 
-padding-top: 5rem;
-padding-left: 11rem;
-padding-right: 9rem;
-padding-bottom: 5rem;
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 32px;
-
-color: #000000;
+  color: #000000;
 }
 
 /*Privacy Page*/
 
 section.privacy div.header {
-height: 300px;
-grid-template-columns: 1fr 11fr;
-display: grid;
-background: #10B981;
+  height: 300px;
+  grid-template-columns: 1fr 11fr;
+  display: grid;
+  background: #10b981;
 }
 
 section.privacy div.header h4 {
-    padding-left: 3rem;
-    padding-top: 5rem;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 23px;
-    line-height: 37px;
-    color: #FFFFFF;
+  padding-left: 3rem;
+  padding-top: 5rem;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 23px;
+  line-height: 37px;
+  color: #ffffff;
 }
 
 section.privacy div.header h1 {
-    padding-left: 3rem;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 40px;
-    line-height: 64px;
-    color: #FFFFFF;
+  padding-left: 3rem;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 64px;
+  color: #ffffff;
 }
 
 section.privacy div.header p {
-    padding-left: 3rem;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 32px;
-    color: #FFFFFF;
+  padding-left: 3rem;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 32px;
+  color: #ffffff;
 }
 
-section.privacy div.description h6{
-padding-left: 10rem;
-padding-right:9rem;
-padding-top:5rem;
-padding-bottom: 5rem;
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 32px;
+section.privacy div.description h6 {
+  padding-left: 10rem;
+  padding-right: 9rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 32px;
 
-color: #000000;
+  color: #000000;
 }
 
 section.privacy div.description p {
-    padding-left: 11rem;
-    padding-right: 9rem;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 32px;
-    
-    color: #000000;
+  padding-left: 11rem;
+  padding-right: 9rem;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 32px;
+
+  color: #000000;
 }
 
-
-section.privacy div.header div.image{
-    padding-top: 8rem;
-    padding-left: 4rem;
-
+section.privacy div.header div.image {
+  padding-top: 8rem;
+  padding-left: 4rem;
 }
 
 /*ABOUT*/
 
 section.about div.description {
-    grid-template-columns: 1fr 1fr;
-    display: grid;
+  grid-template-columns: 1fr 1fr;
+  display: grid;
 }
 
 section.about div.description div.aboutus h1 {
-padding-left: 5rem;
-padding-top:  5rem;
-font-style: normal;
-font-weight: 700;
-font-size: 40px;
-line-height: 64px;
+  padding-left: 5rem;
+  padding-top: 5rem;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 64px;
 
-text-align: justify;
-letter-spacing: 0.1em;
+  text-align: justify;
+  letter-spacing: 0.1em;
 
-color: #000000;
+  color: #000000;
 }
 
-section.about div.description div.aboutus p{
-padding-left: 5rem;
-padding-right: 5rem;
-font-style: normal;
-font-weight: 500;
-font-size: 20px;
-line-height: 32px;
-text-align: justify;
-letter-spacing: 0.1em;
+section.about div.description div.aboutus p {
+  padding-left: 5rem;
+  padding-right: 5rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+  text-align: justify;
+  letter-spacing: 0.1em;
 
-color: #342006;
+  color: #342006;
 }
 
-section.about div.description div.aboutus h2{
-    padding-left: 5rem;
-padding-top: 7rem;
-font-style: normal;
-font-weight: 900;
-font-size: 200px;
-line-height: 242px;
-color: rgba(16, 185, 129, 0.7);
+section.about div.description div.aboutus h2 {
+  padding-left: 5rem;
+  padding-top: 7rem;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 200px;
+  line-height: 242px;
+  color: rgba(16, 185, 129, 0.7);
 }
 
-section.about div.description div.background{
-    background: linear-gradient(180deg, #FFFFFF 0%, rgba(16, 185, 129, 0.7) 56.25%, #10B981 98.44%);
-
+section.about div.description div.background {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    rgba(16, 185, 129, 0.7) 56.25%,
+    #10b981 98.44%
+  );
 }
 
-section.about div.description div.background div.image{
-    padding-top: 3rem;
-    padding-left: 6rem;
+section.about div.description div.background div.image {
+  padding-top: 3rem;
+  padding-left: 6rem;
 }
-
 
 section.about div.description div.background div.food {
-padding-top: 2rem;
-font-style: normal;
-font-weight: 900;
-font-size: 200px;
-line-height: 242px;
-color: #FFFFFF;
+  padding-top: 2rem;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 200px;
+  line-height: 242px;
+  color: #ffffff;
 }
 
-section.description div.second{
-    grid-template-columns: 1fr 1fr;
-    display: grid;
+section.description div.second {
+  grid-template-columns: 1fr 1fr;
+  display: grid;
 }
 
-section.description div.second div.image{
-    padding-top: 5rem;
-    padding-left: 5rem;
+section.description div.second div.image {
+  padding-top: 5rem;
+  padding-left: 5rem;
 }
 
-section.description div.second div.paragraph{
-padding-left: 2rem;
-padding-top: 10rem;
-padding-right: 3rem;
-font-style: normal;
-font-weight: 500;
-font-size: 20px;
-line-height: 32px;
-text-align: justify;
-letter-spacing: 0.1em;
+section.description div.second div.paragraph {
+  padding-left: 2rem;
+  padding-top: 10rem;
+  padding-right: 3rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+  text-align: justify;
+  letter-spacing: 0.1em;
 
-color: #000000;
+  color: #000000;
 }
 
-section.last div.description{
-    padding-left: 5rem;
-    padding-top: 5rem;
-    padding-right: 3rem;
-    padding-bottom: 5rem;
-    background: white;
+section.last div.description {
+  padding-left: 5rem;
+  padding-top: 5rem;
+  padding-right: 3rem;
+  padding-bottom: 5rem;
+  background: white;
 }
-section.last div.description p{
-    padding-left: 5rem;
-    padding-top: 5rem;
-    padding-right: 5rem;
-    padding-bottom: 5rem;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 32px;
-    text-align: justify;
-    letter-spacing: 0.1em;
-    
-    color: #000000;
-    background: linear-gradient(180deg, #10B981 0%, rgba(16, 185, 129, 0.7) 25%, rgba(16, 185, 129, 0) 100%);
+section.last div.description p {
+  padding-left: 5rem;
+  padding-top: 5rem;
+  padding-right: 5rem;
+  padding-bottom: 5rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+  text-align: justify;
+  letter-spacing: 0.1em;
 
+  color: #000000;
+  background: linear-gradient(
+    180deg,
+    #10b981 0%,
+    rgba(16, 185, 129, 0.7) 25%,
+    rgba(16, 185, 129, 0) 100%
+  );
 }
 
 /*CONTACT*/
 
-section.contact-us div.contact{
-    grid-template-columns: 1fr 1fr;
-    display: grid;
+section.contact-us div.contact {
+  grid-template-columns: 1fr 1fr;
+  display: grid;
 }
 
-section.contact-us div.contact div.contactus h6{
-    padding-top: 5rem;
-padding-left: 7rem;
-font-style: normal;
-font-weight: 500;
-font-size: 20px;
-line-height: 32px;
-color: #000000;
+section.contact-us div.contact div.contactus h6 {
+  padding-top: 5rem;
+  padding-left: 7rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+  color: #000000;
 }
 
-section.contact-us div.contact div.contactus h1{
-padding-left: 7rem;
-font-style: normal;
-font-weight: 700;
-font-size: 40px;
-line-height: 64px;
-color: #000000;
+section.contact-us div.contact div.contactus h1 {
+  padding-left: 7rem;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 64px;
+  color: #000000;
 }
 
-section.contact-us div.contact div.contactus p{
-    padding-left: 7rem;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 32px;
-    
-    color: #000000;
+section.contact-us div.contact div.contactus p {
+  padding-left: 7rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+
+  color: #000000;
 }
 
-section.contact-us div.contact div.details{
-padding-top: 1rem;
-grid-template-columns: 95px 450px;
-display: grid;
-
+section.contact-us div.contact div.details {
+  padding-top: 1rem;
+  grid-template-columns: 95px 450px;
+  display: grid;
 }
 
-section.contact-us div.contact div.details div.bg{
-padding-left: 7rem;
-padding-top: 2rem;
+section.contact-us div.contact div.details div.bg {
+  padding-left: 7rem;
+  padding-top: 2rem;
 }
 
-section.contact-us div.contact div.details div.img{
-    padding-left: 1.5rem;
-    padding-top: 1.5rem;
-width: 95px;
-height: 95px;
-left: 140px;
-top: 348px;
+section.contact-us div.contact div.details div.img {
+  padding-left: 1.5rem;
+  padding-top: 1.5rem;
+  width: 95px;
+  height: 95px;
+  left: 140px;
+  top: 348px;
 
-background: #000000;
-box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
-border-radius: 5px;
+  background: #000000;
+  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
 }
 
-section.contact-us div.contact div.details div.location h1{
-    padding-top: 3rem;
-padding-left: 8rem;
-font-style: normal;
-font-weight: 600;
-font-size: 22px;
-line-height: 35px;
+section.contact-us div.contact div.details div.location h1 {
+  padding-top: 3rem;
+  padding-left: 8rem;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 35px;
 
-color: #000000;
-
+  color: #000000;
 }
 
-section.contact-us div.contact div.details div.location p{
-    padding-left: 8rem;
-    font-style: normal;
-font-weight: 500;
-font-size: 20px;
-line-height: 32px;
+section.contact-us div.contact div.details div.location p {
+  padding-left: 8rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
 
-color: #000000;
+  color: #000000;
 }
 
-section.contact-us div.contact div.form{
-padding-top: 8rem;
-padding-bottom: 8rem;
-
+section.contact-us div.contact div.form {
+  padding-top: 8rem;
+  padding-bottom: 8rem;
 }
 
-section.contact-us div.contact div.form div.contactform{
-width: 526px;
-height: 556px;
-left: 768px;
-top: 187px;
-    background: #FFFFFF;
-    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
-    border-radius: 25px;
+section.contact-us div.contact div.form div.contactform {
+  width: 526px;
+  height: 556px;
+  left: 768px;
+  top: 187px;
+  background: #ffffff;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
 }
 
-section.contact-us div.contact div.form div.contactform form.textbox{
-    padding-top: 3rem;
-    padding-left: 3rem;
-font-style: normal;
-font-weight: 500;
-font-size: 20px;
-line-height: 32px;
-color: #000000;
+section.contact-us div.contact div.form div.contactform form.textbox {
+  padding-top: 3rem;
+  padding-inline: 3rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+  color: #000000;
 }
 
-section.contact-us div.contact div.form div.contactform form.textbox input.name{
-    padding-top: 1rem;
-    width: 419px;
-    height: 50px;
-    left: 821px;
-    top: 279px;
-    
-    background: #F5F5F5;
-    border-radius: 5px;
+section.contact-us
+  div.contact
+  div.form
+  div.contactform
+  form.textbox
+  input.name {
+  padding-top: 1rem;
+  width: 419px;
+  height: 50px;
+  left: 821px;
+  top: 279px;
+
+  background: #f5f5f5;
+  border-radius: 5px;
 }
 
-section.contact-us div.contact div.form div.contactform form.textbox input.email{
-width: 419px;
-height: 50px;
-left: 821px;
-top: 395px;
+section.contact-us
+  div.contact
+  div.form
+  div.contactform
+  form.textbox
+  input.email {
+  width: 419px;
+  height: 50px;
+  left: 821px;
+  top: 395px;
 
-background: #F5F5F5;
-border-radius: 5px;
+  background: #f5f5f5;
+  border-radius: 5px;
 }
 
-section.contact-us div.contact div.form div.contactform form.textbox input.message{
-width: 419px;
-height: 112px;
-left: 821px;
-top: 511px;
+section.contact-us
+  div.contact
+  div.form
+  div.contactform
+  form.textbox
+  input.message {
+  width: 419px;
+  height: 112px;
+  left: 821px;
+  top: 511px;
 
-background: #F5F5F5;
-border-radius: 5px;
-}
-
-section.contact-us div.contact div.form div.contactform button{
-width: 419px;
-height: 50px;
-left: 821px;
-top: 647px;
-
-background: #10B981;
-border-radius: 5px;
-}
-section.contact-us div.contact div.form div.contactform button h4{
-font-style: normal;
-font-weight: 700;
-font-size: 25px;
-line-height: 35px;
-text-align: center;
-
-color: #FFFFFF;
+  background: #f5f5f5;
+  border-radius: 5px;
 }
