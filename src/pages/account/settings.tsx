@@ -65,19 +65,28 @@ function EditInformationForm({
       <label className="font-semibold">Contact number</label>
       <input
         type="text"
-        className="bg-neutral-100 rounded-md px-4 py-2 mb-3"
+        className="bg-neutral-100 rounded-md px-4 py-2"
         {...register("defaultContactNumber")}
       />
-      <label className="font-semibold">Address</label>
+      {errors.defaultContactNumber && (
+        <p className="text-red-600 mt-1">
+          {errors.defaultContactNumber.message}.
+        </p>
+      )}
+
+      <label className="font-semibold mt-3">Address</label>
       <input
         type="text"
-        className="bg-neutral-100 rounded-md px-4 py-2 mb-3"
+        className="bg-neutral-100 rounded-md px-4 py-2"
         {...register("defaultAddress")}
       />
+      {errors.defaultAddress && (
+        <p className="text-red-600 mt-1">{errors.defaultAddress.message}.</p>
+      )}
       <button
         type="submit"
         disabled={isLoading || !isDirty}
-        className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white font-semibold w-full py-2 rounded-md text-lg"
+        className="mt-3 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white font-semibold w-full py-2 rounded-md text-lg"
       >
         {isLoading ? <>Saving ...</> : <>Save</>}
       </button>
