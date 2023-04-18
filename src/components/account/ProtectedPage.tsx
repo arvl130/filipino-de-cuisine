@@ -6,6 +6,57 @@ import { useRouter } from "next/router"
 import { ReactNode, useEffect } from "react"
 import { LoadingSpinner } from "../loading"
 
+function IsAuthenticatedView({
+  children,
+}: {
+  children: (user: User) => ReactNode
+}) {
+  const router = useRouter()
+  const { isLoading, isAuthenticated, user } = useSession()
+
+  useEffect(() => {
+    if (router.isReady && !isLoading && !isAuthenticated) {
+      router.push("/signin")
+    }
+  }, [router, isLoading, isAuthenticated])
+
+  if (user === null) return <LoadingSpinner />
+
+  return <>{children(user)}</>
+}
+
+function HasCustomerInfoView({
+  children,
+}: {
+  user: User // This view requires the user to be present.
+  children: (customerInfo: CustomerInfo) => ReactNode
+}) {
+  const router = useRouter()
+  const { data, isLoading, isError } = api.customerInfo.get.useQuery(undefined)
+
+  useEffect(() => {
+    if (
+      router.isReady &&
+      !isLoading &&
+      !isError &&
+      (data === null || data === undefined)
+    ) {
+      router.push({
+        pathname: "/account/fill-in-profile",
+        query: {
+          returnUrl: router.pathname,
+        },
+      })
+    }
+  }, [router, isLoading, isError, data])
+
+  if (isLoading) return <LoadingSpinner />
+  if (isError) return <p>An error occured while retrieving profile.</p>
+  if (data === null || data === undefined) return <LoadingSpinner />
+
+  return <>{children(data)}</>
+}
+
 export function ProtectedPage({
   children,
 }: {
@@ -17,48 +68,20 @@ export function ProtectedPage({
     customerInfo: CustomerInfo
   }) => ReactNode
 }) {
-  const router = useRouter()
-  const { isLoading: isLoadingSession, isAuthenticated, user } = useSession()
-  const {
-    data: customerInfo,
-    isLoading: isLoadingCustomerInfo,
-    isError: isErrorCustomerInfo,
-  } = api.customerInfo.get.useQuery(undefined, {
-    enabled: user !== null,
-  })
-
-  useEffect(() => {
-    if (router.isReady && !isLoadingSession) {
-      if (isAuthenticated) {
-        if (!isLoadingCustomerInfo && !customerInfo)
-          router.push({
-            pathname: "/account/fill-in-profile",
-            query: {
-              returnUrl: router.pathname,
-            },
-          })
-      } else {
-        router.push("/signin")
-      }
-    }
-  }, [
-    router,
-    isLoadingSession,
-    isAuthenticated,
-    isLoadingCustomerInfo,
-    customerInfo,
-  ])
-
-  if (isLoadingSession || !isAuthenticated) return <LoadingSpinner />
-  if (!user)
-    return (
-      <p>Invalid state reached. Authenticated, but no session was found.</p>
-    )
-
-  if (isLoadingCustomerInfo) return <LoadingSpinner />
-  if (isErrorCustomerInfo)
-    return <p>An error occured while retrieving profile.</p>
-  if (!customerInfo) return <LoadingSpinner />
-
-  return <>{children({ user, customerInfo })}</>
+  return (
+    <IsAuthenticatedView>
+      {(user) => (
+        <HasCustomerInfoView user={user}>
+          {(customerInfo) => (
+            <>
+              {children({
+                user,
+                customerInfo,
+              })}
+            </>
+          )}
+        </HasCustomerInfoView>
+      )}
+    </IsAuthenticatedView>
+  )
 }
