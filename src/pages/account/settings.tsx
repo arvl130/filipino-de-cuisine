@@ -37,16 +37,18 @@ function EditInformationForm({
   defaultValues: EditInformationFormType
   reloadUser: () => Promise<void>
 }) {
-  const { refetch } = api.customerInfo.get.useQuery()
+  const apiContext = api.useContext()
   const { mutate: updateCustomerInfo, isLoading } =
     api.customerInfo.update.useMutation({
       onSuccess: async () => {
         await reloadUser()
-        refetch()
+        await apiContext.customerInfo.get.invalidate()
+        reset((formValues) => formValues)
       },
     })
 
   const {
+    reset,
     register,
     formState: { errors, isDirty },
     handleSubmit,
