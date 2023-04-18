@@ -7,9 +7,9 @@ import { User, signOut } from "firebase/auth"
 import { useRouter } from "next/router"
 import { ReactNode, useEffect, useState } from "react"
 import { CustomerInfo } from "@prisma/client"
-import { useSession } from "@/utils/auth"
 import { getAuth } from "firebase/auth"
 import { LoadingSpinner } from "@/components/loading"
+import { IsAuthenticatedView } from "@/components/account/ProtectedPage"
 
 export function ProtectedPage({
   children,
@@ -23,52 +23,29 @@ export function ProtectedPage({
   }) => ReactNode
 }) {
   const router = useRouter()
-  const { isLoading: isLoadingSession, isAuthenticated, user } = useSession()
-  const {
-    data: customerInfo,
-    isLoading: isLoadingCustomerInfo,
-    isError: isErrorCustomerInfo,
-  } = api.customerInfo.get.useQuery(undefined, {
-    enabled: user !== null,
-  })
+  const { data, isLoading, isError } = api.customerInfo.get.useQuery()
 
   useEffect(() => {
-    if (!isLoadingSession) {
-      if (isAuthenticated) {
-        if (!isLoadingCustomerInfo && !isErrorCustomerInfo && customerInfo) {
-          const { returnUrl } = router.query
-          if (typeof returnUrl === "string") {
-            router.push({
-              pathname: returnUrl,
-            })
-            return
-          }
-          router.push("/account")
-        }
-      } else {
-        router.push("/signin")
+    if (router.isReady && !isLoading && !isError && data) {
+      const { returnUrl } = router.query
+      if (typeof returnUrl === "string") {
+        router.push({
+          pathname: returnUrl,
+        })
+        return
       }
+      router.push("/account")
     }
-  }, [
-    router,
-    isLoadingSession,
-    isAuthenticated,
-    isLoadingCustomerInfo,
-    isErrorCustomerInfo,
-    customerInfo,
-  ])
+  }, [router, isLoading, isError, data])
 
-  if (isLoadingSession && !isAuthenticated) return <LoadingSpinner />
-  if (!user)
-    return (
-      <p>Invalid state reached. Authenticated, but no session was found.</p>
-    )
+  if (isLoading) return <LoadingSpinner />
+  if (isError) return <p>An error occured while loading your profile.</p>
 
-  if (isLoadingCustomerInfo) return <LoadingSpinner />
-  if (isErrorCustomerInfo)
-    return <p>An error occured while loading your profile.</p>
-
-  return <>{children({ user, customerInfo })}</>
+  return (
+    <IsAuthenticatedView>
+      {(user) => children({ user, customerInfo: data })}
+    </IsAuthenticatedView>
+  )
 }
 
 const VALID_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/

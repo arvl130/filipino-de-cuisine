@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import { ReactNode, useEffect } from "react"
 import { LoadingSpinner } from "../loading"
 
-function IsAuthenticatedView({
+export function IsAuthenticatedView({
   children,
 }: {
   children: (user: User) => ReactNode
@@ -32,7 +32,7 @@ function HasCustomerInfoView({
   children: (customerInfo: CustomerInfo) => ReactNode
 }) {
   const router = useRouter()
-  const { data, isLoading, isError } = api.customerInfo.get.useQuery(undefined)
+  const { data, isLoading, isError } = api.customerInfo.get.useQuery()
 
   useEffect(() => {
     if (
@@ -72,14 +72,12 @@ export function ProtectedPage({
     <IsAuthenticatedView>
       {(user) => (
         <HasCustomerInfoView user={user}>
-          {(customerInfo) => (
-            <>
-              {children({
-                user,
-                customerInfo,
-              })}
-            </>
-          )}
+          {(customerInfo) =>
+            children({
+              user,
+              customerInfo,
+            })
+          }
         </HasCustomerInfoView>
       )}
     </IsAuthenticatedView>
