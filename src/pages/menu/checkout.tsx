@@ -263,6 +263,43 @@ function AdditionalNotesSection() {
   )
 }
 
+function CheckoutModal({
+  cancelFn,
+  isLoading,
+}: {
+  cancelFn: () => void
+  isLoading: boolean
+}) {
+  return (
+    <div className="fixed inset-0 z-20 bg-black/20 flex justify-center items-center">
+      <div className="bg-white max-w-lg w-full rounded-2xl px-8 py-6">
+        <p className="text-justify mb-3">
+          The following action will create your order, and you will be
+          redirected to another page where you can fulfill your payment.
+          Continue?
+        </p>
+        <div className="flex justify-center gap-3">
+          <button
+            type="button"
+            className="px-6 pt-2 pb-1 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 disabled:text-emerald-300 disabled:border-emerald-300 hover:text-white transition duration-200 border-emerald-500 border rounded-md font-medium"
+            onClick={() => cancelFn()}
+            disabled={isLoading}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-6 pt-2 pb-1 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white rounded-md font-medium"
+            disabled={isLoading}
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const paymentMethodSchema = z.object({
   customerName: z.string().min(1),
   contactNumber: z.string().length(11),
@@ -289,6 +326,7 @@ function OrderSummarySection() {
   const {
     reset,
     register,
+    trigger,
     handleSubmit,
     formState: { errors },
   } = useForm<paymentMethodType>({
@@ -324,6 +362,8 @@ function OrderSummarySection() {
     orderDetails.additionalNotes,
     selectedItems,
   ])
+
+  const [isCheckoutModalVisible, setIsCheckoutModalVisible] = useState(false)
 
   if (isLoading)
     return (
@@ -424,12 +464,22 @@ function OrderSummarySection() {
 
       {selectedItems.length > 0 && (
         <button
-          type="submit"
-          disabled={isCreatingOrder}
+          type="button"
           className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white w-full rounded-md py-3 font-semibold text-xl"
+          onClick={async () => {
+            const isValid = await trigger()
+            if (isValid) setIsCheckoutModalVisible(true)
+          }}
         >
           Place Order
         </button>
+      )}
+
+      {isCheckoutModalVisible && (
+        <CheckoutModal
+          isLoading={isCreatingOrder}
+          cancelFn={() => setIsCheckoutModalVisible(false)}
+        />
       )}
     </form>
   )
