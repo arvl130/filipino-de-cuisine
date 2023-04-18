@@ -1,9 +1,41 @@
 import { User, getAuth, signOut } from "firebase/auth"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { useState } from "react"
+
+function LogoutModal({ closeModal }: { closeModal: () => void }) {
+  return (
+    <div className="fixed inset-0 z-20 bg-black/20 flex justify-center items-center">
+      <div className="bg-white max-w-xs w-full rounded-2xl px-8 py-6">
+        <p className="text-center mb-3">Are you sure you want to logout?</p>
+        <div className="flex justify-center gap-3">
+          <button
+            type="button"
+            className="px-6 pt-2 pb-1 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 hover:text-white transition duration-200 border-emerald-500 border rounded-md font-medium"
+            onClick={() => closeModal()}
+          >
+            No
+          </button>
+          <button
+            type="button"
+            className="px-6 pt-2 pb-1 bg-red-500 hover:bg-red-400 transition duration-200 text-white rounded-md font-medium"
+            onClick={() => {
+              const auth = getAuth()
+              signOut(auth)
+            }}
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function AccountPageSwitcher({ user }: { user: User }) {
   const { pathname } = useRouter()
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false)
+
   return (
     <aside>
       <p className="text-stone-500 pl-[calc(4px_+_0.5rem_+_1.5rem)] mb-6">
@@ -85,13 +117,17 @@ export function AccountPageSwitcher({ user }: { user: User }) {
           <button
             type="button"
             className="px-6 py-3 rounded-md hover:bg-neutral-200 text-left transition duration-200"
-            onClick={() => {
-              const auth = getAuth()
-              signOut(auth)
-            }}
+            onClick={() => setIsLogoutModalVisible(true)}
           >
             Logout
           </button>
+          {isLogoutModalVisible && (
+            <LogoutModal
+              closeModal={() => {
+                setIsLogoutModalVisible(false)
+              }}
+            />
+          )}
         </li>
       </ul>
     </aside>
