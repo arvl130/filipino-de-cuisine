@@ -148,6 +148,9 @@ function AuthenticatedPage({
                   {errors.dateOfBirth.message}.
                 </p>
               )}
+              <p className="text-stone-500 text-sm mt-1">
+                This cannot be changed later.
+              </p>
             </div>
             <div className="flex flex-col">
               <label htmlFor="" className="font-medium">
