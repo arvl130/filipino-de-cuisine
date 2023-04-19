@@ -77,6 +77,7 @@ function AuthenticatedPage({
     formState: { errors },
   } = useForm<formType>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
   })
 
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false)
