@@ -119,16 +119,16 @@ model OrderItem {
 }
 
 model MenuItem {
-    id               Int            @id @default(autoincrement())
-    name             String
-    description      String         @db.VarChar(500)
-    category         String
-    price            Decimal
-    isActive         Boolean
-    orderItems       OrderItem[]
-    imgUrl           String         @db.Text
-    DiscountItem     DiscountItem[]
-    ShoppingCartItem BasketItem[]
+    id            Int            @id @default(autoincrement())
+    name          String
+    description   String         @db.VarChar(500)
+    category      String
+    price         Decimal
+    isActive      Boolean
+    imgUrl        String         @db.Text
+    orderItems    OrderItem[]
+    discountItems DiscountItem[]
+    basketItems   BasketItem[]
 }
 
 model Reservation {
@@ -142,11 +142,11 @@ model Reservation {
 }
 
 model Discount {
-    id           Int            @id @default(autoincrement())
-    endAt        DateTime
-    startAt      DateTime
-    amount       Decimal
-    DiscountItem DiscountItem[]
+    id            Int            @id @default(autoincrement())
+    endAt         DateTime
+    startAt       DateTime
+    amount        Decimal
+    discountItems DiscountItem[]
 }
 
 model DiscountItem {
