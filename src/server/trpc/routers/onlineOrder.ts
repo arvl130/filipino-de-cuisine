@@ -10,6 +10,9 @@ import { TRPCError } from "@trpc/server"
 export const onlineOrderRouter = router({
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.onlineOrder.findMany({
+      where: {
+        customerId: ctx.user.uid,
+      },
       include: {
         order: {
           include: {
