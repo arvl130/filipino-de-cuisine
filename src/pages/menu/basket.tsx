@@ -6,6 +6,7 @@ import { CircledArrowLeft } from "@/components/HeroIcons"
 import { getQueryKey } from "@trpc/react-query"
 import { useIsMutating } from "@tanstack/react-query"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
+import { useOrderDetailsStore } from "@/stores/orderDetails"
 
 function OrderSummarySection() {
   const {
@@ -17,6 +18,8 @@ function OrderSummarySection() {
 
   const deleteMutationKey = getQueryKey(api.basketItem.delete)
   const runningDeleteMutations = useIsMutating(deleteMutationKey)
+
+  const { selectedMenuItemIds } = useOrderDetailsStore()
 
   if (isLoading)
     return (
@@ -31,7 +34,10 @@ function OrderSummarySection() {
       </section>
     )
 
-  const subTotal = basketItems.reduce((prev, basketItem) => {
+  const selectedBasketItems = basketItems.filter((basketItem) =>
+    selectedMenuItemIds.includes(basketItem.menuItemId)
+  )
+  const subTotal = selectedBasketItems.reduce((prev, basketItem) => {
     return prev + basketItem.quantity * basketItem.menuItem.price.toNumber()
   }, 0)
 
@@ -45,7 +51,7 @@ function OrderSummarySection() {
       <article className="bg-stone-100 mb-3 grid grid-rows-[auto_1fr_auto_auto] min-h-[14rem]">
         <h3 className="px-8 pt-4 pb-3">
           <div className="border-b border-stone-500 pb-2 font-semibold text-lg">
-            Order Summary
+            Selected Items
           </div>
         </h3>
         <div className="px-8 font-medium flex justify-between">
@@ -70,7 +76,7 @@ function OrderSummarySection() {
           <p>₱ {subTotal}</p>
         </div>
       </article>
-      {basketItems.length > 0 && (
+      {selectedBasketItems.length > 0 && (
         <button
           type="submit"
           disabled={runningDeleteMutations > 0}

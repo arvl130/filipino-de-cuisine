@@ -5,13 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { api } from "@/utils/api"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
 import { User } from "firebase/auth"
-import { BasketItemsSection } from "../../components/menu/OrderItemsSection"
 import { useEffect, useState } from "react"
 import { CircledArrowLeft, CrossMark } from "@/components/HeroIcons"
 import { useOrderDetailsStore } from "@/stores/orderDetails"
-import { CustomerInfo } from "@prisma/client"
+import { BasketItem, CustomerInfo, MenuItem } from "@prisma/client"
 import { getQueryKey } from "@trpc/react-query"
 import { useIsMutating } from "@tanstack/react-query"
+import { LoadingSpinner } from "@/components/loading"
+import Image from "next/image"
 
 const editInformationSchema = z.object({
   customerName: z.string().min(1),
@@ -327,8 +328,13 @@ const paymentMethodSchema = z.object({
 type PaymentMethodType = z.infer<typeof paymentMethodSchema>
 
 function OrderSummarySection() {
-  const { customerName, contactNumber, destinationAddress, additionalNotes } =
-    useOrderDetailsStore()
+  const {
+    selectedMenuItemIds,
+    customerName,
+    contactNumber,
+    destinationAddress,
+    additionalNotes,
+  } = useOrderDetailsStore()
   const {
     isLoading,
     isError,
@@ -369,10 +375,14 @@ function OrderSummarySection() {
       selectedItems:
         basketItems === undefined
           ? []
-          : basketItems.map((basketItem) => ({
-              id: basketItem.menuItemId,
-              quantity: basketItem.quantity,
-            })),
+          : basketItems
+              .filter((basketItem) =>
+                selectedMenuItemIds.includes(basketItem.menuItemId)
+              )
+              .map((basketItem) => ({
+                id: basketItem.menuItemId,
+                quantity: basketItem.quantity,
+              })),
       paymentMethod,
       deliveryFee,
     }))
@@ -383,6 +393,7 @@ function OrderSummarySection() {
     destinationAddress,
     additionalNotes,
     basketItems,
+    selectedMenuItemIds,
   ])
 
   const [isCheckoutModalVisible, setIsCheckoutModalVisible] = useState(false)
@@ -401,19 +412,18 @@ function OrderSummarySection() {
       </section>
     )
 
-  const subTotal = basketItems.reduce((prev, basketItem) => {
-    return prev + basketItem.quantity * basketItem.menuItem.price.toNumber()
-  }, 0)
+  const subTotal = basketItems
+    .filter((basketItem) => selectedMenuItemIds.includes(basketItem.menuItemId))
+    .reduce((prev, basketItem) => {
+      return prev + basketItem.quantity * basketItem.menuItem.price.toNumber()
+    }, 0)
 
   const subTotalWithDeliveryFee = subTotal + deliveryFee
 
   return (
     <form
       onSubmit={handleSubmit((formData) => {
-        if (!isCheckoutModalVisible) {
-          console.log("Submit did not go through confirmation. Aborted.")
-          return
-        }
+        if (!isCheckoutModalVisible) return
         if (formData.selectedItems.length === 0) return
 
         const [firstItem, ...otherItems] = formData.selectedItems
@@ -478,7 +488,9 @@ function OrderSummarySection() {
         </div>
       </div>
 
-      {basketItems.length > 0 && (
+      {basketItems.filter((basketItem) =>
+        selectedMenuItemIds.includes(basketItem.menuItemId)
+      ).length > 0 && (
         <button
           type="button"
           disabled={isCreatingOrder || hasPendingDelete}
@@ -500,6 +512,104 @@ function OrderSummarySection() {
         />
       )}
     </form>
+  )
+}
+
+function SelectedItemsSectionItem({
+  basketItem,
+}: {
+  basketItem: BasketItem & {
+    menuItem: MenuItem
+  }
+}) {
+  return (
+    <article className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 h-36 transition duration-200">
+      <div>
+        <Image
+          alt="Adobo"
+          src={basketItem.menuItem.imgUrl}
+          width={100}
+          height={100}
+          className="h-full w-36 object-contain"
+        />
+      </div>
+      <div className="flex items-center font-medium">
+        {basketItem.menuItem.name}
+      </div>
+      <div className="flex items-center justify-center font-medium">
+        ₱ {basketItem.menuItem.price.toFixed(2)}
+      </div>
+      <div className="flex items-center justify-center">
+        {basketItem.quantity}
+      </div>
+      <div className="flex items-center justify-center font-medium">
+        ₱{" "}
+        {(basketItem.menuItem.price.toNumber() * basketItem.quantity).toFixed(
+          2
+        )}
+      </div>
+    </article>
+  )
+}
+
+function SelectedItemsSection() {
+  const { selectedMenuItemIds } = useOrderDetailsStore()
+  const {
+    isLoading,
+    isError,
+    data: basketItems,
+  } = api.basketItem.getAll.useQuery()
+
+  function filterSelectedItems(
+    items: (BasketItem & {
+      menuItem: MenuItem
+    })[]
+  ) {
+    return items.filter((basketItem) =>
+      selectedMenuItemIds.includes(basketItem.menuItemId)
+    )
+  }
+
+  return (
+    <section>
+      <div className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 text-stone-500">
+        <div className="text-center">Product</div>
+        <div></div>
+        <div className="text-center">Price</div>
+        <div className="text-center">Quantity</div>
+        <div className="text-center">Total</div>
+      </div>
+      {isLoading ? (
+        <div className="mt-6">
+          <LoadingSpinner />
+        </div>
+      ) : (
+        <>
+          {isError ? (
+            <div className="text-center mt-6">
+              An error occured while fetching items.
+            </div>
+          ) : (
+            <>
+              {filterSelectedItems(basketItems).length === 0 ? (
+                <div className="text-center mt-6">No items selected</div>
+              ) : (
+                <>
+                  {filterSelectedItems(basketItems).map((basketItem) => {
+                    return (
+                      <SelectedItemsSectionItem
+                        key={basketItem.id}
+                        basketItem={basketItem}
+                      />
+                    )
+                  })}
+                </>
+              )}
+            </>
+          )}
+        </>
+      )}
+    </section>
   )
 }
 
@@ -541,7 +651,7 @@ function AuthenticatedPage({ user }: { user: User }) {
             </>
           )}
           <AdditionalNotesSection />
-          <BasketItemsSection />
+          <SelectedItemsSection />
         </div>
         {/* Right column */}
         <div>

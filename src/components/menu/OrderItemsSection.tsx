@@ -3,6 +3,7 @@ import Image from "next/image"
 import { CrossMark } from "../HeroIcons"
 import { InlineLoadingSpinner, LoadingSpinner } from "../loading"
 import { BasketItem, MenuItem } from "@prisma/client"
+import { useOrderDetailsStore } from "@/stores/orderDetails"
 
 function BasketItemsSectionItem({
   basketItem,
@@ -20,12 +21,26 @@ function BasketItemsSectionItem({
       onSuccess: () => apiContext.basketItem.getAll.invalidate(),
     })
 
+  const { selectedMenuItemIds, addMenuItemId, removeMenuItemId } =
+    useOrderDetailsStore()
+  const isItemSelected = selectedMenuItemIds.includes(basketItem.menuItemId)
+
   return (
     <article
-      className={`grid grid-cols-[8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 h-36 transition duration-200 ${
+      className={`grid grid-cols-[4rem_8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 h-36 transition duration-200 ${
         isDeletingBasketItem ? "opacity-50" : ""
       }`}
     >
+      <div className="flex justify-center items-center">
+        <input
+          type="checkbox"
+          checked={isItemSelected}
+          onChange={(e) => {
+            if (e.currentTarget.checked) addMenuItemId(basketItem.menuItemId)
+            else removeMenuItemId(basketItem.menuItemId)
+          }}
+        />
+      </div>
       <div>
         <Image
           alt="Adobo"
@@ -112,7 +127,8 @@ export function BasketItemsSection() {
   } = api.basketItem.getAll.useQuery()
   return (
     <section>
-      <div className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 text-stone-500">
+      <div className="grid grid-cols-[4rem_8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 text-stone-500">
+        <div></div>
         <div className="text-center">Product</div>
         <div></div>
         <div className="text-center">Price</div>
