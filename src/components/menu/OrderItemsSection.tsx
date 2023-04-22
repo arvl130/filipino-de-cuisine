@@ -1,91 +1,115 @@
-import { useBasketStore } from "@/stores/basket"
 import { api } from "@/utils/api"
 import Image from "next/image"
 import { CrossMark } from "../HeroIcons"
-import { LoadingSpinner } from "../loading"
+import { InlineLoadingSpinner, LoadingSpinner } from "../loading"
+import { BasketItem, MenuItem } from "@prisma/client"
 
-function OrderItemsSectionItem({
-  selectedItem,
+function BasketItemsSectionItem({
+  basketItem,
 }: {
-  selectedItem: { id: number; quantity: number }
+  basketItem: BasketItem & { menuItem: MenuItem }
 }) {
-  const { removeItem, incrementItemQuantity, decrementItemQuantity } =
-    useBasketStore()
-  const {
-    data: menuItem,
-    isLoading,
-    isError,
-  } = api.menuItem.getOne.useQuery({
-    id: selectedItem.id,
-  })
+  const apiContext = api.useContext()
+  const { mutate: deleteBasketItem, isLoading: isDeletingBasketItem } =
+    api.basketItem.delete.useMutation({
+      onSuccess: () => apiContext.basketItem.getAll.invalidate(),
+    })
 
-  if (isLoading)
-    return (
-      <article className="h-36 flex justify-center items-center">
-        <LoadingSpinner />
-      </article>
-    )
-
-  if (isError)
-    return (
-      <article className="h-36 flex justify-center items-center">
-        An error occured while loading menu item.
-      </article>
-    )
-
-  if (menuItem === undefined || menuItem === null)
-    return (
-      <article className="h-36 flex justify-center items-center">
-        No data found.
-      </article>
-    )
+  const { mutate: updateBasketItem, isLoading: isUpdatingBasketItem } =
+    api.basketItem.update.useMutation({
+      onSuccess: () => apiContext.basketItem.getAll.invalidate(),
+    })
 
   return (
-    <article className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 h-36">
+    <article
+      className={`grid grid-cols-[8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 h-36 transition duration-200 ${
+        isDeletingBasketItem ? "opacity-50" : ""
+      }`}
+    >
       <div>
         <Image
           alt="Adobo"
-          src={menuItem.imgUrl}
+          src={basketItem.menuItem.imgUrl}
           width={100}
           height={100}
           className="h-full w-36 object-contain"
         />
       </div>
-      <div className="flex items-center font-medium">{menuItem.name}</div>
+      <div className="flex items-center font-medium">
+        {basketItem.menuItem.name}
+      </div>
       <div className="flex items-center justify-center font-medium">
-        ₱ {menuItem.price.toFixed(2)}
+        ₱ {basketItem.menuItem.price.toFixed(2)}
       </div>
       <div className="flex items-center">
-        <div className="[background-color:_#d9d9d9] rounded-full w-full grid grid-cols-[1fr_2rem_1fr]">
+        <div className="bg-stone-200 rounded-full w-full grid grid-cols-[1fr_2rem_1fr]">
           <button
             type="button"
-            onClick={() => decrementItemQuantity(selectedItem.id)}
+            disabled={
+              isDeletingBasketItem ||
+              isUpdatingBasketItem ||
+              basketItem.quantity === 1
+            }
+            className="disabled:text-stone-400"
+            onClick={() =>
+              updateBasketItem({
+                id: basketItem.id,
+                quantity: basketItem.quantity - 1,
+              })
+            }
           >
             -
           </button>
-          <span className="text-center py-2">{selectedItem.quantity}</span>
+          <span className="text-center py-2">{basketItem.quantity}</span>
           <button
             type="button"
-            onClick={() => incrementItemQuantity(selectedItem.id)}
+            disabled={
+              isDeletingBasketItem ||
+              isUpdatingBasketItem ||
+              basketItem.quantity === 15
+            }
+            className="disabled:text-stone-400"
+            onClick={() =>
+              updateBasketItem({
+                id: basketItem.id,
+                quantity: basketItem.quantity + 1,
+              })
+            }
           >
             +
           </button>
         </div>
       </div>
       <div className="flex items-center justify-center font-medium">
-        ₱ {(menuItem.price.toNumber() * selectedItem.quantity).toFixed(2)}
+        ₱{" "}
+        {(basketItem.menuItem.price.toNumber() * basketItem.quantity).toFixed(
+          2
+        )}
       </div>
       <div className="flex items-center">
-        <button type="button" onClick={() => removeItem(menuItem.id)}>
-          <CrossMark />
+        <button
+          type="button"
+          disabled={isDeletingBasketItem}
+          className="disabled:text-stone-300 flex items-center"
+          onClick={() =>
+            deleteBasketItem({
+              id: basketItem.id,
+            })
+          }
+        >
+          {isDeletingBasketItem ? <InlineLoadingSpinner /> : <CrossMark />}
         </button>
       </div>
     </article>
   )
 }
 
-export function OrderItemsSection() {
-  const { selectedItems } = useBasketStore()
+export function BasketItemsSection() {
+  const {
+    isLoading,
+    isError,
+    data: basketItems,
+  } = api.basketItem.getAll.useQuery()
   return (
     <section>
       <div className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 text-stone-500">
@@ -96,18 +120,34 @@ export function OrderItemsSection() {
         <div className="text-center">Total</div>
         <div></div>
       </div>
-      {selectedItems.length === 0 ? (
-        <div className="text-center mt-3">No items selected</div>
+      {isLoading ? (
+        <div className="mt-6">
+          <LoadingSpinner />
+        </div>
       ) : (
         <>
-          {selectedItems.map((selectedItem) => {
-            return (
-              <OrderItemsSectionItem
-                key={selectedItem.id}
-                selectedItem={selectedItem}
-              />
-            )
-          })}
+          {isError ? (
+            <div className="text-center mt-6">
+              An error occured while fetching items.
+            </div>
+          ) : (
+            <>
+              {basketItems.length === 0 ? (
+                <div className="text-center mt-6">No items selected</div>
+              ) : (
+                <>
+                  {basketItems.map((basketItem) => {
+                    return (
+                      <BasketItemsSectionItem
+                        key={basketItem.id}
+                        basketItem={basketItem}
+                      />
+                    )
+                  })}
+                </>
+              )}
+            </>
+          )}
         </>
       )}
     </section>

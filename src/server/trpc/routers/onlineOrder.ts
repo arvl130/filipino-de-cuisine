@@ -145,6 +145,15 @@ export const onlineOrderRouter = router({
 
       await Promise.all(orderItemsPromises)
 
+      await ctx.prisma.basketItem.deleteMany({
+        where: {
+          customerId: ctx.user.uid,
+          menuItemId: {
+            in: selectedItemIds,
+          },
+        },
+      })
+
       return {
         paymentUrl: url,
         returnUrl: return_url,

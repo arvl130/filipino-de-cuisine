@@ -94,6 +94,16 @@ model Rate {
     customerId String   @db.VarChar(28)
 }
 
+model BasketItem {
+    id         Int      @id @default(autoincrement())
+    customerId String   @db.VarChar(28)
+    quantity   Int      @default(1)
+    menuItemId Int
+    menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+
+    @@index([menuItemId])
+}
+
 model OrderItem {
     id         Int      @id @default(autoincrement())
     orderId    Int
@@ -109,15 +119,16 @@ model OrderItem {
 }
 
 model MenuItem {
-    id           Int            @id @default(autoincrement())
-    name         String
-    description  String         @db.VarChar(500)
-    category     String
-    price        Decimal
-    isActive     Boolean
-    orderItems   OrderItem[]
-    imgUrl       String         @db.Text
-    DiscountItem DiscountItem[]
+    id               Int            @id @default(autoincrement())
+    name             String
+    description      String         @db.VarChar(500)
+    category         String
+    price            Decimal
+    isActive         Boolean
+    orderItems       OrderItem[]
+    imgUrl           String         @db.Text
+    DiscountItem     DiscountItem[]
+    ShoppingCartItem BasketItem[]
 }
 
 model Reservation {

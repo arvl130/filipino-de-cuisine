@@ -1,10 +1,104 @@
-import { useBasketStore } from "@/stores/basket"
+import { api } from "@/utils/api"
+import { useSession } from "@/utils/auth"
 import { MenuItem } from "@prisma/client"
 import Image from "next/image"
+import { useRouter } from "next/router"
+
+function Button({ menuItemId }: { menuItemId: number }) {
+  const { isLoading: isLoadingSession, isAuthenticated } = useSession()
+  const {
+    isLoading: isLoadingBasketItems,
+    isError: isErrorBasketItems,
+    data: basketItems,
+  } = api.basketItem.getAll.useQuery(undefined, {
+    enabled: isAuthenticated,
+  })
+  const router = useRouter()
+
+  const apiContext = api.useContext()
+  const { mutate: createBasketItem, isLoading: isCreatingBasketItem } =
+    api.basketItem.create.useMutation({
+      onSuccess: () => apiContext.basketItem.getAll.invalidate(),
+    })
+  const { mutate: removeMenuItem, isLoading: isDeletingBasketItem } =
+    api.basketItem.removeMenuItem.useMutation({
+      onSuccess: () => apiContext.basketItem.getAll.invalidate(),
+    })
+
+  if (isLoadingSession)
+    return (
+      <button className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
+        <br />
+      </button>
+    )
+
+  if (isAuthenticated) {
+    if (isLoadingBasketItems)
+      return (
+        <button className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
+          <br />
+        </button>
+      )
+
+    if (isErrorBasketItems)
+      return (
+        <button className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
+          Basket error
+        </button>
+      )
+
+    const isItemInBasket = basketItems.some(
+      (basketItem) => basketItem.menuItemId === menuItemId
+    )
+
+    if (isItemInBasket)
+      return (
+        <button
+          onClick={() =>
+            removeMenuItem({
+              menuItemId,
+            })
+          }
+          disabled={isDeletingBasketItem}
+          className="inline-block bg-red-500 hover:bg-red-400 disabled:bg-red-300 transition duration-200 text-white w-36 px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5"
+        >
+          {isDeletingBasketItem ? <>Removing ...</> : <>Remove</>}
+        </button>
+      )
+    else
+      return (
+        <button
+          onClick={() =>
+            createBasketItem({
+              menuItemId,
+            })
+          }
+          disabled={isCreatingBasketItem}
+          className="inline-block bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5"
+        >
+          {isCreatingBasketItem ? <>Adding ...</> : <>Add to Basket</>}
+        </button>
+      )
+  } else {
+    return (
+      <button
+        onClick={() => {
+          router.push({
+            pathname: "/signin",
+            query: {
+              returnUrl: "/menu",
+            },
+          })
+        }}
+        className="inline-block bg-emerald-500 hover:bg-emerald-400 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5"
+      >
+        Add to Basket
+      </button>
+    )
+  }
+}
 
 export function MenuItem({ menuItem }: { menuItem: MenuItem }) {
-  const { selectedItems, addItem, removeItem } = useBasketStore()
-
   return (
     <article className="relative w-[min(100%,_20rem)] grid grid-rows-[auto_1fr]">
       <div className="h-24 z-[1]">
@@ -25,23 +119,7 @@ export function MenuItem({ menuItem }: { menuItem: MenuItem }) {
         </p>
       </div>
       <div className="text-center">
-        {selectedItems.some(
-          (selectedItem) => selectedItem.id === menuItem.id
-        ) ? (
-          <button
-            onClick={() => removeItem(menuItem.id)}
-            className="inline-block bg-red-500 text-white w-36 px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5"
-          >
-            Remove
-          </button>
-        ) : (
-          <button
-            onClick={() => addItem(menuItem.id, 1)}
-            className="inline-block bg-emerald-500 hover:bg-emerald-400 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5"
-          >
-            Add to Basket
-          </button>
-        )}
+        <Button menuItemId={menuItem.id} />
       </div>
     </article>
   )

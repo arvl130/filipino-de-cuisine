@@ -4,6 +4,7 @@ import { menuItemRouter } from "./menuItem"
 import { customerInfoRouter } from "./customerInfo"
 import { paymentRouter } from "./payment"
 import { onlineOrderRouter } from "./onlineOrder"
+import { basketItemRouter } from "./basketItem"
 import { messageRouter } from "./message"
 
 export const rootRouter = router({
@@ -21,6 +22,7 @@ export const rootRouter = router({
   menuItem: menuItemRouter,
   customerInfo: customerInfoRouter,
   payment: paymentRouter,
+  basketItem: basketItemRouter,
   onlineOrder: onlineOrderRouter,
   message: messageRouter,
 })

@@ -1,19 +1,22 @@
 import { api } from "@/utils/api"
 import Link from "next/link"
-import { useBasketStore } from "@/stores/basket"
-import { useSession } from "@/utils/auth"
 import { useRouter } from "next/router"
-import { OrderItemsSection } from "@/components/menu/OrderItemsSection"
+import { BasketItemsSection } from "@/components/menu/OrderItemsSection"
 import { CircledArrowLeft } from "@/components/HeroIcons"
+import { getQueryKey } from "@trpc/react-query"
+import { useIsMutating } from "@tanstack/react-query"
+import { ProtectedPage } from "@/components/account/ProtectedPage"
 
 function OrderSummarySection() {
-  const { selectedItems } = useBasketStore()
-  const { data, isLoading, isError } = api.menuItem.getManyById.useQuery({
-    ids: selectedItems.flatMap((selectedItem) => selectedItem.id),
-  })
-
-  const { isAuthenticated, isLoading: isLoadingSession } = useSession()
+  const {
+    isLoading,
+    isError,
+    data: basketItems,
+  } = api.basketItem.getAll.useQuery()
   const router = useRouter()
+
+  const deleteMutationKey = getQueryKey(api.basketItem.delete)
+  const runningDeleteMutations = useIsMutating(deleteMutationKey)
 
   if (isLoading)
     return (
@@ -27,37 +30,16 @@ function OrderSummarySection() {
         An error occured.
       </section>
     )
-  if (data === undefined)
-    return (
-      <section className="h-[14rem] bg-neutral-100 text-stone-500 flex items-center justify-center">
-        No data found.
-      </section>
-    )
 
-  const subTotal = selectedItems.reduce((prev, selectedItem) => {
-    const selectedMenuItem = data.find(
-      (menuItem) => menuItem.id === selectedItem.id
-    )
-    if (selectedMenuItem)
-      return prev + selectedItem.quantity * selectedMenuItem.price.toNumber()
-    return prev
+  const subTotal = basketItems.reduce((prev, basketItem) => {
+    return prev + basketItem.quantity * basketItem.menuItem.price.toNumber()
   }, 0)
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        if (isAuthenticated) {
-          router.push("/menu/checkout")
-          return
-        }
-
-        router.push({
-          pathname: "/signin",
-          query: {
-            returnUrl: "/menu/checkout",
-          },
-        })
+        router.push("/menu/checkout")
       }}
     >
       <article className="bg-stone-100 mb-3 grid grid-rows-[auto_1fr_auto_auto] min-h-[14rem]">
@@ -88,31 +70,22 @@ function OrderSummarySection() {
           <p>₱ {subTotal}</p>
         </div>
       </article>
-      {selectedItems.length > 0 && (
-        <>
-          {isLoadingSession ? (
-            <>
-              <span className="bg-emerald-300 inline-block text-white w-full rounded-md py-3 font-semibold text-xl text-center">
-                <br />
-              </span>
-            </>
-          ) : (
-            <button
-              type="submit"
-              className="bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white w-full rounded-md py-3 font-semibold text-xl"
-            >
-              Checkout
-            </button>
-          )}
-        </>
+      {basketItems.length > 0 && (
+        <button
+          type="submit"
+          disabled={runningDeleteMutations > 0}
+          className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white w-full rounded-md py-3 font-semibold text-xl"
+        >
+          Checkout
+        </button>
       )}
     </form>
   )
 }
 
-export default function BasketPage() {
+function AuthenticatedPage() {
   return (
-    <main className="max-w-6xl mx-auto w-full px-6 py-12">
+    <>
       <div className="flex items-center gap-2 mb-6">
         <Link href="/menu" className="text-emerald-500">
           <CircledArrowLeft />
@@ -120,9 +93,17 @@ export default function BasketPage() {
         <h2 className="font-semibold text-2xl flex items-end">Basket</h2>
       </div>
       <div className="grid grid-cols-[1fr_20rem] gap-8">
-        <OrderItemsSection />
+        <BasketItemsSection />
         <OrderSummarySection />
       </div>
+    </>
+  )
+}
+
+export default function BasketPage() {
+  return (
+    <main className="max-w-6xl mx-auto w-full px-6 py-12">
+      <ProtectedPage>{() => <AuthenticatedPage />}</ProtectedPage>
     </main>
   )
 }

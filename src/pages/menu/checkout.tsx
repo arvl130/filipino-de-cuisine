@@ -5,11 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { api } from "@/utils/api"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
 import { User } from "firebase/auth"
-import { OrderItemsSection } from "../../components/menu/OrderItemsSection"
+import { BasketItemsSection } from "../../components/menu/OrderItemsSection"
 import { useEffect, useState } from "react"
 import { CircledArrowLeft, CrossMark } from "@/components/HeroIcons"
-import { useBasketStore } from "@/stores/basket"
+import { useOrderDetailsStore } from "@/stores/orderDetails"
 import { CustomerInfo } from "@prisma/client"
+import { getQueryKey } from "@trpc/react-query"
+import { useIsMutating } from "@tanstack/react-query"
 
 const editInformationSchema = z.object({
   customerName: z.string().min(1),
@@ -116,21 +118,28 @@ function OrderRecipientSection({
   user: User
   customerInfo: CustomerInfo
 }) {
-  const { orderDetails, setOrderDetails } = useBasketStore()
+  const {
+    setCustomerName,
+    setContactNumber,
+    setDestinationAddress,
+    customerName,
+    contactNumber,
+    destinationAddress,
+  } = useOrderDetailsStore()
 
   // Copy the values from the API, to our store. We will
   // use these as the initial values for our Edit form.
   useEffect(() => {
-    setOrderDetails({
-      customerName: user.displayName ?? "",
-      contactNumber: customerInfo.defaultContactNumber,
-      destinationAddress: customerInfo.defaultAddress,
-    })
+    setCustomerName(user.displayName ?? "")
+    setContactNumber(customerInfo.defaultContactNumber)
+    setDestinationAddress(customerInfo.defaultAddress)
   }, [
     user.displayName,
     customerInfo.defaultContactNumber,
     customerInfo.defaultAddress,
-    setOrderDetails,
+    setCustomerName,
+    setContactNumber,
+    setDestinationAddress,
   ])
 
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -138,9 +147,9 @@ function OrderRecipientSection({
   return (
     <section className="min-h-[8rem] border border-stone-300 px-6 py-4 rounded-2xl grid grid-cols-[1fr_auto] mb-6">
       <div>
-        <p>{orderDetails.customerName}</p>
-        <p>{orderDetails.contactNumber}</p>
-        <p>{orderDetails.destinationAddress}</p>
+        <p>{customerName}</p>
+        <p>{contactNumber}</p>
+        <p>{destinationAddress}</p>
       </div>
       <div className="text-right">
         <button
@@ -156,16 +165,14 @@ function OrderRecipientSection({
       {isModalVisible && (
         <EditInformationModal
           initialValues={{
-            customerName: orderDetails.customerName,
-            contactNumber: orderDetails.contactNumber,
-            destinationAddress: orderDetails.destinationAddress,
+            customerName,
+            contactNumber,
+            destinationAddress,
           }}
-          onSubmitFn={({ customerName, contactNumber, destinationAddress }) => {
-            setOrderDetails({
-              customerName,
-              contactNumber,
-              destinationAddress,
-            })
+          onSubmitFn={(newOrderDetails) => {
+            setCustomerName(newOrderDetails.customerName)
+            setContactNumber(newOrderDetails.contactNumber)
+            setDestinationAddress(newOrderDetails.destinationAddress)
             setIsModalVisible(false)
           }}
           onCloseFn={() => {
@@ -184,7 +191,7 @@ const additionalNotesSchema = z.object({
 type additionalNotesType = z.infer<typeof additionalNotesSchema>
 
 function AdditionalNotesSection() {
-  const { orderDetails, setOrderDetails } = useBasketStore()
+  const { additionalNotes, setAdditionalNotes } = useOrderDetailsStore()
 
   const {
     reset,
@@ -204,8 +211,8 @@ function AdditionalNotesSection() {
       {isAdditionalNotesEditable ? (
         <form
           className="mb-6"
-          onSubmit={handleSubmit((data) => {
-            setOrderDetails(data)
+          onSubmit={handleSubmit((newOrderDetails) => {
+            setAdditionalNotes(newOrderDetails.additionalNotes)
             setIsAdditionalNotesEditable(false)
           })}
         >
@@ -218,7 +225,7 @@ function AdditionalNotesSection() {
                   className="text-emerald-500 font-medium"
                   onClick={() => {
                     reset(() => ({
-                      additionalNotes: orderDetails.additionalNotes,
+                      additionalNotes,
                     }))
                     setIsAdditionalNotesEditable(false)
                   }}
@@ -265,10 +272,12 @@ function AdditionalNotesSection() {
 
 function CheckoutModal({
   cancelFn,
-  isLoading,
+  isCreatingOrder,
+  hasPendingDelete,
 }: {
   cancelFn: () => void
-  isLoading: boolean
+  isCreatingOrder: boolean
+  hasPendingDelete: boolean
 }) {
   return (
     <div className="fixed inset-0 z-20 bg-black/20 flex justify-center items-center">
@@ -283,14 +292,14 @@ function CheckoutModal({
             type="button"
             className="px-6 pt-2 pb-1 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 disabled:text-emerald-300 disabled:border-emerald-300 hover:text-white transition duration-200 border-emerald-500 border rounded-md font-medium"
             onClick={() => cancelFn()}
-            disabled={isLoading}
+            disabled={isCreatingOrder || hasPendingDelete}
           >
             Cancel
           </button>
           <button
             type="submit"
             className="px-6 pt-2 pb-1 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white rounded-md font-medium"
-            disabled={isLoading}
+            disabled={isCreatingOrder || hasPendingDelete}
           >
             Continue
           </button>
@@ -315,13 +324,16 @@ const paymentMethodSchema = z.object({
   paymentMethod: z.union([z.literal("MAYA"), z.literal("GCASH")]),
 })
 
-type paymentMethodType = z.infer<typeof paymentMethodSchema>
+type PaymentMethodType = z.infer<typeof paymentMethodSchema>
 
 function OrderSummarySection() {
-  const { selectedItems, orderDetails } = useBasketStore()
-  const { data, isLoading, isError } = api.menuItem.getManyById.useQuery({
-    ids: selectedItems.flatMap((selectedItem) => selectedItem.id),
-  })
+  const { customerName, contactNumber, destinationAddress, additionalNotes } =
+    useOrderDetailsStore()
+  const {
+    isLoading,
+    isError,
+    data: basketItems,
+  } = api.basketItem.getAll.useQuery()
 
   const {
     reset,
@@ -329,7 +341,7 @@ function OrderSummarySection() {
     trigger,
     handleSubmit,
     formState: { errors },
-  } = useForm<paymentMethodType>({
+  } = useForm<PaymentMethodType>({
     resolver: zodResolver(paymentMethodSchema),
   })
   const { mutate: createOrder, isLoading: isCreatingOrder } =
@@ -341,26 +353,36 @@ function OrderSummarySection() {
       },
     })
 
+  const deleteMutationKey = getQueryKey(api.basketItem.delete)
+  const runningDeleteMutations = useIsMutating(deleteMutationKey)
+  const hasPendingDelete = runningDeleteMutations > 0
+
   // Delivery fee is 80 Pesos.
   const deliveryFee = 80
 
   useEffect(() => {
     reset(({ paymentMethod }) => ({
-      customerName: orderDetails.customerName,
-      contactNumber: orderDetails.contactNumber,
-      address: orderDetails.destinationAddress,
-      additionalNotes: orderDetails.additionalNotes,
-      selectedItems,
+      customerName,
+      contactNumber,
+      address: destinationAddress,
+      additionalNotes,
+      selectedItems:
+        basketItems === undefined
+          ? []
+          : basketItems.map((basketItem) => ({
+              id: basketItem.menuItemId,
+              quantity: basketItem.quantity,
+            })),
       paymentMethod,
       deliveryFee,
     }))
   }, [
     reset,
-    orderDetails.customerName,
-    orderDetails.contactNumber,
-    orderDetails.destinationAddress,
-    orderDetails.additionalNotes,
-    selectedItems,
+    customerName,
+    contactNumber,
+    destinationAddress,
+    additionalNotes,
+    basketItems,
   ])
 
   const [isCheckoutModalVisible, setIsCheckoutModalVisible] = useState(false)
@@ -371,26 +393,16 @@ function OrderSummarySection() {
         Loading ...
       </section>
     )
+
   if (isError)
     return (
       <section className="h-[14rem] bg-neutral-100 text-stone-500 flex items-center justify-center">
         An error occured.
       </section>
     )
-  if (data === undefined)
-    return (
-      <section className="h-[14rem] bg-neutral-100 text-stone-500 flex items-center justify-center">
-        No data found.
-      </section>
-    )
 
-  const subTotal = selectedItems.reduce((prev, selectedItem) => {
-    const selectedMenuItem = data.find(
-      (menuItem) => menuItem.id === selectedItem.id
-    )
-    if (selectedMenuItem)
-      return prev + selectedItem.quantity * selectedMenuItem.price.toNumber()
-    return prev
+  const subTotal = basketItems.reduce((prev, basketItem) => {
+    return prev + basketItem.quantity * basketItem.menuItem.price.toNumber()
   }, 0)
 
   const subTotalWithDeliveryFee = subTotal + deliveryFee
@@ -398,6 +410,10 @@ function OrderSummarySection() {
   return (
     <form
       onSubmit={handleSubmit((formData) => {
+        if (!isCheckoutModalVisible) {
+          console.log("Submit did not go through confirmation. Aborted.")
+          return
+        }
         if (formData.selectedItems.length === 0) return
 
         const [firstItem, ...otherItems] = formData.selectedItems
@@ -462,9 +478,10 @@ function OrderSummarySection() {
         </div>
       </div>
 
-      {selectedItems.length > 0 && (
+      {basketItems.length > 0 && (
         <button
           type="button"
+          disabled={isCreatingOrder || hasPendingDelete}
           className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white w-full rounded-md py-3 font-semibold text-xl"
           onClick={async () => {
             const isValid = await trigger()
@@ -477,7 +494,8 @@ function OrderSummarySection() {
 
       {isCheckoutModalVisible && (
         <CheckoutModal
-          isLoading={isCreatingOrder}
+          isCreatingOrder={isCreatingOrder}
+          hasPendingDelete={hasPendingDelete}
           cancelFn={() => setIsCheckoutModalVisible(false)}
         />
       )}
@@ -523,7 +541,7 @@ function AuthenticatedPage({ user }: { user: User }) {
             </>
           )}
           <AdditionalNotesSection />
-          <OrderItemsSection />
+          <BasketItemsSection />
         </div>
         {/* Right column */}
         <div>
