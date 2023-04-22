@@ -48,7 +48,7 @@ function SourceStatus({
         <form
           onSubmit={handleSubmit((formData) =>
             refreshPaymentIntent({
-              id: data.data.id,
+              id: paymentIntentId,
               paymentMethod: formData.paymentMethod,
             })
           )}
