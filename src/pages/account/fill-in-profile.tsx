@@ -10,6 +10,10 @@ import { CustomerInfo } from "@prisma/client"
 import { getAuth } from "firebase/auth"
 import { LoadingSpinner } from "@/components/loading"
 import { IsAuthenticatedView } from "@/components/account/ProtectedPage"
+import {
+  VALID_CONTACT_NUMBER,
+  VALID_DATE_REGEX,
+} from "@/utils/validation-patterns"
 
 export function ProtectedPage({
   children,
@@ -47,9 +51,6 @@ export function ProtectedPage({
     </IsAuthenticatedView>
   )
 }
-
-const VALID_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
-const VALID_CONTACT_NUMBER = /^09\d{9}$/
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -162,6 +163,12 @@ function AuthenticatedPage({
                 placeholder="09XXYYYZZZZ"
                 className="bg-neutral-100 rounded-md px-4 py-2 w-full"
                 {...register("defaultContactNumber")}
+                onChange={(e) => {
+                  const { value } = e.target
+                  e.target.value = value
+                    .replace(/[^0-9]+/g, "")
+                    .substring(0, 11)
+                }}
               />
               {errors.defaultContactNumber && (
                 <p className="text-red-600 mt-1">

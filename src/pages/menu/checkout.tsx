@@ -13,10 +13,13 @@ import { getQueryKey } from "@trpc/react-query"
 import { useIsMutating } from "@tanstack/react-query"
 import { LoadingSpinner } from "@/components/loading"
 import Image from "next/image"
+import { VALID_CONTACT_NUMBER } from "@/utils/validation-patterns"
 
 const editInformationSchema = z.object({
   customerName: z.string().min(1),
-  contactNumber: z.string().length(11),
+  contactNumber: z.string().regex(VALID_CONTACT_NUMBER, {
+    message: "Invalid contact number",
+  }),
   destinationAddress: z.string().min(1),
 })
 
@@ -76,8 +79,13 @@ function EditInformationModal({
             <label className="font-medium">Contact number</label>
             <input
               type="text"
+              placeholder="09XXYYYZZZZ"
               className="px-4 py-2 bg-stone-100 rounded-md w-full"
               {...register("contactNumber")}
+              onChange={(e) => {
+                const { value } = e.target
+                e.target.value = value.replace(/[^0-9]+/g, "").substring(0, 11)
+              }}
             />
             {errors.contactNumber && (
               <p className="text-red-600 mt-1">

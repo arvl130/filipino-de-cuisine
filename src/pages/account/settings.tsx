@@ -1,6 +1,10 @@
 import { AccountPageSwitcher } from "@/components/account/AccountPageSwitcher"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
 import { api } from "@/utils/api"
+import {
+  VALID_CONTACT_NUMBER,
+  VALID_DATE_REGEX,
+} from "@/utils/validation-patterns"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CustomerInfo } from "@prisma/client"
 import {
@@ -13,9 +17,6 @@ import {
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
-const VALID_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
-const VALID_CONTACT_NUMBER = /^09\d{9}$/
 
 const editInformationFormSchema = z.object({
   displayName: z.string().min(1),
@@ -65,8 +66,13 @@ function EditInformationForm({
       <label className="font-semibold">Contact number</label>
       <input
         type="text"
+        placeholder="09XXYYYZZZZ"
         className="bg-neutral-100 rounded-md px-4 py-2"
         {...register("defaultContactNumber")}
+        onChange={(e) => {
+          const { value } = e.target
+          e.target.value = value.replace(/[^0-9]+/g, "").substring(0, 11)
+        }}
       />
       {errors.defaultContactNumber && (
         <p className="text-red-600 mt-1">

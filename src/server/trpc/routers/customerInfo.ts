@@ -1,9 +1,10 @@
 import { updateProfile } from "@/server/auth"
 import { protectedProcedure, router } from "../trpc"
 import { z } from "zod"
-
-const VALID_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
-const VALID_CONTACT_NUMBER = /^09\d{9}$/
+import {
+  VALID_CONTACT_NUMBER,
+  VALID_DATE_REGEX,
+} from "@/utils/validation-patterns"
 
 export const customerInfoRouter = router({
   get: protectedProcedure.query(({ ctx }) => {
