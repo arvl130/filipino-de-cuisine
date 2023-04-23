@@ -10,6 +10,7 @@ import { CustomerInfo } from "@prisma/client"
 import { getAuth } from "firebase/auth"
 import { LoadingSpinner } from "@/components/loading"
 import { IsAuthenticatedView } from "@/components/account/ProtectedPage"
+import { useSession } from "@/utils/auth"
 import {
   VALID_CONTACT_NUMBER,
   VALID_DATE_REGEX,
@@ -27,7 +28,13 @@ export function ProtectedPage({
   }) => ReactNode
 }) {
   const router = useRouter()
-  const { data, isLoading, isError } = api.customerInfo.get.useQuery()
+  const { user } = useSession()
+  const { data, isLoading, isError } = api.customerInfo.get.useQuery(
+    undefined,
+    {
+      enabled: user !== null,
+    }
+  )
 
   useEffect(() => {
     if (router.isReady && !isLoading && !isError && data) {
