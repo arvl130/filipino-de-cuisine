@@ -103,21 +103,24 @@ export default function ContactUsPage() {
               onSubmit={handleSubmit((formData) => createMessage(formData))}
             >
               Name <br></br>{" "}
-              <input className="name" type="text" {...register("name")}></input>
+              <input
+                className="bg-neutral-100 rounded w-full px-4 py-2"
+                type="text"
+                {...register("name")}
+              ></input>
               <br></br> <br></br>
               Email <br></br>{" "}
               <input
-                className="email"
+                className="bg-neutral-100 rounded w-full px-4 py-2"
                 type="email"
                 {...register("email")}
               ></input>
               <br></br> <br></br>
               Message <br></br>{" "}
-              <input
-                className="message"
-                type="message"
+              <textarea
+                className="bg-neutral-100 rounded w-full px-4 py-2 resize-none"
                 {...register("body")}
-              ></input>
+              ></textarea>
               <br></br> <br></br>
               <button
                 type="submit"
