@@ -1,246 +1,246 @@
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
-    provider     = "mysql"
-    url          = env("DATABASE_URL")
-    relationMode = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Message {
-    id        String   @id @default(uuid())
-    name      String
-    email     String
-    body      String
-    createdAt DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  body      String
+  createdAt DateTime @default(now())
 }
 
 model Employee {
-    id            Int    @id @default(autoincrement())
-    username      String
-    password      String @db.Text
-    contactNumber String
-    position      String
-    imgUrl        String @db.Text
-    email         String
+  id            Int    @id @default(autoincrement())
+  username      String
+  password      String @db.Text
+  contactNumber String
+  position      String
+  imgUrl        String @db.Text
+  email         String
 }
 
 model CustomerInfo {
-    id                   String   @id @db.VarChar(28)
-    dateOfBirth          DateTime
-    defaultContactNumber String
-    defaultAddress       String
-    isBlocked            Boolean  @default(false)
+  id                   String   @id @db.VarChar(28)
+  dateOfBirth          DateTime
+  defaultContactNumber String
+  defaultAddress       String
+  isBlocked            Boolean  @default(false)
 }
 
 enum Mode {
-    WalkIn
-    Online
+  WalkIn
+  Online
 }
 
 enum PaymentStatus {
-    Pending
-    Fulfilled
+  Pending
+  Fulfilled
 }
 
 model Order {
-    id            Int           @id @default(autoincrement())
-    mode          Mode
-    createdAt     DateTime      @default(now())
-    customerName  String
-    paymentStatus PaymentStatus @default(Pending)
-    orderItems    OrderItem[]
-    walkInOrders  WalkInOrder[]
-    onlineOrders  OnlineOrder[]
+  id            Int           @id @default(autoincrement())
+  mode          Mode
+  createdAt     DateTime      @default(now())
+  customerName  String
+  paymentStatus PaymentStatus @default(Pending)
+  orderItems    OrderItem[]
+  walkInOrders  WalkInOrder[]
+  onlineOrders  OnlineOrder[]
+  sales         Sales[]
 }
 
 model WalkInOrder {
-    id           Int     @id
-    paymentTotal Decimal
-    name         String
-    order        Order   @relation(fields: [id], references: [id])
+  id           Int     @id
+  paymentTotal Decimal
+  name         String
+  order        Order   @relation(fields: [id], references: [id])
 
-    @@index([id])
+  @@index([id])
 }
 
 model OnlineOrder {
-    id              Int            @id
-    customerId      String         @db.VarChar(28)
-    address         String
-    contactNumber   String
-    paymentIntentId String         @unique @db.VarChar(27)
-    deliveryFee     Decimal
-    deliveryStatus  DeliveryStatus @default(Pending)
-    order           Order          @relation(fields: [id], references: [id])
+  id              Int            @id
+  customerId      String         @db.VarChar(28)
+  address         String
+  contactNumber   String
+  paymentIntentId String         @unique @db.VarChar(27)
+  deliveryFee     Decimal
+  deliveryStatus  DeliveryStatus @default(Pending)
+  order           Order          @relation(fields: [id], references: [id])
 
-    @@index([id])
+  @@index([id])
 }
 
 enum DeliveryStatus {
-    Pending
-    Preparing
-    OutForDelivery
-    Received
-    Cancelled
+  Pending
+  Preparing
+  OutForDelivery
+  Received
+  Cancelled
 }
 
 model Rate {
-    id         Int      @id @default(autoincrement())
-    rating     String
-    review     String
-    createdAt  DateTime @default(now())
-    customerId String   @db.VarChar(28)
+  id         Int      @id @default(autoincrement())
+  rating     String
+  review     String
+  createdAt  DateTime @default(now())
+  customerId String   @db.VarChar(28)
 }
 
 model BasketItem {
-    id         Int      @id @default(autoincrement())
-    customerId String   @db.VarChar(28)
-    quantity   Int      @default(1)
-    menuItemId Int
-    menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  id         Int      @id @default(autoincrement())
+  customerId String   @db.VarChar(28)
+  quantity   Int      @default(1)
+  menuItemId Int
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
 
-    @@index([menuItemId])
+  @@index([menuItemId])
 }
 
 model OrderItem {
-    id         Int      @id @default(autoincrement())
-    orderId    Int
-    quantity   Int
-    price      Decimal
-    discount   Decimal
-    menuItemId Int
-    order      Order    @relation(fields: [orderId], references: [id])
-    menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  id         Int      @id @default(autoincrement())
+  orderId    Int
+  quantity   Int
+  price      Decimal
+  discount   Decimal
+  menuItemId Int
+  order      Order    @relation(fields: [orderId], references: [id])
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
 
-    @@index([orderId])
-    @@index([menuItemId])
+  @@index([orderId])
+  @@index([menuItemId])
 }
 
 model MenuItem {
-    id            Int            @id @default(autoincrement())
-    name          String
-    description   String         @db.VarChar(500)
-    category      String
-    price         Decimal
-    isActive      Boolean
-    imgUrl        String         @db.Text
-    orderItems    OrderItem[]
-    discountItems DiscountItem[]
-    basketItems   BasketItem[]
+  id            Int            @id @default(autoincrement())
+  name          String
+  description   String         @db.VarChar(500)
+  category      String
+  price         Decimal
+  isActive      Boolean
+  imgUrl        String         @db.Text
+  orderItems    OrderItem[]
+  discountItems DiscountItem[]
+  basketItems   BasketItem[]
+  sales         Sales[]
 }
 
 model Reservation {
-    id         String   @id @default(cuid())
-    customerId String   @db.VarChar(28)
-    startAt    DateTime
-    endAt      DateTime
-    fee        Decimal
-    guestCount Int
-    createdAt  DateTime @default(now())
+  id              String   @id @default(cuid())
+  customerId      String   @db.VarChar(28)
+  startAt         DateTime
+  endAt           DateTime
+  fee             Decimal
+  guestCount      Int
+  createdAt       DateTime @default(now())
+  additionalNotes String   @db.VarChar(255)
+  tableId         Int
+  table           Tables   @relation(fields: [tableId], references: [id])
+
+  @@index([tableId])
 }
 
 model Discount {
-    id            Int            @id @default(autoincrement())
-    endAt         DateTime
-    startAt       DateTime
-    amount        Decimal
-    discountItems DiscountItem[]
+  id            Int            @id @default(autoincrement())
+  endAt         DateTime
+  startAt       DateTime
+  amount        Decimal
+  discountItems DiscountItem[]
 }
 
 model DiscountItem {
-    id         Int      @id @default(autoincrement())
-    discountId Int
-    menuItemId Int
-    discount   Discount @relation(fields: [discountId], references: [id])
-    menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  id         Int      @id @default(autoincrement())
+  discountId Int
+  menuItemId Int
+  discount   Discount @relation(fields: [discountId], references: [id])
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
 
-    @@index([discountId])
-    @@index([menuItemId])
+  @@index([discountId])
+  @@index([menuItemId])
 }
 
 model Sales {
-    id       Int      @id @default(autoincrement())
-    price    Decimal
-    quantity Int
-    total    Decimal
-    soldAt   DateTime
+  id         Int      @id @default(autoincrement())
+  price      Decimal
+  quantity   Int
+  total      Decimal
+  soldAt     DateTime
+  menuItemId Int
+  orderId    Int
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  order      Order    @relation(fields: [orderId], references: [id])
+
+  @@index([menuItemId])
+  @@index([orderId])
 }
 
 enum Status {
-    Overstock
-    Understock
-    InBalance
+  Overstock
+  Understock
+  InBalance
 }
 
 model Equipment {
-    id          Int     @id @default(autoincrement())
-    name        String
-    description String
-    price       Decimal
-    quantity    Int
-    status      Status
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String
+  price       Decimal
+  quantity    Int
+  status      Status
 }
 
 model Supplier {
-    id             Int             @id @default(autoincrement())
-    name           String
-    description    String
-    contactNumber  String
-    emailAddress   String
-    address        String
-    purchaseOrders PurchaseOrder[]
+  id             Int             @id @default(autoincrement())
+  name           String
+  description    String
+  contactNumber  String
+  emailAddress   String
+  address        String
+  purchaseOrders PurchaseOrder[]
 }
 
 model PurchaseOrder {
-    id                 Int                 @id @default(autoincrement())
-    createdAt          DateTime            @default(now())
-    supplierId         Int
-    supplier           Supplier            @relation(fields: [supplierId], references: [id])
-    purchaseOrderItems PurchaseOrderItem[]
+  id                 Int                 @id @default(autoincrement())
+  createdAt          DateTime            @default(now())
+  supplierId         Int
+  supplier           Supplier            @relation(fields: [supplierId], references: [id])
+  purchaseOrderItems PurchaseOrderItem[]
 
-    @@index([supplierId])
+  @@index([supplierId])
 }
 
 model PurchaseOrderItem {
-    id              Int           @id @default(autoincrement())
-    name            String
-    quantity        Int
-    purchaseOrderId Int
-    purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+  id              Int           @id @default(autoincrement())
+  name            String
+  quantity        Int
+  purchaseOrderId Int
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
 
-    @@index([purchaseOrderId])
+  @@index([purchaseOrderId])
 }
 
 model Ingredient {
-    id                    Int                    @id @default(autoincrement())
-    name                  String
-    description           String
-    price                 Decimal
-    quantity              Int
-    status                Status
-    createdAt             DateTime               @default(now())
-    updatedAt             DateTime               @updatedAt
-    dailyReservationItems DailyReservationItem[]
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  price       Decimal
+  quantity    Int
+  status      Status
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
-model DailyReservation {
-    id                    Int                    @id @default(autoincrement())
-    name                  String
-    description           String
-    status                Status
-    dailyReservationItems DailyReservationItem[]
-}
-
-model DailyReservationItem {
-    id                 Int              @id @default(autoincrement())
-    ingredientId       Int
-    dailyReservationId Int
-    quantity           Int
-    ingredient         Ingredient       @relation(fields: [ingredientId], references: [id])
-    dailyReservation   DailyReservation @relation(fields: [dailyReservationId], references: [id])
-
-    @@index([ingredientId])
-    @@index([dailyReservationId])
+model Tables {
+  id           Int           @id @default(autoincrement())
+  tableNumber  Int
+  mode         Mode
+  reservations Reservation[]
 }
