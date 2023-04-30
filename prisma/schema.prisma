@@ -28,11 +28,13 @@ model Employee {
 }
 
 model CustomerInfo {
-  id                   String   @id @db.VarChar(28)
+  id                   String        @id @db.VarChar(28)
   dateOfBirth          DateTime
   defaultContactNumber String
   defaultAddress       String
-  isBlocked            Boolean  @default(false)
+  isBlocked            Boolean       @default(false)
+  reservation          Reservation[]
+  
 }
 
 enum Mode {
@@ -144,8 +146,10 @@ model Reservation {
   additionalNotes String   @db.VarChar(255)
   tableId         Int
   table           Tables   @relation(fields: [tableId], references: [id])
+  customerinfo    CustomerInfo @relation(fields: [customerId],references: [id])
 
   @@index([tableId])
+  @@index([customerId])
 }
 
 model Discount {
