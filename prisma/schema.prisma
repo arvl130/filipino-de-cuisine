@@ -120,16 +120,17 @@ model OrderItem {
 }
 
 model MenuItem {
-  id          Int          @id @default(autoincrement())
-  name        String
-  description String       @db.VarChar(500)
-  category    String
-  price       Decimal
-  isActive    Boolean
-  imgUrl      String       @db.Text
-  orderItems  OrderItem[]
-  basketItems BasketItem[]
-  sales       Sales[]
+  id            Int            @id @default(autoincrement())
+  name          String
+  description   String         @db.VarChar(500)
+  category      String
+  price         Decimal
+  isActive      Boolean
+  imgUrl        String         @db.Text
+  orderItems    OrderItem[]
+  discountItems DiscountItem[]
+  basketItems   BasketItem[]
+  sales         Sales[]
 }
 
 model Reservation {
@@ -145,6 +146,25 @@ model Reservation {
   table           Tables   @relation(fields: [tableId], references: [id])
 
   @@index([tableId])
+}
+
+model Discount {
+  id            Int            @id @default(autoincrement())
+  endAt         DateTime
+  startAt       DateTime
+  amount        Decimal
+  discountItems DiscountItem[]
+}
+
+model DiscountItem {
+  id         Int      @id @default(autoincrement())
+  discountId Int
+  menuItemId Int
+  discount   Discount @relation(fields: [discountId], references: [id])
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+
+  @@index([discountId])
+  @@index([menuItemId])
 }
 
 model Sales {
