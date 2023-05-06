@@ -128,7 +128,7 @@ export const reservationRouter = router({
         returnUrl: return_url,
       }
     }),
-  getAllTableIds: protectedProcedure.query(({ ctx }) => {
+  getAllTables: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.reservationTable.findMany()
   }),
   getAvailableTableIdsForTimeslots: protectedProcedure

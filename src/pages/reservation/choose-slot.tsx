@@ -147,7 +147,7 @@ function TableslotButtons() {
     isLoading: isLoadingAll,
     isError: isErrorAll,
     data: tables,
-  } = api.reservation.getAllTableIds.useQuery()
+  } = api.reservation.getAllTables.useQuery()
 
   const {
     isLoading: isLoadingAvailable,
