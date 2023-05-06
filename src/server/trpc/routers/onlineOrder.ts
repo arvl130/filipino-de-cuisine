@@ -109,57 +109,56 @@ export const onlineOrderRouter = router({
         attachedPaymentIntent.data.attributes.next_action.redirect
 
       // Create order with generated payment intent ID.
-      const order = await ctx.prisma.order.create({
-        data: {
-          mode: "Online",
-          customerName: input.customerName,
-        },
-      })
+      const orderItemsData = input.selectedItems.map((selectedItem) => {
+        const menuItem = selectedMenuItems.find(
+          (selectedMenuItem) => selectedMenuItem.id === selectedItem.id
+        )
 
-      await ctx.prisma.onlineOrder.create({
-        data: {
-          id: order.id,
-          customerId: ctx.user.uid,
-          address: input.address,
-          contactNumber: input.contactNumber,
-          deliveryFee: input.deliveryFee,
-          paymentIntentId: paymentIntent.data.id,
-          additionalNotes: input.additionalNotes,
-        },
-      })
-
-      const orderItemsPromises = input.selectedItems.map(
-        async (selectedItem) => {
-          const menuItem = selectedMenuItems.find(
-            (selectedMenuItem) => selectedMenuItem.id === selectedItem.id
-          )
-
-          if (!menuItem) return null
-
-          const orderItem = await ctx.prisma.orderItem.create({
-            data: {
-              orderId: order.id,
-              menuItemId: selectedItem.id,
-              quantity: selectedItem.quantity,
-              price: menuItem.price,
-              discount: 0,
-            },
+        if (!menuItem)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Invalid item ID: No such menu item",
           })
 
-          return orderItem
+        return {
+          menuItemId: selectedItem.id,
+          quantity: selectedItem.quantity,
+          price: menuItem.price,
+          discount: 0,
         }
-      )
-
-      await Promise.all(orderItemsPromises)
-
-      await ctx.prisma.basketItem.deleteMany({
-        where: {
-          customerId: ctx.user.uid,
-          menuItemId: {
-            in: selectedItemIds,
-          },
-        },
       })
+
+      await ctx.prisma.$transaction([
+        ctx.prisma.order.create({
+          data: {
+            mode: "Online",
+            customerName: input.customerName,
+            onlineOrders: {
+              create: {
+                customerId: ctx.user.uid,
+                address: input.address,
+                contactNumber: input.contactNumber,
+                deliveryFee: input.deliveryFee,
+                paymentIntentId: paymentIntent.data.id,
+                additionalNotes: input.additionalNotes,
+              },
+            },
+            orderItems: {
+              createMany: {
+                data: orderItemsData,
+              },
+            },
+          },
+        }),
+        ctx.prisma.basketItem.deleteMany({
+          where: {
+            customerId: ctx.user.uid,
+            menuItemId: {
+              in: selectedItemIds,
+            },
+          },
+        }),
+      ])
 
       return {
         paymentUrl: url,
