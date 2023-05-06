@@ -180,25 +180,6 @@ export const reservationRouter = router({
         },
       })
     }),
-  // isTimeslotReserved: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       isoDate: z.string().datetime({
-  //         offset: true,
-  //       }),
-  //     })
-  //   )
-  //   .query(async ({ input, ctx }) => {
-  //     const reservationTimeslot =
-  //       await ctx.prisma.reservationTimeslot.findUnique({
-  //         where: {
-  //           startIsoDate: input.isoDate,
-  //         },
-  //       })
-
-  //     if (reservationTimeslot) return true
-  //     else return false
-  //   }),
   isSlotReserved: protectedProcedure
     .input(
       z.object({
