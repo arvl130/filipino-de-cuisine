@@ -332,6 +332,27 @@ async function main() {
       },
     ],
   })
+
+  await prisma.reservationTable.deleteMany()
+  await prisma.reservationTable.createMany({
+    data: [
+      {
+        id: "1",
+      },
+      {
+        id: "2",
+      },
+      {
+        id: "3",
+      },
+      {
+        id: "4",
+      },
+      {
+        id: "5",
+      },
+    ],
+  })
 }
 
 main()
