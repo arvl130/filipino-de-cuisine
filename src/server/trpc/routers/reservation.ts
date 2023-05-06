@@ -85,7 +85,9 @@ export const reservationRouter = router({
         const data = input.selectedTableslots
           .map((tableslotId) => {
             return input.selectedTimeslots.map((timeslot) => {
-              const endIsoDate = DateTime.fromISO(timeslot)
+              const endIsoDate = DateTime.fromISO(timeslot, {
+                setZone: true,
+              })
                 .plus({
                   hour: 1,
                 })
