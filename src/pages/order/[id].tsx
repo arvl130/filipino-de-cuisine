@@ -50,6 +50,7 @@ function SourceStatus({
             refreshPaymentIntent({
               id: paymentIntentId,
               paymentMethod: formData.paymentMethod,
+              paymentFor: "ORDER",
             })
           )}
         >
@@ -179,6 +180,7 @@ function PaymentIntentStatus({ id, orderId }: { id: string; orderId: number }) {
               refreshPaymentIntent({
                 id: data.data.id,
                 paymentMethod: formData.paymentMethod,
+                paymentFor: "ORDER",
               })
             )}
           >
