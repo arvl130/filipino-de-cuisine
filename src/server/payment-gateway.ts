@@ -1,4 +1,3 @@
-import { getBaseUrl } from "@/utils/base-url"
 import { z } from "zod"
 
 const { PAYMONGO_SECRET_KEY } = process.env
@@ -298,7 +297,8 @@ export async function createPaymentMethod(
 
 export async function attachPaymentMethodToIntent(
   methodId: string,
-  intentId: string
+  intentId: string,
+  returnUrl: string
 ): Promise<PaymentIntent> {
   if (!PAYMONGO_SECRET_KEY)
     throw new Error("Missing or invalid Paymongo secret key")
@@ -307,7 +307,7 @@ export async function attachPaymentMethodToIntent(
     data: {
       attributes: {
         payment_method: methodId,
-        return_url: `${getBaseUrl()}/api/order/redirect/by-intent-id`,
+        return_url: returnUrl,
       },
     },
   })

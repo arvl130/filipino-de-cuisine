@@ -16,7 +16,7 @@ import {
   VALID_DATE_REGEX,
 } from "@/utils/validation-patterns"
 
-export function ProtectedPage({
+function ProtectedPage({
   children,
 }: {
   children: ({

@@ -1,5 +1,5 @@
 import { prisma } from "@/server/db"
-import { Order } from "@prisma/client"
+import { Order, Reservation } from "@prisma/client"
 import { PrismaClientValidationError } from "@prisma/client/runtime/data-proxy"
 import type { NextApiRequest, NextApiResponse } from "next"
 import { ZodError, z } from "zod"
@@ -10,11 +10,20 @@ const inputSchema = z.object({
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{
-    message: string
-    order?: Order
-    error?: unknown
-  }>
+  res: NextApiResponse<
+    | {
+        message: string
+        order: Order
+      }
+    | {
+        message: string
+        reservation: Reservation
+      }
+    | {
+        message: string
+        error?: unknown
+      }
+  >
 ) {
   try {
     const { data } = req.body
@@ -28,25 +37,48 @@ export default async function handler(
       },
     })
 
-    if (!onlineOrder) {
-      res.status(404).json({
-        message: "No such order for given payment",
+    if (onlineOrder) {
+      const order = await prisma.order.update({
+        where: {
+          id: onlineOrder.id,
+        },
+        data: {
+          paymentStatus: "Fulfilled",
+        },
+      })
+
+      res.json({
+        message: "Payment status updated",
+        order,
       })
       return
     }
 
-    const order = await prisma.order.update({
+    const reservation = await prisma.reservation.findUnique({
       where: {
-        id: onlineOrder.id,
-      },
-      data: {
-        paymentStatus: "Fulfilled",
+        paymentIntentId,
       },
     })
 
-    res.json({
-      message: "Payment status updated",
-      order,
+    if (reservation) {
+      const updatedReservation = await prisma.reservation.update({
+        where: {
+          id: reservation.id,
+        },
+        data: {
+          paymentStatus: "Fulfilled",
+        },
+      })
+
+      res.json({
+        message: "Payment status updated",
+        reservation: updatedReservation,
+      })
+      return
+    }
+
+    res.status(404).json({
+      message: "No such order or reservation for given payment",
     })
   } catch (e) {
     if (e instanceof ZodError) {

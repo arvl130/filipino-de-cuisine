@@ -134,18 +134,33 @@ model MenuItem {
 }
 
 model Reservation {
-  id              String   @id @default(cuid())
-  customerId      String   @db.VarChar(28)
-  startAt         DateTime
-  endAt           DateTime
-  fee             Decimal
-  guestCount      Int
-  createdAt       DateTime @default(now())
-  additionalNotes String   @db.VarChar(255)
-  tableId         Int
-  table           Tables   @relation(fields: [tableId], references: [id])
+  id               Int               @id @default(autoincrement())
+  customerId       String            @db.VarChar(28)
+  fee              Decimal
+  paymentStatus    PaymentStatus     @default(Pending)
+  createdAt        DateTime          @default(now())
+  additionalNotes  String            @db.VarChar(255)
+  paymentIntentId  String            @unique @db.VarChar(27)
+  reservationSlots ReservationSlot[]
+}
 
-  @@index([tableId])
+model ReservationSlot {
+  startIsoDate       String
+  endIsoDate         String
+  reservationTableId String
+  reservationTable   ReservationTable @relation(fields: [reservationTableId], references: [id])
+  reservationId      Int
+  reservation        Reservation      @relation(fields: [reservationId], references: [id])
+
+  @@id([startIsoDate, reservationTableId])
+  @@index([startIsoDate])
+  @@index([reservationTableId])
+  @@index([reservationId])
+}
+
+model ReservationTable {
+  id               String            @id
+  reservationSlots ReservationSlot[]
 }
 
 model Discount {
@@ -236,11 +251,4 @@ model Ingredient {
   status      Status
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-}
-
-model Tables {
-  id           Int           @id @default(autoincrement())
-  tableNumber  Int
-  mode         Mode
-  reservations Reservation[]
 }

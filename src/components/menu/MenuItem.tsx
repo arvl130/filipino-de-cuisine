@@ -4,7 +4,13 @@ import { MenuItem } from "@prisma/client"
 import Image from "next/image"
 import { useRouter } from "next/router"
 
-function Button({ menuItemId }: { menuItemId: number }) {
+function Button({
+  menuItemId,
+  isActive,
+}: {
+  menuItemId: number
+  isActive: boolean
+}) {
   const { isLoading: isLoadingSession, isAuthenticated } = useSession()
   const {
     isLoading: isLoadingBasketItems,
@@ -27,24 +33,31 @@ function Button({ menuItemId }: { menuItemId: number }) {
 
   if (isLoadingSession)
     return (
-      <button className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
+      <span className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
         <br />
-      </button>
+      </span>
     )
 
   if (isAuthenticated) {
     if (isLoadingBasketItems)
       return (
-        <button className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
+        <span className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
           <br />
-        </button>
+        </span>
       )
 
     if (isErrorBasketItems)
       return (
-        <button className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
+        <span className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
           Basket error
-        </button>
+        </span>
+      )
+
+    if (!isActive)
+      return (
+        <span className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
+          Not available
+        </span>
       )
 
     const isItemInBasket = basketItems.some(
@@ -119,7 +132,7 @@ export function MenuItem({ menuItem }: { menuItem: MenuItem }) {
         </p>
       </div>
       <div className="text-center">
-        <Button menuItemId={menuItem.id} />
+        <Button menuItemId={menuItem.id} isActive={menuItem.isActive} />
       </div>
     </article>
   )

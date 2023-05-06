@@ -6,6 +6,7 @@ import {
   createPaymentMethod,
 } from "@/server/payment-gateway"
 import { TRPCError } from "@trpc/server"
+import { getBaseUrl } from "@/utils/base-url"
 
 export const onlineOrderRouter = router({
   getAll: protectedProcedure.query(({ ctx }) => {
@@ -90,10 +91,12 @@ export const onlineOrderRouter = router({
         totalAmountToPayInCentavos
       )
 
+      const returnUrl = `${getBaseUrl()}/api/order/redirect/by-intent-id`
       const paymentMethod = await createPaymentMethod(input.paymentMethod)
       const attachedPaymentIntent = await attachPaymentMethodToIntent(
         paymentMethod.data.id,
-        paymentIntent.data.id
+        paymentIntent.data.id,
+        returnUrl
       )
 
       if (!attachedPaymentIntent.data.attributes.next_action)
