@@ -71,6 +71,7 @@ model OnlineOrder {
   customerId      String         @db.VarChar(28)
   address         String
   contactNumber   String
+  additionalNotes String
   paymentIntentId String         @unique @db.VarChar(27)
   deliveryFee     Decimal
   deliveryStatus  DeliveryStatus @default(Pending)

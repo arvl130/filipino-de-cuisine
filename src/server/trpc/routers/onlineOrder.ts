@@ -124,6 +124,7 @@ export const onlineOrderRouter = router({
           contactNumber: input.contactNumber,
           deliveryFee: input.deliveryFee,
           paymentIntentId: paymentIntent.data.id,
+          additionalNotes: input.additionalNotes,
         },
       })
 
