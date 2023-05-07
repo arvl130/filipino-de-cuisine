@@ -277,6 +277,33 @@ function ReservationDetailsSection({
   const { earliestTimeslot, latestTimeslot } = getEarliestAndLatestTime(
     reservation.reservationSelectedTimes
   )
+  const preciseDateNow = DateTime.fromObject(
+    {},
+    {
+      zone: "Asia/Manila",
+    }
+  )
+  const dateForToday = DateTime.fromObject(
+    {
+      year: preciseDateNow.get("year"),
+      month: preciseDateNow.get("month"),
+      day: preciseDateNow.get("day"),
+    },
+    {
+      zone: "Asia/Manila",
+    }
+  ).toJSDate()
+
+  const dateOfReservation = DateTime.fromObject(
+    {
+      year: parseInt(reservation.selectedDate.split("-")[0]),
+      month: parseInt(reservation.selectedDate.split("-")[1]),
+      day: parseInt(reservation.selectedDate.split("-")[2]),
+    },
+    {
+      zone: "Asia/Manila",
+    }
+  ).toJSDate()
 
   return (
     <section className="max-w-lg [box-shadow:_0px_2px_4px_2px_rgba(0,_0,_0,_0.25)] rounded-2xl mx-auto text-center">
@@ -325,7 +352,8 @@ function ReservationDetailsSection({
           refundable. Please contact our staff for more assistance.
         </p>
         {reservation.paymentStatus === "Fulfilled" &&
-          reservation.attendedStatus === "Pending" && (
+          reservation.attendedStatus === "Pending" &&
+          dateForToday.getTime() < dateOfReservation.getTime() && (
             <button
               type="button"
               className="bg-red-500 hover:bg-red-400 disabled:bg-red-300 transition duration-200 font-medium text-white pt-2 pb-2 px-4 rounded-md mt-2"
