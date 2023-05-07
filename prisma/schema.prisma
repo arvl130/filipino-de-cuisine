@@ -142,32 +142,32 @@ enum AttendedStatus {
 }
 
 model Reservation {
-  id                            Int                            @id @default(autoincrement())
-  customerId                    String                         @db.VarChar(28)
-  fee                           Decimal
-  selectedDate                  String
-  paymentStatus                 PaymentStatus                  @default(Pending)
-  attendedStatus                AttendedStatus                 @default(Pending)
-  createdAt                     DateTime                       @default(now())
-  additionalNotes               String                         @db.VarChar(255)
-  paymentIntentId               String                         @unique @db.VarChar(27)
-  reservationSlots              ReservationSlot[]
-  reservationSelectedTableslots ReservationSelectedTableslot[]
-  reservationSelectedTimeslots  ReservationSelectedTimeslot[]
+  id                        Int                        @id @default(autoincrement())
+  customerId                String                     @db.VarChar(28)
+  fee                       Decimal
+  selectedDate              String
+  paymentStatus             PaymentStatus              @default(Pending)
+  attendedStatus            AttendedStatus             @default(Pending)
+  createdAt                 DateTime                   @default(now())
+  additionalNotes           String                     @db.VarChar(255)
+  paymentIntentId           String                     @unique @db.VarChar(27)
+  reservationSlots          ReservationSlot[]
+  reservationSelectedTables ReservationSelectedTable[]
+  reservationSelectedTimes  ReservationSelectedTime[]
 }
 
-model ReservationSelectedTimeslot {
+model ReservationSelectedTime {
   id            Int         @id @default(autoincrement())
-  timeslot      String
+  time          String
   reservationId Int
   reservation   Reservation @relation(fields: [reservationId], references: [id])
 
   @@index([reservationId])
 }
 
-model ReservationSelectedTableslot {
+model ReservationSelectedTable {
   id            Int         @id @default(autoincrement())
-  tableslot     String
+  table         String
   reservationId Int
   reservation   Reservation @relation(fields: [reservationId], references: [id])
 

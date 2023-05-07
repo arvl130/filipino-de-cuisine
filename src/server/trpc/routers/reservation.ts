@@ -26,8 +26,8 @@ export const reservationRouter = router({
           id: input.id,
         },
         include: {
-          reservationSelectedTimeslots: true,
-          reservationSelectedTableslots: true,
+          reservationSelectedTimes: true,
+          reservationSelectedTables: true,
           reservationSlots: true,
         },
       })
@@ -115,17 +115,17 @@ export const reservationRouter = router({
             paymentIntentId: paymentIntent.data.id,
             fee: input.fee,
             selectedDate: input.reservationDate,
-            reservationSelectedTimeslots: {
+            reservationSelectedTimes: {
               createMany: {
-                data: input.selectedTimeslots.map((timeslot) => ({
-                  timeslot,
+                data: input.selectedTimeslots.map((time) => ({
+                  time,
                 })),
               },
             },
-            reservationSelectedTableslots: {
+            reservationSelectedTables: {
               createMany: {
-                data: input.selectedTableslots.map((tableslot) => ({
-                  tableslot,
+                data: input.selectedTableslots.map((table) => ({
+                  table,
                 })),
               },
             },

@@ -5,8 +5,8 @@ import { api } from "@/utils/api"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Reservation,
-  ReservationSelectedTableslot,
-  ReservationSelectedTimeslot,
+  ReservationSelectedTable,
+  ReservationSelectedTime,
 } from "@prisma/client"
 import { User } from "firebase/auth"
 import { DateTime } from "luxon"
@@ -261,8 +261,8 @@ function ReservationDetailsSection({
   user,
 }: {
   reservation: Reservation & {
-    reservationSelectedTimeslots: ReservationSelectedTimeslot[]
-    reservationSelectedTableslots: ReservationSelectedTableslot[]
+    reservationSelectedTimes: ReservationSelectedTime[]
+    reservationSelectedTables: ReservationSelectedTable[]
   }
   user: User
 }) {
@@ -275,7 +275,7 @@ function ReservationDetailsSection({
     })
 
   const [firstTimeslot, ...otherTimeslots] =
-    reservation.reservationSelectedTimeslots.map(({ timeslot }) => timeslot)
+    reservation.reservationSelectedTimes.map(({ time }) => time)
   const earliestTimeslot = otherTimeslots.reduce(
     (prevTimeslot, currTimeslot) => {
       if (new Date(currTimeslot).getTime() < new Date(prevTimeslot).getTime())
@@ -314,11 +314,8 @@ function ReservationDetailsSection({
         </p>
         <p className="text-red-600 font-semibold">
           TABLE{" "}
-          {reservation.reservationSelectedTableslots
-            .map(
-              (reservationSelectedTableslot) =>
-                reservationSelectedTableslot.tableslot
-            )
+          {reservation.reservationSelectedTables
+            .map((reservationSelectedTable) => reservationSelectedTable.table)
             .join(", ")}
         </p>
       </article>
