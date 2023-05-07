@@ -2,6 +2,7 @@ import { CircledArrowLeft } from "@/components/HeroIcons"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
 import { LoadingSpinner } from "@/components/loading"
 import { api } from "@/utils/api"
+import { getEarliestAndLatestTime } from "@/utils/reservation-time"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Reservation,
@@ -273,25 +274,9 @@ function ReservationDetailsSection({
     api.reservation.cancel.useMutation({
       onSuccess: () => refetch(),
     })
-
-  const [firstTimeslot, ...otherTimeslots] =
-    reservation.reservationSelectedTimes.map(({ time }) => time)
-  const earliestTimeslot = otherTimeslots.reduce(
-    (prevTimeslot, currTimeslot) => {
-      if (new Date(currTimeslot).getTime() < new Date(prevTimeslot).getTime())
-        return currTimeslot
-
-      return prevTimeslot
-    },
-    firstTimeslot
+  const { earliestTimeslot, latestTimeslot } = getEarliestAndLatestTime(
+    reservation.reservationSelectedTimes
   )
-
-  const latestTimeslot = otherTimeslots.reduce((prevTimeslot, currTimeslot) => {
-    if (new Date(currTimeslot).getTime() > new Date(prevTimeslot).getTime())
-      return currTimeslot
-
-    return prevTimeslot
-  }, firstTimeslot)
 
   return (
     <section className="max-w-lg [box-shadow:_0px_2px_4px_2px_rgba(0,_0,_0,_0.25)] rounded-2xl mx-auto text-center">

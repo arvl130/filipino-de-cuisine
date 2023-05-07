@@ -14,6 +14,18 @@ import { DateTime } from "luxon"
 import { getBaseUrl } from "@/utils/base-url"
 
 export const reservationRouter = router({
+  getAll: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.reservation.findMany({
+      where: {
+        customerId: ctx.user.uid,
+      },
+      include: {
+        reservationSelectedTimes: true,
+        reservationSelectedTables: true,
+        reservationSlots: true,
+      },
+    })
+  }),
   getOne: protectedProcedure
     .input(
       z.object({

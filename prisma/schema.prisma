@@ -137,7 +137,8 @@ model MenuItem {
 
 enum AttendedStatus {
   Pending
-  Fulfilled
+  Missed
+  Completed
   Cancelled
 }
 
