@@ -165,6 +165,22 @@ export const onlineOrderRouter = router({
         returnUrl: return_url,
       }
     }),
+  received: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.onlineOrder.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          deliveryStatus: "Received",
+        },
+      })
+    }),
   cancel: protectedProcedure
     .input(
       z.object({

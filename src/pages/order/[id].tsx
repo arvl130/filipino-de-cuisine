@@ -703,6 +703,45 @@ function CancelOrderSection({
   )
 }
 
+function ReceivedOrderSection({
+  onlineOrder,
+}: {
+  onlineOrder: OnlineOrder & {
+    order: Order & {
+      orderItems: OrderItem[]
+    }
+  }
+}) {
+  const { refetch } = api.onlineOrder.getOne.useQuery({
+    id: onlineOrder.id,
+  })
+  const { mutate: receivedOrder, isLoading } =
+    api.onlineOrder.received.useMutation({
+      onSuccess: () => refetch(),
+    })
+
+  if (onlineOrder.deliveryStatus !== "OutForDelivery") return <></>
+
+  return (
+    <section className="text-right max-w-4xl mx-auto pt-3">
+      <p className="mb-1">
+        <button
+          type="button"
+          className="bg-red-600 hover:bg-red-500 disabled:bg-red-300 transition duration-200 text-white px-4 py-2 rounded-lg font-semibold text-lg"
+          disabled={isLoading}
+          onClick={() =>
+            receivedOrder({
+              id: onlineOrder.id,
+            })
+          }
+        >
+          Order Received
+        </button>
+      </p>
+    </section>
+  )
+}
+
 function AuthenticatedPage({ user }: { user: User }) {
   const { query, isReady } = useRouter()
   const { data, isLoading, isError } = api.onlineOrder.getOne.useQuery(
@@ -743,7 +782,10 @@ function AuthenticatedPage({ user }: { user: User }) {
       )}
       <OrderItemsSection onlineOrder={data} />
       {data.order.paymentStatus === "Fulfilled" && (
-        <CancelOrderSection onlineOrder={data} />
+        <>
+          <CancelOrderSection onlineOrder={data} />
+          <ReceivedOrderSection onlineOrder={data} />
+        </>
       )}
     </div>
   )
