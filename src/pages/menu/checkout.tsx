@@ -281,12 +281,10 @@ function AdditionalNotesSection() {
 
 function CheckoutModal({
   cancelFn,
-  isCreatingOrder,
-  hasPendingDelete,
+  isDisabled,
 }: {
   cancelFn: () => void
-  isCreatingOrder: boolean
-  hasPendingDelete: boolean
+  isDisabled: boolean
 }) {
   return (
     <div className="fixed inset-0 z-20 bg-black/20 flex justify-center items-center">
@@ -301,14 +299,14 @@ function CheckoutModal({
             type="button"
             className="px-6 pt-2 pb-1 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 disabled:text-emerald-300 disabled:border-emerald-300 hover:text-white transition duration-200 border-emerald-500 border rounded-md font-medium"
             onClick={() => cancelFn()}
-            disabled={isCreatingOrder || hasPendingDelete}
+            disabled={isDisabled}
           >
             Cancel
           </button>
           <button
             type="submit"
             className="px-6 pt-2 pb-1 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white rounded-md font-medium"
-            disabled={isCreatingOrder || hasPendingDelete}
+            disabled={isDisabled}
           >
             Continue
           </button>
@@ -354,7 +352,7 @@ function OrderSummarySection() {
     register,
     trigger,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<PaymentMethodType>({
     resolver: zodResolver(paymentMethodSchema),
   })
@@ -501,7 +499,7 @@ function OrderSummarySection() {
       ).length > 0 && (
         <button
           type="button"
-          disabled={isCreatingOrder || hasPendingDelete}
+          disabled={isSubmitSuccessful || isCreatingOrder || hasPendingDelete}
           className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white w-full rounded-md py-3 font-semibold text-xl"
           onClick={async () => {
             const isValid = await trigger()
@@ -514,8 +512,7 @@ function OrderSummarySection() {
 
       {isCheckoutModalVisible && (
         <CheckoutModal
-          isCreatingOrder={isCreatingOrder}
-          hasPendingDelete={hasPendingDelete}
+          isDisabled={isSubmitSuccessful || isCreatingOrder || hasPendingDelete}
           cancelFn={() => setIsCheckoutModalVisible(false)}
         />
       )}
