@@ -43,6 +43,7 @@ enum Mode {
 enum PaymentStatus {
   Pending
   Fulfilled
+  Cancelled
 }
 
 model Order {
