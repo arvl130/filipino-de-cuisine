@@ -58,7 +58,7 @@ function AuthenticatedPage({
   customerInfo: CustomerInfo
 }) {
   return (
-    <div className="grid grid-cols-[16rem_1fr]">
+    <div className="grid grid-cols-[16rem_1fr] gap-3">
       <AccountPageSwitcher user={user} />
       <section>
         <h2 className="px-6 border-b border-stone-400 text-2xl font-semibold pb-3">
