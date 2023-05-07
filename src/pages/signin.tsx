@@ -16,7 +16,14 @@ import { SignInSignUpRedirector } from "@/components/signin/SignInSignUpRedirect
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z
+    .string()
+    .min(1, {
+      message: "Please enter your password",
+    })
+    .min(8, {
+      message: "Your password should be at least 8 characters long",
+    }),
 })
 
 type formType = z.infer<typeof formSchema>
