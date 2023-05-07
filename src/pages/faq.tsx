@@ -171,7 +171,8 @@ const questionsAndAnswers: {
   },
   {
     question: "Can I get a refund if I need to cancel my reservation?",
-    answer: "No, canceled reservations are not refundable.",
+    answer:
+      "No, cancelled reservations are not refundable in our website. However, you may contact our restaurant staff and they will be happy to assist customer concerns and requests.",
     category: "REFUNDS",
   },
   {
