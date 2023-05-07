@@ -39,15 +39,13 @@ export default function HeaderSection() {
             following terms and conditions:
           </h6>
 
-          <ul className="list-decimal list-outside pl-6 my-6">
+          <ol className="list-decimal list-outside pl-6 my-6">
             <li className="mb-6">
-              <span className="font-medium">Use of Website Content</span>: All
-              content on our website, including but not limited to, text,
-              graphics, images, logos, and software is the property of Filipino
-              de Cuisine restaurant and is protected by applicable intellectual
-              property laws. You may use the content only for your personal,
-              non-commercial use, and not for any other purpose without our
-              express written consent.
+              <span className="font-medium">Use of Website Content</span>: We
+              may use images gathered from Google for visual representation and
+              illustrative purposes on our website. We respect the rights of
+              copyright holders and strive to use images that are properly
+              licensed or in the public domain.
             </li>
             <li className="mb-6">
               <span className="font-medium">User Conduct</span>: You agree to
@@ -66,9 +64,10 @@ export default function HeaderSection() {
               Filipino de Cuisine restaurant.
             </li>
             <li className="mb-6">
-              <span className="font-medium">Payment</span>: Payment for your
-              meal at our restaurant will be processed in person at the
-              restaurant. We accept cash and major credit cards.
+              <span className="font-medium">Payment</span>: When you make an
+              online payment using GCash and/or Maya, customer will enter
+              his/her GCash or Maya Account name, phone number, and pin or
+              password.
             </li>
             <li className="mb-6">
               <span className="font-medium">Links to Third-Party Websites</span>
@@ -113,7 +112,14 @@ export default function HeaderSection() {
               to these terms and conditions shall be resolved exclusively in the
               courts of the Philippines.
             </li>
-          </ul>
+            <li>
+              <span className="font-medium">Refunds</span>: The absence of a
+              refund policy means that customers will be responsible for their
+              orders and reservations and will not be eligible for refunds or
+              cancellations after the order and/or reservation is made and
+              confirmed.
+            </li>
+          </ol>
 
           <h6>
             By using our website, you acknowledge that you have read,
