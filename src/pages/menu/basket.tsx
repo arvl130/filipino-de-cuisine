@@ -48,31 +48,9 @@ function OrderSummarySection() {
         router.push("/menu/checkout")
       }}
     >
-      <article className="bg-stone-100 mb-3 grid grid-rows-[auto_1fr_auto_auto] min-h-[14rem]">
-        <h3 className="px-8 pt-4 pb-3">
-          <div className="border-b border-stone-500 pb-2 font-semibold text-lg">
-            Selected Items
-          </div>
-        </h3>
-        <div className="px-8 font-medium flex justify-between">
-          <p>Subtotal:</p>
-          <p>₱ {subTotal}</p>
-        </div>
-        <p className="px-8 py-4 grid grid-cols-[1fr_4rem] gap-2">
-          <input
-            type="text"
-            placeholder="Enter a voucher code"
-            className="[background-color:_#d9d9d9] placeholder:text-stone-600 px-4 py-2 rounded-md w-full"
-          />
-          <button
-            type="button"
-            className="bg-red-600 transition duration-200 hover:bg-red-500 text-white rounded-md"
-          >
-            APPLY
-          </button>
-        </p>
-        <div className="[background-color:_#d9d9d9] px-8 py-4 flex justify-between font-semibold text-xl">
-          <p>Total:</p>
+      <article className="bg-stone-100 mb-3 grid grid-rows-[auto_1fr_auto_auto]">
+        <div className="[background-color:_#d9d9d9] px-8 py-4 flex justify-between font-semibold text-xl min-h-[4rem]">
+          <p>Items Total:</p>
           <p>₱ {subTotal}</p>
         </div>
       </article>
