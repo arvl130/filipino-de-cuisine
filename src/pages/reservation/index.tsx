@@ -7,6 +7,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CustomerInfo } from "@prisma/client"
 import { User } from "firebase/auth"
+import { DateTime } from "luxon"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
@@ -26,6 +27,17 @@ const reservationDateFormSchema = z.object({
 
 type ReservationDateFormType = z.infer<typeof reservationDateFormSchema>
 
+function formattedDate(givenDate: Date) {
+  const year = givenDate.getFullYear()
+  const month = givenDate.getMonth() + 1
+  const date = givenDate.getDate()
+
+  const monthStr = month < 10 ? `0${month}` : `${month}`
+  const dateStr = date < 10 ? `0${date}` : `${date}`
+
+  return `${year}-${monthStr}-${dateStr}`
+}
+
 function AuthenticatedPage({
   user,
   customerInfo,
@@ -33,6 +45,11 @@ function AuthenticatedPage({
   user: User
   customerInfo: CustomerInfo
 }) {
+  const tomorrowDateTime = DateTime.now().setZone("Asia/Manila").plus({
+    day: 1,
+  })
+  const tomorrowFormattedDate = formattedDate(tomorrowDateTime.toJSDate())
+
   const router = useRouter()
   const {
     setCustomerName,
@@ -51,7 +68,7 @@ function AuthenticatedPage({
     defaultValues: {
       name: user.displayName ?? "",
       contactNumber: customerInfo.defaultContactNumber,
-      reservationDate: "",
+      reservationDate: tomorrowFormattedDate,
       additionalNotes: "",
     },
   })
@@ -126,6 +143,7 @@ function AuthenticatedPage({
             </label>
             <input
               type="date"
+              min={tomorrowFormattedDate}
               className="bg-neutral-100 rounded-md px-4 py-2 mb-1"
               {...register("reservationDate")}
             />
