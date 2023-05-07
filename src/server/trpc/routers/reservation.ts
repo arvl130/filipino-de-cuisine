@@ -182,26 +182,4 @@ export const reservationRouter = router({
         },
       })
     }),
-  isSlotReserved: protectedProcedure
-    .input(
-      z.object({
-        startIsoDate: z.string().datetime({
-          offset: true,
-        }),
-        tableId: z.string().min(1),
-      })
-    )
-    .query(async ({ input, ctx }) => {
-      const reservationTableslot = await ctx.prisma.reservationSlot.findUnique({
-        where: {
-          startIsoDate_reservationTableId: {
-            startIsoDate: input.startIsoDate,
-            reservationTableId: input.tableId,
-          },
-        },
-      })
-
-      if (reservationTableslot) return true
-      else return false
-    }),
 })
