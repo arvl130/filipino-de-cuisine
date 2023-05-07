@@ -67,7 +67,7 @@ function CreateAccountWithEmailForm({ email }: { email: string }) {
         {...register("password")}
       />
       <button
-        type="button"
+        type="submit"
         disabled={isSigningUp}
         className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 mb-1 text-lg text-white font-semibold w-full py-2 rounded-md"
       >
