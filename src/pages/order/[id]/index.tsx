@@ -763,11 +763,19 @@ function AuthenticatedPage({ user }: { user: User }) {
         <Link href="/account/orders" className="text-emerald-500">
           <CircledArrowLeft />
         </Link>
-        <h2 className="font-semibold text-2xl flex items-end">
-          Delivery Status
-        </h2>
+        <h2 className="font-semibold text-2xl flex items-end">Order Status</h2>
       </div>
-      <p className="px-12">Order ID: {query.id}</p>
+      <div className="flex justify-between px-12">
+        <p>Order ID: {query.id}</p>
+        <div>
+          <Link
+            href={`/order/${query.id}/receipt`}
+            className="text-emerald-500 font-medium"
+          >
+            View Receipt
+          </Link>
+        </div>
+      </div>
       {data.order.paymentStatus === "Cancelled" ? (
         <p className="text-center pt-6 pb-8">This order has been cancelled.</p>
       ) : (
