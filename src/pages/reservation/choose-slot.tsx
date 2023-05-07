@@ -1,7 +1,7 @@
 import { ProtectedPage } from "@/components/account/ProtectedPage"
 import { useReservationDetailsStore } from "@/stores/reservationDetails"
 import Image from "next/image"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { DateTime } from "luxon"
 import { api } from "@/utils/api"
 import { useRouter } from "next/router"
@@ -206,7 +206,49 @@ function ChooseTableslotSection() {
   )
 }
 
+function PlaceReservationModal({
+  cancelFn,
+  continueFn,
+  isDisabled,
+}: {
+  cancelFn: () => void
+  continueFn: () => void
+  isDisabled: boolean
+}) {
+  return (
+    <div className="fixed inset-0 z-20 bg-black/20 flex justify-center items-center">
+      <div className="bg-white max-w-lg w-full rounded-2xl px-8 py-6">
+        <p className="text-justify mb-3">
+          The following action will create your reservation, and you will be
+          redirected to another page where you can fulfill your payment.
+          Continue?
+        </p>
+        <div className="flex justify-center gap-3">
+          <button
+            type="button"
+            className="px-6 pt-2 pb-1 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 disabled:text-emerald-300 disabled:border-emerald-300 hover:text-white transition duration-200 border-emerald-500 border rounded-md font-medium"
+            onClick={() => cancelFn()}
+            disabled={isDisabled}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="px-6 pt-2 pb-1 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white rounded-md font-medium"
+            disabled={isDisabled}
+            onClick={continueFn}
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function AuthenticatedPage() {
+  const [isPlaceReservationModalVisible, setIsPlaceReservationModalVisible] =
+    useState(false)
   const {
     selectedTimeslots,
     selectedTableslots,
@@ -217,7 +259,7 @@ function AuthenticatedPage() {
     paymentMethod,
   } = useReservationDetailsStore()
 
-  const { mutate: createReservation, isLoading } =
+  const { mutate: createReservation, isLoading: isPlacingReservation } =
     api.reservation.create.useMutation({
       onSuccess: ({ paymentUrl }) => {
         location.href = paymentUrl
@@ -254,10 +296,24 @@ function AuthenticatedPage() {
               reservationDate === "" ||
               paymentMethod === "" ||
               selectedTimeslots.length === 0 ||
-              selectedTableslots.length === 0
+              selectedTableslots.length === 0 ||
+              isPlacingReservation
             }
             className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white font-semibold px-8 py-2 text-lg rounded-md"
             onClick={() => {
+              if (paymentMethod === "") return
+              if (selectedTimeslots.length === 0) return
+              if (selectedTableslots.length === 0) return
+
+              setIsPlaceReservationModalVisible(true)
+            }}
+          >
+            Place Reservation
+          </button>
+        </div>
+        {isPlaceReservationModalVisible && (
+          <PlaceReservationModal
+            continueFn={() => {
               if (paymentMethod === "") return
               if (selectedTimeslots.length === 0) return
               if (selectedTableslots.length === 0) return
@@ -284,10 +340,18 @@ function AuthenticatedPage() {
                 fee: 150,
               })
             }}
-          >
-            Place Reservation
-          </button>
-        </div>
+            cancelFn={() => setIsPlaceReservationModalVisible(false)}
+            isDisabled={
+              customerName === "" ||
+              contactNumber === "" ||
+              reservationDate === "" ||
+              paymentMethod === "" ||
+              selectedTimeslots.length === 0 ||
+              selectedTableslots.length === 0 ||
+              isPlacingReservation
+            }
+          />
+        )}
       </div>
     </div>
   )
