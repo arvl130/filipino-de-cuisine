@@ -25,6 +25,11 @@ export const reservationRouter = router({
         where: {
           id: input.id,
         },
+        include: {
+          reservationSelectedTimeslots: true,
+          reservationSelectedTableslots: true,
+          reservationSlots: true,
+        },
       })
     }),
   create: protectedProcedure
@@ -109,6 +114,21 @@ export const reservationRouter = router({
             customerId: ctx.user.uid,
             paymentIntentId: paymentIntent.data.id,
             fee: input.fee,
+            selectedDate: input.reservationDate,
+            reservationSelectedTimeslots: {
+              createMany: {
+                data: input.selectedTimeslots.map((timeslot) => ({
+                  timeslot,
+                })),
+              },
+            },
+            reservationSelectedTableslots: {
+              createMany: {
+                data: input.selectedTableslots.map((tableslot) => ({
+                  tableslot,
+                })),
+              },
+            },
             additionalNotes: input.additionalNotes,
             reservationSlots: {
               createMany: {
@@ -179,6 +199,48 @@ export const reservationRouter = router({
       return ctx.prisma.reservationSlot.findMany({
         where: {
           startIsoDate: input.startIsoDate,
+        },
+      })
+    }),
+  cancel: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.reservationSlot.deleteMany({
+        where: {
+          reservationId: input.id,
+        },
+      })
+      return ctx.prisma.reservation.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          attendedStatus: "Cancelled",
+        },
+      })
+    }),
+  cancelPayment: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.reservationSlot.deleteMany({
+        where: {
+          reservationId: input.id,
+        },
+      })
+      return ctx.prisma.reservation.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          paymentStatus: "Cancelled",
         },
       })
     }),
