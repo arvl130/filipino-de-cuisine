@@ -197,7 +197,7 @@ function AuthenticatedPage({
           )}
           <p className="text-stone-500 text-sm mt-3">
             To reserve your spot, kindly note that a ₱150 fee is required.
-            Cancelled reservations are not refundable.
+            Cancelled reservations are not automatically refundable.
           </p>
         </div>
         <div className="flex justify-center">

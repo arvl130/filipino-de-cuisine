@@ -321,7 +321,8 @@ function ReservationDetailsSection({
         <p className="max-w-sm mx-auto">
           Thank you for booking with us! Your reservation at Filipino de Cuisine
           is confirmed. You may cancel your reservation only up to the day
-          before your reserved date. Cancelled reservation are not refundable.
+          before your reserved date. Cancelled reservation are not automatically
+          refundable. Please contact our staff for more assistance.
         </p>
         {reservation.paymentStatus === "Fulfilled" &&
           reservation.attendedStatus === "Pending" && (

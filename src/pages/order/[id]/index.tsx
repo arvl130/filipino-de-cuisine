@@ -696,9 +696,15 @@ function CancelOrderSection({
           Cancel Order
         </button>
       </p>
-      <p className="text-stone-500 text-sm">
-        * You will not be able to cancel once the order is being prepared.
-      </p>
+      <ul className="max-w-xs ml-auto text-justify pl-6 list-disc">
+        <li className="text-stone-500 text-sm">
+          You will not be able to cancel once the order is being prepared.
+        </li>
+        <li className="text-stone-500 text-sm">
+          Order fees are not automatically refundable. Please contact our staff
+          for more assistance.
+        </li>
+      </ul>
     </section>
   )
 }

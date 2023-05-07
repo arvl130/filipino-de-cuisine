@@ -498,6 +498,10 @@ function OrderSummarySection() {
         </button>
       )}
 
+      <p className="text-stone-500 text-sm mt-3">
+        * Order fees are not automatically refundable.
+      </p>
+
       {isCheckoutModalVisible && (
         <CheckoutModal
           isDisabled={isSubmitSuccessful || isCreatingOrder || hasPendingDelete}
