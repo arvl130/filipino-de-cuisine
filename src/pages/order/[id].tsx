@@ -108,7 +108,13 @@ const paymentMethodSchema = z.object({
 
 type paymentMethodType = z.infer<typeof paymentMethodSchema>
 
-function PaymentIntentStatus({ id, orderId }: { id: string; orderId: number }) {
+function PaymentStatusSection({
+  id,
+  orderId,
+}: {
+  id: string
+  orderId: number
+}) {
   const { data, isLoading, isError, refetch } =
     api.payment.getPaymentIntent.useQuery({
       id,
@@ -137,87 +143,80 @@ function PaymentIntentStatus({ id, orderId }: { id: string; orderId: number }) {
   if (!data) return <div>No payment intent found.</div>
 
   return (
-    <div>
-      <h2 className="font-semibold text-2xl mb-3">Payment Status</h2>
-      <div className="max-w-xl mx-auto bg-stone-100 px-6 py-4 rounded-lg">
-        {data.data.attributes.status === "succeeded" && (
-          <div className="text-center">
-            <p className="mb-1">Payment succeeded. Try refreshing this page.</p>
+    <section className="max-w-xl mx-auto bg-stone-100 px-6 py-4 mt-6 mb-8 rounded-lg">
+      {data.data.attributes.status === "succeeded" && (
+        <div className="text-center">
+          <p className="mb-1">Payment succeeded. Try refreshing this page.</p>
+          <button
+            type="button"
+            disabled={isRefetching}
+            className="px-4 pb-2 pt-3 w-32 bg-blue-500 hover:bg-blue-400 disabled:bg-blue-300 transition duration-200 text-white font-medium rounded-md inline-block"
+            onClick={() => refetchOrder()}
+          >
+            {isRefetching ? <>Refreshing ...</> : <>Refresh</>}
+          </button>
+        </div>
+      )}
+      {data.data.attributes.status === "processing" && (
+        <p className="text-center">
+          We are still processing your payment. Please return in a few moment.
+        </p>
+      )}
+      {data.data.attributes.status === "awaiting_next_action" && (
+        <>
+          {data.data.attributes.next_action === null ? (
+            <p className="text-center">
+              Awaiting next action, but no next action could be found.
+            </p>
+          ) : (
+            <SourceStatus
+              sourceId={
+                data.data.attributes.next_action.redirect.url.split("id=")[1]
+              }
+              paymentIntentId={data.data.id}
+            />
+          )}
+        </>
+      )}
+      {data.data.attributes.status === "awaiting_payment_method" && (
+        <form
+          onSubmit={handleSubmit((formData) =>
+            refreshPaymentIntent({
+              id: data.data.id,
+              paymentMethod: formData.paymentMethod,
+              paymentFor: "ORDER",
+            })
+          )}
+        >
+          <p className="mb-1">
+            No payment has yet been made for this order. Please choose a payment
+            method.
+          </p>
+          <div className="grid mb-1">
+            <label className="flex gap-3">
+              <input
+                type="radio"
+                value="GCASH"
+                {...register("paymentMethod")}
+              />
+              <span>GCash</span>
+            </label>
+            <label className="flex gap-3">
+              <input type="radio" value="MAYA" {...register("paymentMethod")} />
+              <span>Maya</span>
+            </label>
+          </div>
+          <div className="text-right font-medium">
             <button
-              type="button"
-              disabled={isRefetching}
-              className="px-4 pb-2 pt-3 w-32 bg-blue-500 hover:bg-blue-400 disabled:bg-blue-300 transition duration-200 text-white font-medium rounded-md inline-block"
-              onClick={() => refetchOrder()}
+              type="submit"
+              className="bg-emerald-500 text-white px-4 py-2 rounded-md hover:bg-emerald-400 transition duration-200"
             >
-              {isRefetching ? <>Refreshing ...</> : <>Refresh</>}
+              Proceed
             </button>
           </div>
-        )}
-        {data.data.attributes.status === "processing" && (
-          <p className="text-center">
-            We are still processing your payment. Please return in a few moment.
-          </p>
-        )}
-        {data.data.attributes.status === "awaiting_next_action" && (
-          <>
-            {data.data.attributes.next_action === null ? (
-              <p className="text-center">
-                Awaiting next action, but no next action could be found.
-              </p>
-            ) : (
-              <SourceStatus
-                sourceId={
-                  data.data.attributes.next_action.redirect.url.split("id=")[1]
-                }
-                paymentIntentId={data.data.id}
-              />
-            )}
-          </>
-        )}
-        {data.data.attributes.status === "awaiting_payment_method" && (
-          <form
-            onSubmit={handleSubmit((formData) =>
-              refreshPaymentIntent({
-                id: data.data.id,
-                paymentMethod: formData.paymentMethod,
-                paymentFor: "ORDER",
-              })
-            )}
-          >
-            <p className="mb-1">
-              No payment has yet been made for this order. Please choose a
-              payment method.
-            </p>
-            <div className="grid mb-1">
-              <label className="flex gap-3">
-                <input
-                  type="radio"
-                  value="GCASH"
-                  {...register("paymentMethod")}
-                />
-                <span>GCash</span>
-              </label>
-              <label className="flex gap-3">
-                <input
-                  type="radio"
-                  value="MAYA"
-                  {...register("paymentMethod")}
-                />
-                <span>Maya</span>
-              </label>
-            </div>
-            <div className="text-right font-medium">
-              <button
-                type="submit"
-                className="bg-emerald-500 text-white px-4 py-2 rounded-md hover:bg-emerald-400 transition duration-200"
-              >
-                Proceed
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
-    </div>
+        </form>
+      )}
+    </section>
   )
 }
 
@@ -512,9 +511,6 @@ function OrderStatusSection({
           </div>
         </>
       )}
-      {onlineOrder.deliveryStatus === "Cancelled" && (
-        <p className="text-center">This order has been cancelled.</p>
-      )}
     </section>
   )
 }
@@ -675,54 +671,6 @@ function CancelOrderSection({
   )
 }
 
-function DeliveryStatus() {
-  const { query } = useRouter()
-  const { data, isLoading, isError } = api.onlineOrder.getOne.useQuery(
-    {
-      id: parseInt(query.id as string),
-    },
-    {
-      enabled: typeof query.id === "string",
-    }
-  )
-
-  return (
-    <>
-      <div className="flex items-center gap-2 mb-6">
-        <Link href="/account/orders" className="text-emerald-500">
-          <CircledArrowLeft />
-        </Link>
-        <h2 className="font-semibold text-2xl flex items-end">
-          Delivery Status
-        </h2>
-      </div>
-      <p className="px-12">Order ID: {query.id}</p>
-
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <>
-          {isError ? (
-            <>An error occured while loading order.</>
-          ) : (
-            <>
-              {data ? (
-                <>
-                  <OrderStatusSection onlineOrder={data} />
-                  <OrderItemsSection onlineOrder={data} />
-                  <CancelOrderSection onlineOrder={data} />
-                </>
-              ) : (
-                <>No order found.</>
-              )}
-            </>
-          )}
-        </>
-      )}
-    </>
-  )
-}
-
 function AuthenticatedPage({ user }: { user: User }) {
   const { query, isReady } = useRouter()
   const { data, isLoading, isError } = api.onlineOrder.getOne.useQuery(
@@ -740,10 +688,36 @@ function AuthenticatedPage({ user }: { user: User }) {
 
   return (
     <div>
-      {data.order.paymentStatus === "Pending" && (
-        <PaymentIntentStatus id={data.paymentIntentId} orderId={data.id} />
-      )}
-      {data.order.paymentStatus === "Fulfilled" && <DeliveryStatus />}
+      <>
+        <div className="flex items-center gap-2 mb-6">
+          <Link href="/account/orders" className="text-emerald-500">
+            <CircledArrowLeft />
+          </Link>
+          <h2 className="font-semibold text-2xl flex items-end">
+            Delivery Status
+          </h2>
+        </div>
+        <p className="px-12">Order ID: {query.id}</p>
+        {data.deliveryStatus === "Cancelled" ? (
+          <p className="text-center pt-6 pb-8">
+            This order has been cancelled.
+          </p>
+        ) : (
+          <>
+            {data.order.paymentStatus === "Pending" && (
+              <PaymentStatusSection
+                id={data.paymentIntentId}
+                orderId={data.id}
+              />
+            )}
+            {data.order.paymentStatus === "Fulfilled" && (
+              <OrderStatusSection onlineOrder={data} />
+            )}
+          </>
+        )}
+        <OrderItemsSection onlineOrder={data} />
+        <CancelOrderSection onlineOrder={data} />
+      </>
     </div>
   )
 }
