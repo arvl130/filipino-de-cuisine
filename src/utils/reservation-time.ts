@@ -1,4 +1,5 @@
 import { ReservationSelectedTime } from "@prisma/client"
+import { DateTime } from "luxon"
 
 export function getEarliestAndLatestTime(
   reservationSelectedTimes: ReservationSelectedTime[]
@@ -24,5 +25,14 @@ export function getEarliestAndLatestTime(
     return prevTimeslot
   }, firstTimeslot)
 
-  return { earliestTimeslot, latestTimeslot }
+  return {
+    earliestTimeslot: DateTime.fromISO(earliestTimeslot, {
+      setZone: true,
+    }),
+    latestTimeslot: DateTime.fromISO(latestTimeslot, {
+      setZone: true,
+    }).plus({
+      hour: 1,
+    }),
+  }
 }

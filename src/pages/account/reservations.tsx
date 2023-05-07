@@ -147,13 +147,9 @@ function ReservationsListSection({
                     <div>{reservation.id}</div>
                     <div>{formattedDate(reservation.createdAt)}</div>
                     <div>
-                      {DateTime.fromISO(earliestTimeslot, {
-                        setZone: true,
-                      }).toLocaleString(DateTime.TIME_SIMPLE)}
+                      {earliestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
                       {" - "}
-                      {DateTime.fromISO(latestTimeslot, {
-                        setZone: true,
-                      }).toLocaleString(DateTime.TIME_SIMPLE)}
+                      {latestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
                     </div>
                     <div>{reservation.attendedStatus}</div>
                     <div>

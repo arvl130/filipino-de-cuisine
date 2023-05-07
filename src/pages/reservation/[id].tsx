@@ -315,14 +315,9 @@ function ReservationDetailsSection({
           }).toLocaleString(DateTime.DATE_HUGE)}
         </p>
         <p className="font-semibold mb-3">
-          at{" "}
-          {DateTime.fromISO(earliestTimeslot, {
-            setZone: true,
-          }).toLocaleString(DateTime.TIME_SIMPLE)}
+          at {earliestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
           {" to "}
-          {DateTime.fromISO(latestTimeslot, {
-            setZone: true,
-          }).toLocaleString(DateTime.TIME_SIMPLE)}
+          {latestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
         </p>
         <p className="text-red-600 font-semibold">
           TABLE{" "}
