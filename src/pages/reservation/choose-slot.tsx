@@ -249,6 +249,9 @@ function PlaceReservationModal({
 function AuthenticatedPage() {
   const [isPlaceReservationModalVisible, setIsPlaceReservationModalVisible] =
     useState(false)
+  const [hasSubmittedSuccessfully, setHasSubmittedSuccessfully] =
+    useState(false)
+
   const {
     selectedTimeslots,
     selectedTableslots,
@@ -262,6 +265,7 @@ function AuthenticatedPage() {
   const { mutate: createReservation, isLoading: isPlacingReservation } =
     api.reservation.create.useMutation({
       onSuccess: ({ paymentUrl }) => {
+        setHasSubmittedSuccessfully(true)
         location.href = paymentUrl
       },
     })
@@ -297,7 +301,8 @@ function AuthenticatedPage() {
               paymentMethod === "" ||
               selectedTimeslots.length === 0 ||
               selectedTableslots.length === 0 ||
-              isPlacingReservation
+              isPlacingReservation ||
+              hasSubmittedSuccessfully
             }
             className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-300 transition duration-200 text-white font-semibold px-8 py-2 text-lg rounded-md"
             onClick={() => {
@@ -348,7 +353,8 @@ function AuthenticatedPage() {
               paymentMethod === "" ||
               selectedTimeslots.length === 0 ||
               selectedTableslots.length === 0 ||
-              isPlacingReservation
+              isPlacingReservation ||
+              hasSubmittedSuccessfully
             }
           />
         )}
