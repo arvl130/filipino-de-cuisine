@@ -188,13 +188,23 @@ export const onlineOrderRouter = router({
       })
     )
     .mutation(({ input, ctx }) => {
-      return ctx.prisma.order.update({
-        where: {
-          id: input.id,
-        },
-        data: {
-          paymentStatus: "Cancelled",
-        },
-      })
+      return ctx.prisma.$transaction([
+        ctx.prisma.onlineOrder.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            deliveryStatus: "Cancelled",
+          },
+        }),
+        ctx.prisma.order.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            paymentStatus: "Cancelled",
+          },
+        }),
+      ])
     }),
 })

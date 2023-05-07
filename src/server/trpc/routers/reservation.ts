@@ -242,18 +242,21 @@ export const reservationRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      await ctx.prisma.reservationSlot.deleteMany({
-        where: {
-          reservationId: input.id,
-        },
-      })
-      return ctx.prisma.reservation.update({
-        where: {
-          id: input.id,
-        },
-        data: {
-          paymentStatus: "Cancelled",
-        },
-      })
+      return ctx.prisma.$transaction([
+        ctx.prisma.reservationSlot.deleteMany({
+          where: {
+            reservationId: input.id,
+          },
+        }),
+        ctx.prisma.reservation.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            attendedStatus: "Cancelled",
+            paymentStatus: "Cancelled",
+          },
+        }),
+      ])
     }),
 })
