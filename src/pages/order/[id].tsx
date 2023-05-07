@@ -14,9 +14,11 @@ import { z } from "zod"
 function SourceStatus({
   sourceId,
   paymentIntentId,
+  orderId,
 }: {
   sourceId: string
   paymentIntentId: string
+  orderId: number
 }) {
   const { data, isLoading, isError } = api.payment.getSource.useQuery({
     id: sourceId,
@@ -88,7 +90,8 @@ function SourceStatus({
             The payment for this order is still pending. Click the button below
             to continue the payment process.
           </p>
-          <div className="text-right">
+          <div className="flex justify-end gap-3">
+            <CancelPaymentButton orderId={orderId} />
             <a
               href={data.data.attributes.redirect.checkout_url}
               className="inline-block bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-400 transition duration-200"
@@ -99,6 +102,33 @@ function SourceStatus({
         </div>
       )}
     </div>
+  )
+}
+
+function CancelPaymentButton({ orderId }: { orderId: number }) {
+  const { refetch, isLoading: isLoadingOrder } =
+    api.onlineOrder.getOne.useQuery({
+      id: orderId,
+    })
+
+  const { mutate: cancelPayment, isLoading } =
+    api.onlineOrder.cancelPayment.useMutation({
+      onSuccess: () => refetch(),
+    })
+
+  return (
+    <button
+      type="button"
+      className="bg-red-500 hover:bg-red-400 transition duration-200 text-white px-4 py-2 rounded-md disabled:bg-red-300"
+      disabled={isLoadingOrder || isLoading}
+      onClick={() =>
+        cancelPayment({
+          id: orderId,
+        })
+      }
+    >
+      Cancel Order
+    </button>
   )
 }
 
@@ -174,6 +204,7 @@ function PaymentStatusSection({
                 data.data.attributes.next_action.redirect.url.split("id=")[1]
               }
               paymentIntentId={data.data.id}
+              orderId={orderId}
             />
           )}
         </>
@@ -206,7 +237,8 @@ function PaymentStatusSection({
               <span>Maya</span>
             </label>
           </div>
-          <div className="text-right font-medium">
+          <div className="flex justify-end gap-3 font-medium">
+            <CancelPaymentButton orderId={orderId} />
             <button
               type="submit"
               className="bg-emerald-500 text-white px-4 py-2 rounded-md hover:bg-emerald-400 transition duration-200"
@@ -688,36 +720,31 @@ function AuthenticatedPage({ user }: { user: User }) {
 
   return (
     <div>
-      <>
-        <div className="flex items-center gap-2 mb-6">
-          <Link href="/account/orders" className="text-emerald-500">
-            <CircledArrowLeft />
-          </Link>
-          <h2 className="font-semibold text-2xl flex items-end">
-            Delivery Status
-          </h2>
-        </div>
-        <p className="px-12">Order ID: {query.id}</p>
-        {data.deliveryStatus === "Cancelled" ? (
-          <p className="text-center pt-6 pb-8">
-            This order has been cancelled.
-          </p>
-        ) : (
-          <>
-            {data.order.paymentStatus === "Pending" && (
-              <PaymentStatusSection
-                id={data.paymentIntentId}
-                orderId={data.id}
-              />
-            )}
-            {data.order.paymentStatus === "Fulfilled" && (
-              <OrderStatusSection onlineOrder={data} />
-            )}
-          </>
-        )}
-        <OrderItemsSection onlineOrder={data} />
+      <div className="flex items-center gap-2 mb-6">
+        <Link href="/account/orders" className="text-emerald-500">
+          <CircledArrowLeft />
+        </Link>
+        <h2 className="font-semibold text-2xl flex items-end">
+          Delivery Status
+        </h2>
+      </div>
+      <p className="px-12">Order ID: {query.id}</p>
+      {data.order.paymentStatus === "Cancelled" ? (
+        <p className="text-center pt-6 pb-8">This order has been cancelled.</p>
+      ) : (
+        <>
+          {data.order.paymentStatus === "Pending" && (
+            <PaymentStatusSection id={data.paymentIntentId} orderId={data.id} />
+          )}
+          {data.order.paymentStatus === "Fulfilled" && (
+            <OrderStatusSection onlineOrder={data} />
+          )}
+        </>
+      )}
+      <OrderItemsSection onlineOrder={data} />
+      {data.order.paymentStatus === "Fulfilled" && (
         <CancelOrderSection onlineOrder={data} />
-      </>
+      )}
     </div>
   )
 }
