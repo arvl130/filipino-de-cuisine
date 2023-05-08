@@ -1,5 +1,6 @@
 import { AccountPageSwitcher } from "@/components/account/AccountPageSwitcher"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
+import { LoadingSpinner } from "@/components/loading"
 import { api } from "@/utils/api"
 import { getEarliestAndLatestTime } from "@/utils/reservation-time"
 import {
@@ -183,19 +184,15 @@ function AuthenticatedPage({ user }: { user: User }) {
         </h2>
         <>
           {isLoading ? (
-            <>Loading ...</>
+            <div className="pt-3">
+              <LoadingSpinner />
+            </div>
           ) : (
             <>
               {isError ? (
-                <>An error occured.</>
+                <div className="text-center pt-3">An error occured.</div>
               ) : (
-                <>
-                  {data === undefined ? (
-                    <>No orders list found.</>
-                  ) : (
-                    <ReservationsListSection reservations={data} />
-                  )}
-                </>
+                <ReservationsListSection reservations={data} />
               )}
             </>
           )}

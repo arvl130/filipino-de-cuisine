@@ -1,5 +1,6 @@
 import { AccountPageSwitcher } from "@/components/account/AccountPageSwitcher"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
+import { LoadingSpinner } from "@/components/loading"
 import { api } from "@/utils/api"
 import { DeliveryStatus, OnlineOrder, Order, OrderItem } from "@prisma/client"
 import { User } from "firebase/auth"
@@ -186,19 +187,15 @@ function AuthenticatedPage({ user }: { user: User }) {
         <h2 className="px-6 text-2xl font-semibold pb-3">Order Transactions</h2>
         <>
           {isLoading ? (
-            <>Loading ...</>
+            <div className="pt-3">
+              <LoadingSpinner />
+            </div>
           ) : (
             <>
               {isError ? (
-                <>An error occured.</>
+                <div className="text-center pt-3">An error occured.</div>
               ) : (
-                <>
-                  {data === undefined ? (
-                    <>No orders list found.</>
-                  ) : (
-                    <OrdersListSection onlineOrders={data} />
-                  )}
-                </>
+                <OrdersListSection onlineOrders={data} />
               )}
             </>
           )}
