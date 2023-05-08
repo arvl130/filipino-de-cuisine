@@ -52,6 +52,7 @@ model Order {
   createdAt     DateTime      @default(now())
   customerName  String
   paymentStatus PaymentStatus @default(Pending)
+  isArchived    Boolean       @default(false)
   orderItems    OrderItem[]
   walkInOrders  WalkInOrder[]
   onlineOrders  OnlineOrder[]
@@ -152,6 +153,7 @@ model Reservation {
   createdAt                 DateTime                   @default(now())
   additionalNotes           String                     @db.VarChar(255)
   paymentIntentId           String                     @unique @db.VarChar(27)
+  isArchived                Boolean                    @default(false)
   reservationSlots          ReservationSlot[]
   reservationSelectedTables ReservationSelectedTable[]
   reservationSelectedTimes  ReservationSelectedTime[]
