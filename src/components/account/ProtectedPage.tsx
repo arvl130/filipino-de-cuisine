@@ -104,7 +104,7 @@ function HasCustomerInfoView({
   return <>{children(data)}</>
 }
 
-export function ProtectedPage({
+export function ComposedProtectedPage({
   children,
 }: {
   children: ({
@@ -128,5 +128,73 @@ export function ProtectedPage({
         </HasCustomerInfoView>
       )}
     </IsAuthenticatedView>
+  )
+}
+
+export function ProtectedPage({
+  children,
+}: {
+  children: ({
+    user,
+    customerInfo,
+  }: {
+    user: User
+    customerInfo: CustomerInfo
+  }) => ReactNode
+}) {
+  const router = useRouter()
+  const { isLoading: isLoadingSession, isAuthenticated, user } = useSession()
+  const {
+    isLoading: isLoadingCustomerInfo,
+    isError: isErrorCustomerInfo,
+    data: customerInfo,
+  } = api.customerInfo.get.useQuery()
+
+  useEffect(() => {
+    if (!router.isReady) return
+    if (isLoadingSession) return
+
+    if (!isAuthenticated) {
+      router.push("/signin")
+      return
+    }
+
+    if (isLoadingCustomerInfo) return
+    if (isErrorCustomerInfo) return
+    if (customerInfo) return
+
+    router.push({
+      pathname: "/account/fill-in-profile",
+      query: {
+        returnUrl: router.pathname,
+      },
+    })
+  }, [
+    router,
+    isLoadingSession,
+    isAuthenticated,
+    isLoadingCustomerInfo,
+    isErrorCustomerInfo,
+    customerInfo,
+  ])
+
+  if (isErrorCustomerInfo)
+    return <p>An error occured while retrieving profile.</p>
+
+  if (
+    isLoadingSession ||
+    user === null ||
+    isLoadingCustomerInfo ||
+    customerInfo === null
+  )
+    return <LoadingSpinner />
+
+  return (
+    <>
+      {children({
+        user,
+        customerInfo,
+      })}
+    </>
   )
 }
