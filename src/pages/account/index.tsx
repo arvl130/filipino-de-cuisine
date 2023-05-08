@@ -1,5 +1,4 @@
 import { AccountPageSwitcher } from "@/components/account/AccountPageSwitcher"
-import { api } from "@/utils/api"
 import { User } from "firebase/auth"
 import { CustomerInfo } from "@prisma/client"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
