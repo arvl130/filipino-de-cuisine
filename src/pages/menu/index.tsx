@@ -1,9 +1,9 @@
 import { Basket } from "@/components/HeroIcons"
+import { ProtectedSVGLink } from "@/components/account/ProtectedPage"
 import { LoadingSpinner } from "@/components/loading"
 import { MenuItem as MenuPageSectionItem } from "@/components/menu/MenuItem"
 import { api } from "@/utils/api"
 import { MenuItem } from "@prisma/client"
-import Link from "next/link"
 import { useState } from "react"
 
 function MenuPageSections({ menuItems }: { menuItems: MenuItem[] }) {
@@ -16,9 +16,9 @@ function MenuPageSections({ menuItems }: { menuItems: MenuItem[] }) {
       <div className="grid sm:grid-cols-[4rem_1fr_4rem] mb-12">
         {/* Basket */}
         <div className="flex justify-end sm:jusify-start mb-3 sm:mb-0">
-          <Link href="/menu/basket" className="text-emerald-500">
+          <ProtectedSVGLink href={"/menu/basket"}>
             <Basket />
-          </Link>
+          </ProtectedSVGLink>
         </div>
         {/* Tabs */}
         <div className="flex flex-wrap justify-center gap-y-3 gap-x-3 lg:gap-x-16 font-bold">

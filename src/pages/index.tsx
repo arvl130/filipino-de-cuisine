@@ -1,4 +1,5 @@
 import { Basket } from "@/components/HeroIcons"
+import { ProtectedSVGLink } from "@/components/account/ProtectedPage"
 import { MenuItem as FeaturedDishesSectionItem } from "@/components/menu/MenuItem"
 import { Prisma } from "@prisma/client"
 import Head from "next/head"
@@ -133,9 +134,9 @@ function FeaturedDishesSection() {
     <section className="[border-color:_#F5F5F5] border-2 pt-8 pb-12 px-6">
       <div className="grid grid-cols-[4rem_1fr_4rem]">
         <div className="flex justify-end">
-          <Link href="/menu/basket" className="text-emerald-500">
+          <ProtectedSVGLink href="/menu/basket">
             <Basket />
-          </Link>
+          </ProtectedSVGLink>
         </div>
         <div className="text-center">
           <h2 className="[color:_#78716C] mb-3">Customers Pick</h2>

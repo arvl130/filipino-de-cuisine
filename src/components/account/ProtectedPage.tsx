@@ -5,6 +5,53 @@ import { User } from "firebase/auth"
 import { useRouter } from "next/router"
 import { ReactNode, useEffect } from "react"
 import { LoadingSpinner } from "../loading"
+import Link from "next/link"
+
+export function ProtectedSVGLink({
+  href,
+  children,
+}: {
+  href: string
+  children: ReactNode
+}) {
+  const { isLoading: isLoadingSession, isAuthenticated } = useSession()
+  const { isLoading: isLoadingCustomer, isError: isErrorCustomer } =
+    api.customerInfo.get.useQuery(undefined, {
+      enabled: !isLoadingSession && isAuthenticated,
+    })
+
+  if (isLoadingSession)
+    return (
+      <span className="text-emerald-300 transition duration-200">
+        {children}
+      </span>
+    )
+
+  if (!isAuthenticated)
+    return (
+      <Link href="/signin" className="text-emerald-500 transition duration-200">
+        {children}
+      </Link>
+    )
+
+  if (isLoadingCustomer)
+    return (
+      <span className="text-emerald-300 transition duration-200">
+        {children}
+      </span>
+    )
+
+  if (isErrorCustomer)
+    return (
+      <span className="text-red-500 transition duration-200">{children}</span>
+    )
+
+  return (
+    <Link href={href} className="text-emerald-500 transition duration-200">
+      {children}
+    </Link>
+  )
+}
 
 export function IsAuthenticatedView({
   children,
