@@ -315,7 +315,7 @@ function OrderStatusSection({
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">On the way</div>
+            <div className="font-medium mt-1">Out for Delivery</div>
           </div>
           <div>
             <div className="h-24 flex items-center relative">
@@ -383,7 +383,7 @@ function OrderStatusSection({
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">On the way</div>
+            <div className="font-medium mt-1">Out for Delivery</div>
           </div>
           <div>
             <div className="h-24 flex items-center relative">
@@ -453,7 +453,7 @@ function OrderStatusSection({
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">On the way</div>
+            <div className="font-medium mt-1">Out for Delivery</div>
           </div>
           <div>
             <div className="h-24 flex items-center relative">
@@ -523,7 +523,7 @@ function OrderStatusSection({
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">On the way</div>
+            <div className="font-medium mt-1">Out for Delivery</div>
           </div>
           <div>
             <div className="h-24 flex items-center relative">
