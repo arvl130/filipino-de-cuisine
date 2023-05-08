@@ -6,57 +6,66 @@ import { api } from "@/utils/api"
 import { User, signOut } from "firebase/auth"
 import { useRouter } from "next/router"
 import { ReactNode, useEffect, useState } from "react"
-import { CustomerInfo } from "@prisma/client"
 import { getAuth } from "firebase/auth"
 import { LoadingSpinner } from "@/components/loading"
-import { IsAuthenticatedView } from "@/components/account/ProtectedPage"
 import { useSession } from "@/utils/auth"
 import {
   VALID_CONTACT_NUMBER,
   VALID_DATE_REGEX,
 } from "@/utils/validation-patterns"
 
-function ProtectedPage({
-  children,
-}: {
-  children: ({
-    user,
-    customerInfo,
-  }: {
-    user: User
-    customerInfo: CustomerInfo | null
-  }) => ReactNode
-}) {
+function ProtectedPage({ children }: { children: (user: User) => ReactNode }) {
   const router = useRouter()
-  const { user } = useSession()
-  const { data, isLoading, isError } = api.customerInfo.get.useQuery(
-    undefined,
-    {
-      enabled: user !== null,
-    }
-  )
+  const { isLoading: isLoadingSession, isAuthenticated, user } = useSession()
+  const {
+    isLoading: isLoadingCustomerInfo,
+    isError: isErrorCustomerInfo,
+    data: customerInfo,
+  } = api.customerInfo.get.useQuery(undefined, {
+    enabled: user !== null,
+  })
 
   useEffect(() => {
-    if (router.isReady && !isLoading && !isError && data) {
-      const { returnUrl } = router.query
-      if (typeof returnUrl === "string") {
-        router.push({
-          pathname: returnUrl,
-        })
-        return
-      }
-      router.push("/account")
+    if (!router.isReady) return
+    if (isLoadingSession) return
+    if (!isAuthenticated) {
+      router.push("/signin")
+      return
     }
-  }, [router, isLoading, isError, data])
 
-  if (isLoading) return <LoadingSpinner />
-  if (isError) return <p>An error occured while loading your profile.</p>
+    if (isLoadingCustomerInfo) return
+    if (isErrorCustomerInfo) return
+    if (!customerInfo) return
 
-  return (
-    <IsAuthenticatedView>
-      {(user) => children({ user, customerInfo: data })}
-    </IsAuthenticatedView>
+    const { returnUrl } = router.query
+    if (typeof returnUrl === "string") {
+      router.push({
+        pathname: returnUrl,
+      })
+      return
+    }
+    router.push("/account")
+  }, [
+    router,
+    isLoadingSession,
+    isAuthenticated,
+    isLoadingCustomerInfo,
+    isErrorCustomerInfo,
+    customerInfo,
+  ])
+
+  if (isErrorCustomerInfo)
+    return <p>An error occured while loading your profile.</p>
+
+  if (
+    isLoadingSession ||
+    user === null ||
+    isLoadingCustomerInfo ||
+    customerInfo !== null
   )
+    return <LoadingSpinner />
+
+  return <>{children(user)}</>
 }
 
 const formSchema = z.object({
@@ -72,13 +81,7 @@ const formSchema = z.object({
 
 type formType = z.infer<typeof formSchema>
 
-function AuthenticatedPage({
-  user,
-  customerInfo,
-}: {
-  user: User
-  customerInfo: CustomerInfo | null
-}) {
+function AuthenticatedPage({ user }: { user: User }) {
   const {
     register,
     handleSubmit,
@@ -99,8 +102,6 @@ function AuthenticatedPage({
     },
     onError: () => setIsUpdatingProfile(false),
   })
-
-  if (customerInfo) return <LoadingSpinner />
 
   return (
     <div className="[box-shadow:_0px_1px_4px_1px_rgba(0,_0,_0,_0.25)] rounded-2xl shadow-md px-8 py-6 max-w-2xl mx-auto grid grid-cols-[1fr_14rem]">
@@ -238,9 +239,7 @@ export default function SignInPage() {
   return (
     <main className="max-w-6xl mx-auto pt-16 w-full px-6">
       <ProtectedPage>
-        {({ user, customerInfo }) => (
-          <AuthenticatedPage user={user} customerInfo={customerInfo} />
-        )}
+        {(user) => <AuthenticatedPage user={user} />}
       </ProtectedPage>
     </main>
   )
