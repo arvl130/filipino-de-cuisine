@@ -13,7 +13,10 @@ function BasketItemsSectionItem({
   const apiContext = api.useContext()
   const { mutate: deleteBasketItem, isLoading: isDeletingBasketItem } =
     api.basketItem.delete.useMutation({
-      onSuccess: () => apiContext.basketItem.getAll.invalidate(),
+      onSuccess: async () => {
+        await apiContext.basketItem.getAll.invalidate()
+        removeMenuItemId(basketItem.menuItemId)
+      },
     })
 
   const { mutate: updateBasketItem } = api.basketItem.update.useMutation({
