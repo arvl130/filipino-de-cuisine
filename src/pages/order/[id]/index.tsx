@@ -775,12 +775,14 @@ function AuthenticatedPage({ user }: { user: User }) {
       <div className="flex justify-between px-12">
         <p>Order ID: {query.id}</p>
         <div>
-          <Link
-            href={`/order/${query.id}/receipt`}
-            className="text-emerald-500 font-medium"
-          >
-            View Receipt
-          </Link>
+          {data.order.paymentStatus === "Fulfilled" && (
+            <Link
+              href={`/order/${query.id}/receipt`}
+              className="text-emerald-500 font-medium"
+            >
+              View Receipt
+            </Link>
+          )}
         </div>
       </div>
       {data.order.paymentStatus === "Cancelled" ? (
