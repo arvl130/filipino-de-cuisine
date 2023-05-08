@@ -16,10 +16,46 @@ function BasketItemsSectionItem({
       onSuccess: () => apiContext.basketItem.getAll.invalidate(),
     })
 
-  const { mutate: updateBasketItem, isLoading: isUpdatingBasketItem } =
-    api.basketItem.update.useMutation({
-      onSuccess: () => apiContext.basketItem.getAll.invalidate(),
-    })
+  const { mutate: updateBasketItem } = api.basketItem.update.useMutation({
+    onMutate: async (updatedBasketItem) => {
+      await apiContext.basketItem.getAll.cancel()
+      const prevData = apiContext.basketItem.getAll.getData()
+      apiContext.basketItem.getAll.setData(undefined, (old) => {
+        // Set the basket items list as empty, if our data
+        // has not been loaded yet (undefined).
+        //
+        // NOTE: Ideally, we should still try to add the
+        // updated item in here, even when there is still no
+        // data. But that's not possible, because we don't have
+        // access to the full item being updated in this context.
+        //
+        // One solution we can explore is to use dummy data in
+        // the missing item fields, but I've opted not to do
+        // that for now to keep things simple.
+        if (old === undefined) return []
+
+        return old.map((basketItem) => {
+          if (basketItem.id === updatedBasketItem.id)
+            return {
+              id: basketItem.id,
+              customerId: basketItem.customerId,
+              quantity: updatedBasketItem.quantity,
+              menuItemId: basketItem.menuItemId,
+              menuItem: basketItem.menuItem,
+            }
+
+          return basketItem
+        })
+      })
+
+      return { prevData }
+    },
+    onError: (err, updatedBasketItem, ctx) => {
+      if (ctx?.prevData)
+        apiContext.basketItem.getAll.setData(undefined, ctx.prevData)
+    },
+    onSettled: () => apiContext.basketItem.getAll.invalidate(),
+  })
 
   const { selectedMenuItemIds, addMenuItemId, removeMenuItemId } =
     useOrderDetailsStore()
@@ -60,11 +96,7 @@ function BasketItemsSectionItem({
         <div className="bg-stone-200 rounded-full w-full grid grid-cols-[1fr_2rem_1fr]">
           <button
             type="button"
-            disabled={
-              isDeletingBasketItem ||
-              isUpdatingBasketItem ||
-              basketItem.quantity === 1
-            }
+            disabled={isDeletingBasketItem || basketItem.quantity === 1}
             className="disabled:text-stone-400"
             onClick={() =>
               updateBasketItem({
@@ -78,11 +110,7 @@ function BasketItemsSectionItem({
           <span className="text-center py-2">{basketItem.quantity}</span>
           <button
             type="button"
-            disabled={
-              isDeletingBasketItem ||
-              isUpdatingBasketItem ||
-              basketItem.quantity === 15
-            }
+            disabled={isDeletingBasketItem || basketItem.quantity === 15}
             className="disabled:text-stone-400"
             onClick={() =>
               updateBasketItem({
