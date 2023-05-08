@@ -8,7 +8,7 @@ import { AuthProvider, useSession } from "@/utils/auth"
 import { useRouter } from "next/router"
 import SuperJSON from "superjson"
 import { Decimal } from "decimal.js"
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import Head from "next/head"
 
 SuperJSON.registerCustom<Decimal, string>(
@@ -19,6 +19,61 @@ SuperJSON.registerCustom<Decimal, string>(
   },
   "decimal.js"
 )
+
+export function ProtectedNavbarLink({
+  href,
+  children,
+}: {
+  href: string
+  children: ReactNode
+}) {
+  const router = useRouter()
+  const { isLoading: isLoadingSession, isAuthenticated } = useSession()
+  const { isLoading: isLoadingCustomer, isError: isErrorCustomer } =
+    api.customerInfo.get.useQuery(undefined, {
+      enabled: !isLoadingSession && isAuthenticated,
+    })
+
+  if (isLoadingSession)
+    return (
+      <span className={router.pathname === href ? "text-emerald-500" : ""}>
+        {children}
+      </span>
+    )
+
+  if (!isAuthenticated)
+    return (
+      <Link
+        href="/signin"
+        className={router.pathname === href ? "text-emerald-500" : ""}
+      >
+        {children}
+      </Link>
+    )
+
+  if (isLoadingCustomer)
+    return (
+      <span className={router.pathname === href ? "text-emerald-500" : ""}>
+        {children}
+      </span>
+    )
+
+  if (isErrorCustomer)
+    return (
+      <span className={router.pathname === href ? "text-red-500" : ""}>
+        {children}
+      </span>
+    )
+
+  return (
+    <Link
+      href={href}
+      className={router.pathname === href ? "text-emerald-500" : ""}
+    >
+      {children}
+    </Link>
+  )
+}
 
 function Navbar() {
   const router = useRouter()
@@ -44,14 +99,9 @@ function Navbar() {
               Menu
             </Link>
             •
-            <Link
-              href="/reservation"
-              className={
-                router.pathname === "/reservation" ? "text-emerald-500" : ""
-              }
-            >
+            <ProtectedNavbarLink href="/reservation">
               Reservation
-            </Link>
+            </ProtectedNavbarLink>
           </div>
           <h1 className="font-inika font-bold text-2xl">
             <Link href="/">
