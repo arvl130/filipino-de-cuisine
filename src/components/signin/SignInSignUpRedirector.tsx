@@ -16,40 +16,40 @@ export function SignInSignUpRedirector({ children }: { children: ReactNode }) {
   })
 
   useEffect(() => {
-    if (
-      !isLoadingSession &&
-      isAuthenticated &&
-      !isLoadingHasFilledIn &&
-      !isErrorHasFilledIn
-    ) {
-      const { returnUrl } = router.query
-      if (typeof returnUrl === "string") {
-        if (customerInfo) {
-          router.push(returnUrl)
-          return
-        }
+    if (!router.isReady) return
+    if (isLoadingSession) return
+    if (!isAuthenticated) return
 
-        router.push({
-          pathname: "/account/fill-in-profile",
-          query: {
-            returnUrl,
-          },
-        })
-        return
-      }
+    if (isLoadingHasFilledIn) return
+    if (isErrorHasFilledIn) return
 
+    const { returnUrl } = router.query
+    if (typeof returnUrl === "string") {
       if (customerInfo) {
-        router.push("/account")
+        router.push(returnUrl)
         return
       }
 
       router.push({
         pathname: "/account/fill-in-profile",
         query: {
-          returnUrl: "/account",
+          returnUrl,
         },
       })
+      return
     }
+
+    if (customerInfo) {
+      router.push("/account")
+      return
+    }
+
+    router.push({
+      pathname: "/account/fill-in-profile",
+      query: {
+        returnUrl: "/account",
+      },
+    })
   }, [
     isLoadingSession,
     isAuthenticated,
