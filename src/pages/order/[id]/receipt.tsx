@@ -220,17 +220,25 @@ export function ReadOnlyOrderItemsSection({
         </>
       )}
       <div className="flex justify-between px-6 pt-3">
-        <p className="font-semibold">Amount Due</p>
+        <p className="font-semibold">Items Subtotal</p>
         <p className="font-semibold">₱ {(subTotal * 0.88).toFixed(2)}</p>
-      </div>
-      <div className="flex justify-between px-6">
-        <p className="font-semibold">VAT (12%)</p>
-        <p className="font-semibold">₱ {(subTotal * 0.12).toFixed(2)}</p>
       </div>
       <div className="flex justify-between px-6">
         <p className="font-semibold">Delivery Fee</p>
         <p className="font-semibold">
-          ₱ {onlineOrder.deliveryFee.toNumber().toFixed(2)}
+          ₱ {(onlineOrder.deliveryFee.toNumber() * 0.88).toFixed(2)}
+        </p>
+      </div>
+      <div className="flex justify-between px-6">
+        <p className="font-semibold">Amount Due</p>
+        <p className="font-semibold">
+          ₱ {(subTotalWithDeliveryFee * 0.88).toFixed(2)}
+        </p>
+      </div>
+      <div className="flex justify-between px-6">
+        <p className="font-semibold">VAT (12%)</p>
+        <p className="font-semibold">
+          ₱ {(subTotalWithDeliveryFee * 0.12).toFixed(2)}
         </p>
       </div>
       <div className="flex justify-between px-6 pt-3 text-xl">
