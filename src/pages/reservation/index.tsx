@@ -171,25 +171,39 @@ function AuthenticatedPage({
           )}
         </div>
         <div className="mb-3">
-          <p className="font-medium">Reservation Fee</p>
-          <div className="flex gap-6">
-            <label>
+          <p className="font-medium mb-1">Reservation Fee</p>
+          <div className="flex gap-6 px-2 justify-between max-w-xs">
+            <label className="flex gap-2 items-center">
               <input
                 type="radio"
-                className="bg-neutral-100 rounded-md px-4 py-2 mb-1"
+                className="h-5 w-5"
                 {...register("paymentMethod")}
                 value="MAYA"
               />
-              <span className="ml-2">Maya</span>
+              <Image
+                src="/assets/payment-methods/maya.png"
+                alt="Maya logo"
+                height={36}
+                width={36}
+                className="rounded-md"
+              />
+              <span>Maya</span>
             </label>
-            <label>
+            <label className="flex gap-2 items-center">
               <input
                 type="radio"
-                className="bg-neutral-100 rounded-md px-4 py-2 mb-1"
+                className="h-5 w-5"
                 {...register("paymentMethod")}
                 value="GCASH"
               />
-              <span className="ml-2">GCash</span>
+              <Image
+                src="/assets/payment-methods/gcash.png"
+                alt="Maya logo"
+                height={36}
+                width={36}
+                className="rounded-md"
+              />
+              <span>GCash</span>
             </label>
           </div>
           {errors.paymentMethod && (

@@ -446,13 +446,39 @@ function OrderSummarySection() {
     >
       <div className="border border-stone-300 px-8 py-4 rounded-2xl mb-4">
         <fieldset className="grid">
-          <legend className="font-semibold text-lg">Payment Methods</legend>
-          <label className="flex gap-2">
-            <input type="radio" {...register("paymentMethod")} value="MAYA" />
+          <legend className="font-semibold text-lg mb-2">
+            Payment Methods
+          </legend>
+          <label className="flex gap-2 items-center mb-3">
+            <input
+              type="radio"
+              className="h-5 w-5"
+              {...register("paymentMethod")}
+              value="MAYA"
+            />
+            <Image
+              src="/assets/payment-methods/maya.png"
+              alt="Maya logo"
+              height={36}
+              width={36}
+              className="rounded-md"
+            />
             <span>Maya</span>
           </label>
-          <label className="flex gap-2">
-            <input type="radio" {...register("paymentMethod")} value="GCASH" />
+          <label className="flex gap-2 items-center">
+            <input
+              type="radio"
+              className="h-5 w-5"
+              {...register("paymentMethod")}
+              value="GCASH"
+            />
+            <Image
+              src="/assets/payment-methods/gcash.png"
+              alt="Maya logo"
+              height={36}
+              width={36}
+              className="rounded-md"
+            />
             <span>GCash</span>
           </label>
         </fieldset>
