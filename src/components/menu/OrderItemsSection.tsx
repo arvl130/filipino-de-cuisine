@@ -73,6 +73,7 @@ function BasketItemsSectionItem({
       <div className="flex justify-center items-center">
         <input
           type="checkbox"
+          className="h-6 w-6"
           checked={isItemSelected}
           onChange={(e) => {
             if (e.currentTarget.checked) addMenuItemId(basketItem.menuItemId)
