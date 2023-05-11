@@ -75,6 +75,39 @@ export function ProtectedNavbarLink({
   )
 }
 
+export function ProtectedFooterReservationLink() {
+  const { isLoading: isLoadingSession, isAuthenticated } = useSession()
+  const { isLoading: isLoadingCustomer, isError: isErrorCustomer } =
+    api.customerInfo.get.useQuery(undefined, {
+      enabled: !isLoadingSession && isAuthenticated,
+    })
+
+  if (isLoadingSession)
+    return (
+      <span className="px-6 text-emerald-500 transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold">
+        Book a Reservation
+      </span>
+    )
+
+  if (!isAuthenticated) return <Link href="/signin">Reservation</Link>
+
+  if (isLoadingCustomer)
+    return (
+      <span className="px-6 text-emerald-500 transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold">
+        Book a Reservation
+      </span>
+    )
+
+  if (isErrorCustomer)
+    return (
+      <span className="px-6 text-red-500 transition duration-200 border-red-500 border text-lg rounded-md pb-2 pt-3 font-semibold">
+        Book a Reservation
+      </span>
+    )
+
+  return <Link href="/reservation">Reservation</Link>
+}
+
 function Navbar() {
   const router = useRouter()
   const { isAuthenticated, isLoading } = useSession()
@@ -279,7 +312,7 @@ function Footer() {
         </li>
         •
         <li>
-          <Link href="/reservation">Reservation</Link>
+          <ProtectedFooterReservationLink />
         </li>
         •
         <li>
@@ -306,7 +339,7 @@ function Footer() {
           <Link href="/menu">Menu</Link>
         </li>
         <li className="mt-1">
-          <Link href="/reservation">Reservation</Link>
+          <ProtectedFooterReservationLink />
         </li>
         <li className="mt-1">
           <Link href="/about">About</Link>
