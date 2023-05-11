@@ -108,6 +108,77 @@ export function ProtectedFooterReservationLink() {
   return <Link href="/reservation">Reservation</Link>
 }
 
+export function ProtectedNavbarMobileMenuReservationLink({
+  onClick,
+}: {
+  onClick: () => void
+}) {
+  const router = useRouter()
+  const { isLoading: isLoadingSession, isAuthenticated } = useSession()
+  const { isLoading: isLoadingCustomer, isError: isErrorCustomer } =
+    api.customerInfo.get.useQuery(undefined, {
+      enabled: !isLoadingSession && isAuthenticated,
+    })
+
+  if (isLoadingSession)
+    return (
+      <span
+        className={`pt-1 ${
+          router.pathname === "/reservation" ? "text-emerald-500" : ""
+        }`}
+      >
+        Book a Reservation
+      </span>
+    )
+
+  if (!isAuthenticated)
+    return (
+      <Link
+        href="/signin"
+        onClick={onClick}
+        className={`pt-1 ${
+          router.pathname === "/reservation" ? "text-emerald-500" : ""
+        }`}
+      >
+        Reservation
+      </Link>
+    )
+
+  if (isLoadingCustomer)
+    return (
+      <span
+        className={`pt-1 ${
+          router.pathname === "/reservation" ? "text-emerald-500" : ""
+        }`}
+      >
+        Book a Reservation
+      </span>
+    )
+
+  if (isErrorCustomer)
+    return (
+      <span
+        className={`pt-1 ${
+          router.pathname === "/reservation" ? "text-red-500" : ""
+        }`}
+      >
+        Book a Reservation
+      </span>
+    )
+
+  return (
+    <Link
+      href="/reservation"
+      onClick={onClick}
+      className={`pt-1 ${
+        router.pathname === "/reservation" ? "text-emerald-500" : ""
+      }`}
+    >
+      Reservation
+    </Link>
+  )
+}
+
 function Navbar() {
   const router = useRouter()
   const { isAuthenticated, isLoading } = useSession()
@@ -226,15 +297,9 @@ function Navbar() {
             >
               Menu
             </Link>
-            <Link
-              href="/reservation"
+            <ProtectedNavbarMobileMenuReservationLink
               onClick={() => setIsMenuVisible(false)}
-              className={`pt-1 ${
-                router.pathname === "/reservation" ? "text-emerald-500" : ""
-              }`}
-            >
-              Reservation
-            </Link>
+            />
             <Link
               href="/about"
               onClick={() => setIsMenuVisible(false)}
