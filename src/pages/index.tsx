@@ -1,10 +1,60 @@
 import { Basket } from "@/components/HeroIcons"
 import { ProtectedSVGLink } from "@/components/account/ProtectedPage"
 import { MenuItem as FeaturedDishesSectionItem } from "@/components/menu/MenuItem"
+import { api } from "@/utils/api"
+import { useSession } from "@/utils/auth"
 import { Prisma } from "@prisma/client"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
+
+export function ProtectedReservationButton() {
+  const { isLoading: isLoadingSession, isAuthenticated } = useSession()
+  const { isLoading: isLoadingCustomer, isError: isErrorCustomer } =
+    api.customerInfo.get.useQuery(undefined, {
+      enabled: !isLoadingSession && isAuthenticated,
+    })
+
+  if (isLoadingSession)
+    return (
+      <span className="px-6 text-emerald-500 transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold">
+        Book a Reservation
+      </span>
+    )
+
+  if (!isAuthenticated)
+    return (
+      <Link
+        href="/signin"
+        className="px-6 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 hover:text-white transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
+      >
+        Book a Reservation
+      </Link>
+    )
+
+  if (isLoadingCustomer)
+    return (
+      <span className="px-6 text-emerald-500 transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold">
+        Book a Reservation
+      </span>
+    )
+
+  if (isErrorCustomer)
+    return (
+      <span className="px-6 text-red-500 transition duration-200 border-red-500 border text-lg rounded-md pb-2 pt-3 font-semibold">
+        Book a Reservation
+      </span>
+    )
+
+  return (
+    <Link
+      href="/reservation"
+      className="px-6 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 hover:text-white transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
+    >
+      Book a Reservation
+    </Link>
+  )
+}
 
 function HeroSection() {
   return (
@@ -23,12 +73,7 @@ function HeroSection() {
           >
             Order Now
           </Link>
-          <Link
-            href="/reservation"
-            className="px-6 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 hover:text-white transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
-          >
-            Book a Reservation
-          </Link>
+          <ProtectedReservationButton />
         </div>
       </div>
       <div className="flex items-center">
@@ -217,12 +262,7 @@ function CallToActionSection() {
           >
             Order Now
           </Link>
-          <Link
-            href="/reservation"
-            className="px-6 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 hover:text-white transition duration-200 border-emerald-500 border text-lg rounded-md pb-2 pt-3 font-semibold"
-          >
-            Book a Reservation
-          </Link>
+          <ProtectedReservationButton />
         </div>
         <Link
           href="/menu"
