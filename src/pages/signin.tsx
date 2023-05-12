@@ -13,6 +13,35 @@ import {
 import { useState } from "react"
 import { SignInSignUpSwitcher } from "@/components/signin/SignInSignUpSwitcher"
 import { SignInSignUpRedirector } from "@/components/signin/SignInSignUpRedirector"
+import { FirebaseError } from "firebase/app"
+
+function ErrorModal({
+  title,
+  message,
+  closeModal,
+}: {
+  title: string
+  message: string
+  closeModal: () => void
+}) {
+  return (
+    <div className="fixed inset-0 z-20 bg-black/20 flex justify-center items-center">
+      <div className="bg-white max-w-xs w-full rounded-2xl px-8 py-6">
+        <p className="text-center mb-1 font-semibold">{title}</p>
+        <p className="text-center mb-3">{message}</p>
+        <div className="flex justify-center gap-3">
+          <button
+            type="button"
+            className="px-6 pt-2 pb-1 text-emerald-500 hover:bg-emerald-400 hover:border-emerald-400 hover:text-white transition duration-200 border-emerald-500 border rounded-md font-medium"
+            onClick={() => closeModal()}
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -37,6 +66,9 @@ export default function SignInPage() {
     resolver: zodResolver(formSchema),
   })
   const [isSigningIn, setIsSigningIn] = useState(false)
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+  const [errorTitle, setErrorTitle] = useState("")
 
   return (
     <main className="max-w-6xl mx-auto my-12 w-full px-6">
@@ -59,8 +91,36 @@ export default function SignInPage() {
                     formData.password
                   )
                 } catch (e) {
+                  if (e instanceof FirebaseError) {
+                    if (
+                      e.code === "auth/wrong-password" ||
+                      e.code === "auth/user-not-found"
+                    ) {
+                      setErrorTitle("Invalid email or password")
+                      setErrorMessage(
+                        "The email or password you have entered is incorrect. Please try again."
+                      )
+                      setIsErrorModalVisible(true)
+                      return
+                    }
+
+                    setErrorTitle("Unknown Firebase error occured")
+                    setErrorMessage(
+                      "An unknown error with Firebase occured. Please check the Console for more information."
+                    )
+                    setIsErrorModalVisible(true)
+                    console.log("Firebase error occured:", e)
+                    return
+                  }
+
+                  setErrorTitle("Unknown error occured")
+                  setErrorMessage(
+                    "An unknown error occured. Please check the Console for more information."
+                  )
+                  setIsErrorModalVisible(true)
+                  console.log("Unknown error occured:", e)
+                } finally {
                   setIsSigningIn(false)
-                  console.log("Generic error occured:", e)
                 }
               })}
             >
@@ -169,6 +229,13 @@ export default function SignInPage() {
             />
           </div>
         </div>
+        {isErrorModalVisible && (
+          <ErrorModal
+            closeModal={() => setIsErrorModalVisible(false)}
+            message={errorMessage}
+            title={errorTitle}
+          />
+        )}
       </SignInSignUpRedirector>
     </main>
   )
