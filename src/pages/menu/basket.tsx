@@ -67,14 +67,54 @@ function OrderSummarySection() {
   )
 }
 
+function BasketItemsShortButtons() {
+  const { selectedMenuItemIds, clearMenuItemIds, addMenuItemId } =
+    useOrderDetailsStore()
+  const { data: basketItems } = api.basketItem.getAll.useQuery()
+
+  if (basketItems === undefined) return <></>
+
+  return (
+    <div>
+      {selectedMenuItemIds.length > 0 ? (
+        <button
+          type="button"
+          className="border border-neutral-300 px-2 py-1 rounded-md drop-shadow-md bg-white hover:bg-neutral-50 transition duration-200"
+          onClick={() => clearMenuItemIds()}
+        >
+          Clear Selection
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="border border-neutral-300 px-2 py-1 rounded-md drop-shadow-md bg-white hover:bg-neutral-50 transition duration-200"
+          onClick={() => {
+            basketItems.forEach((basketItem) =>
+              addMenuItemId(basketItem.menuItemId)
+            )
+          }}
+        >
+          Select All
+        </button>
+      )}
+    </div>
+  )
+}
+
 function AuthenticatedPage() {
   return (
     <>
-      <div className="flex items-center gap-2 mb-6">
-        <Link href="/menu" className="text-emerald-500">
-          <CircledArrowLeft />
-        </Link>
-        <h2 className="font-semibold text-2xl flex items-end">Basket</h2>
+      <div className="grid grid-cols-[1fr_20rem] gap-8 mb-6">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Link href="/menu" className="text-emerald-500">
+              <CircledArrowLeft />
+            </Link>
+            <h2 className="font-semibold text-2xl flex items-end">Basket</h2>
+          </div>
+          <BasketItemsShortButtons />
+        </div>
+        <div></div>
       </div>
       <div className="grid grid-cols-[1fr_20rem] gap-8">
         <BasketItemsSection />

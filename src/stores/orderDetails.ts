@@ -12,6 +12,7 @@ interface OrderDetailsState {
   setAdditionalNotes: (newAdditionalNotes: string) => void
   addMenuItemId: (menuItemId: number) => void
   removeMenuItemId: (menuItemId: number) => void
+  clearMenuItemIds: () => void
 }
 
 export const useOrderDetailsStore = create<OrderDetailsState>((set) => ({
@@ -48,6 +49,12 @@ export const useOrderDetailsStore = create<OrderDetailsState>((set) => ({
     set((orderDetails) => ({
       ...orderDetails,
       selectedMenuItemIds: [...orderDetails.selectedMenuItemIds, newMenuItemId],
+    }))
+  },
+  clearMenuItemIds() {
+    set((orderDetails) => ({
+      ...orderDetails,
+      selectedMenuItemIds: [],
     }))
   },
   removeMenuItemId(menuItemIdToDelete) {
