@@ -7,6 +7,7 @@ import { getQueryKey } from "@trpc/react-query"
 import { useIsMutating } from "@tanstack/react-query"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
 import { useOrderDetailsStore } from "@/stores/orderDetails"
+import { getDiscountedPrice } from "@/utils/discounted-price"
 
 function OrderSummarySection() {
   const {
@@ -38,7 +39,12 @@ function OrderSummarySection() {
     selectedMenuItemIds.includes(basketItem.menuItemId)
   )
   const subTotal = selectedBasketItems.reduce((prev, basketItem) => {
-    return prev + basketItem.quantity * basketItem.menuItem.price.toNumber()
+    const { hasDiscount, originalPrice, discountedPrice } = getDiscountedPrice(
+      basketItem.menuItem
+    )
+    if (hasDiscount) return prev + basketItem.quantity * discountedPrice
+
+    return prev + basketItem.quantity * originalPrice
   }, 0)
 
   return (
