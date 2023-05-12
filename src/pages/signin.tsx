@@ -59,6 +59,7 @@ type formType = z.infer<typeof formSchema>
 
 export default function SignInPage() {
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -100,6 +101,10 @@ export default function SignInPage() {
                       setErrorMessage(
                         "The email or password you have entered is incorrect. Please try again."
                       )
+                      reset((originalValues) => ({
+                        email: originalValues.email,
+                        password: "",
+                      }))
                       setIsErrorModalVisible(true)
                       return
                     }
@@ -108,6 +113,10 @@ export default function SignInPage() {
                     setErrorMessage(
                       "An unknown error with Firebase occured. Please check the Console for more information."
                     )
+                    reset((originalValues) => ({
+                      email: originalValues.email,
+                      password: "",
+                    }))
                     setIsErrorModalVisible(true)
                     console.log("Firebase error occured:", e)
                     return
@@ -117,6 +126,10 @@ export default function SignInPage() {
                   setErrorMessage(
                     "An unknown error occured. Please check the Console for more information."
                   )
+                  reset((originalValues) => ({
+                    email: originalValues.email,
+                    password: "",
+                  }))
                   setIsErrorModalVisible(true)
                   console.log("Unknown error occured:", e)
                 } finally {
