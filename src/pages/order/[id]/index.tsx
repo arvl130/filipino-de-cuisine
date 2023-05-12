@@ -2,10 +2,17 @@ import { CircledArrowLeft } from "@/components/HeroIcons"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
 import { LoadingSpinner } from "@/components/loading"
 import { api } from "@/utils/api"
+import { getDiscountedPrice } from "@/utils/discounted-price"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { OnlineOrder, Order, OrderItem } from "@prisma/client"
+import {
+  Discount,
+  DiscountItem,
+  MenuItem,
+  OnlineOrder,
+  Order,
+  OrderItem,
+} from "@prisma/client"
 import { User } from "firebase/auth"
-import { DateTime } from "luxon"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -550,8 +557,10 @@ function OrderStatusSection({
 
 export function OrderItemsSectionItem({
   selectedItem,
+  createdAt,
 }: {
   selectedItem: { id: number; quantity: number }
+  createdAt: Date
 }) {
   const {
     data: menuItem,
@@ -582,6 +591,11 @@ export function OrderItemsSectionItem({
       </article>
     )
 
+  const { hasDiscount, originalPrice, discountedPrice } = getDiscountedPrice(
+    menuItem,
+    createdAt
+  )
+
   return (
     <article className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 h-36">
       <div>
@@ -595,13 +609,16 @@ export function OrderItemsSectionItem({
       </div>
       <div className="flex items-center font-medium px-6">{menuItem.name}</div>
       <div className="flex items-center justify-center font-medium">
-        ₱ {menuItem.price.toFixed(2)}
+        ₱ {hasDiscount ? discountedPrice.toFixed(2) : originalPrice.toFixed(2)}
       </div>
       <div className="flex items-center justify-center">
         {selectedItem.quantity}
       </div>
       <div className="flex items-center justify-center font-medium">
-        ₱ {(menuItem.price.toNumber() * selectedItem.quantity).toFixed(2)}
+        ₱{" "}
+        {hasDiscount
+          ? (discountedPrice * selectedItem.quantity).toFixed(2)
+          : (originalPrice * selectedItem.quantity).toFixed(2)}
       </div>
     </article>
   )
@@ -612,13 +629,27 @@ function OrderItemsSection({
 }: {
   onlineOrder: OnlineOrder & {
     order: Order & {
-      orderItems: OrderItem[]
+      orderItems: (OrderItem & {
+        menuItem: MenuItem & {
+          discountItems: (DiscountItem & {
+            discount: Discount
+          })[]
+        }
+      })[]
     }
   }
 }) {
-  const subTotal = onlineOrder.order.orderItems.reduce((prev, selectedItem) => {
-    return prev + selectedItem.price.toNumber()
-  }, 0)
+  const subTotal = onlineOrder.order.orderItems.reduce(
+    (runningTally, orderItem) => {
+      const { hasDiscount, originalPrice, discountedPrice } =
+        getDiscountedPrice(orderItem.menuItem, onlineOrder.order.createdAt)
+      if (hasDiscount)
+        return runningTally + orderItem.quantity * discountedPrice
+
+      return runningTally + orderItem.quantity * originalPrice
+    },
+    0
+  )
   const subTotalWithDeliveryFee = subTotal + onlineOrder.deliveryFee.toNumber()
 
   return (
@@ -638,6 +669,7 @@ function OrderItemsSection({
             return (
               <OrderItemsSectionItem
                 key={orderItem.id}
+                createdAt={onlineOrder.order.createdAt}
                 selectedItem={{
                   id: orderItem.menuItemId,
                   quantity: orderItem.quantity,

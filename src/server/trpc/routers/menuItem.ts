@@ -40,6 +40,13 @@ export const menuItemRouter = router({
         where: {
           id: input.id,
         },
+        include: {
+          discountItems: {
+            include: {
+              discount: true,
+            },
+          },
+        },
       })
     }),
   getManyById: publicProcedure

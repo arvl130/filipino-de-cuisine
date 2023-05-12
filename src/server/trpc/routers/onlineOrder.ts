@@ -38,7 +38,19 @@ export const onlineOrderRouter = router({
         include: {
           order: {
             include: {
-              orderItems: true,
+              orderItems: {
+                include: {
+                  menuItem: {
+                    include: {
+                      discountItems: {
+                        include: {
+                          discount: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
         },
