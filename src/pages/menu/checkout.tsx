@@ -8,12 +8,19 @@ import { User } from "firebase/auth"
 import { useEffect, useState } from "react"
 import { CircledArrowLeft, CrossMark } from "@/components/HeroIcons"
 import { useOrderDetailsStore } from "@/stores/orderDetails"
-import { BasketItem, CustomerInfo, MenuItem } from "@prisma/client"
+import {
+  BasketItem,
+  CustomerInfo,
+  Discount,
+  DiscountItem,
+  MenuItem,
+} from "@prisma/client"
 import { getQueryKey } from "@trpc/react-query"
 import { useIsMutating } from "@tanstack/react-query"
 import { LoadingSpinner } from "@/components/loading"
 import Image from "next/image"
 import { VALID_CONTACT_NUMBER } from "@/utils/validation-patterns"
+import { getDiscountedPrice } from "@/utils/discounted-price"
 
 const editInformationSchema = z.object({
   customerName: z.string().min(1),
@@ -421,7 +428,11 @@ function OrderSummarySection() {
   const subTotal = basketItems
     .filter((basketItem) => selectedMenuItemIds.includes(basketItem.menuItemId))
     .reduce((prev, basketItem) => {
-      return prev + basketItem.quantity * basketItem.menuItem.price.toNumber()
+      const { hasDiscount, originalPrice, discountedPrice } =
+        getDiscountedPrice(basketItem.menuItem)
+      if (hasDiscount) return prev + basketItem.quantity * discountedPrice
+
+      return prev + basketItem.quantity * originalPrice
     }, 0)
 
   const subTotalWithDeliveryFee = subTotal + deliveryFee
@@ -542,9 +553,17 @@ function SelectedItemsSectionItem({
   basketItem,
 }: {
   basketItem: BasketItem & {
-    menuItem: MenuItem
+    menuItem: MenuItem & {
+      discountItems: (DiscountItem & {
+        discount: Discount
+      })[]
+    }
   }
 }) {
+  const { hasDiscount, originalPrice, discountedPrice } = getDiscountedPrice(
+    basketItem.menuItem
+  )
+
   return (
     <article className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 h-36 transition duration-200">
       <div>
@@ -560,16 +579,16 @@ function SelectedItemsSectionItem({
         {basketItem.menuItem.name}
       </div>
       <div className="flex items-center justify-center font-medium">
-        ₱ {basketItem.menuItem.price.toFixed(2)}
+        ₱ {hasDiscount ? discountedPrice.toFixed(2) : originalPrice.toFixed(2)}
       </div>
       <div className="flex items-center justify-center">
         {basketItem.quantity}
       </div>
       <div className="flex items-center justify-center font-medium">
         ₱{" "}
-        {(basketItem.menuItem.price.toNumber() * basketItem.quantity).toFixed(
-          2
-        )}
+        {hasDiscount
+          ? (discountedPrice * basketItem.quantity).toFixed(2)
+          : (originalPrice * basketItem.quantity).toFixed(2)}
       </div>
     </article>
   )
@@ -585,7 +604,11 @@ function SelectedItemsSection() {
 
   function filterSelectedItems(
     items: (BasketItem & {
-      menuItem: MenuItem
+      menuItem: MenuItem & {
+        discountItems: (DiscountItem & {
+          discount: Discount
+        })[]
+      }
     })[]
   ) {
     return items.filter((basketItem) =>
