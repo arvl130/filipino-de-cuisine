@@ -2,14 +2,25 @@ import { api } from "@/utils/api"
 import Image from "next/image"
 import { CrossMark } from "../HeroIcons"
 import { InlineLoadingSpinner, LoadingSpinner } from "../loading"
-import { BasketItem, MenuItem } from "@prisma/client"
+import { BasketItem, Discount, DiscountItem, MenuItem } from "@prisma/client"
 import { useOrderDetailsStore } from "@/stores/orderDetails"
+import { getDiscountedPrice } from "@/utils/discounted-price"
 
 function BasketItemsSectionItem({
   basketItem,
 }: {
-  basketItem: BasketItem & { menuItem: MenuItem }
+  basketItem: BasketItem & {
+    menuItem: MenuItem & {
+      discountItems: (DiscountItem & {
+        discount: Discount
+      })[]
+    }
+  }
 }) {
+  const { hasDiscount, originalPrice, discountedPrice } = getDiscountedPrice(
+    basketItem.menuItem
+  )
+
   const apiContext = api.useContext()
   const { mutate: deleteBasketItem, isLoading: isDeletingBasketItem } =
     api.basketItem.delete.useMutation({
@@ -94,7 +105,14 @@ function BasketItemsSectionItem({
         {basketItem.menuItem.name}
       </div>
       <div className="flex items-center justify-center font-medium">
-        ₱ {basketItem.menuItem.price.toFixed(2)}
+        ₱{" "}
+        <>
+          {hasDiscount ? (
+            <>{discountedPrice.toFixed(2)}</>
+          ) : (
+            <>{originalPrice.toFixed(2)}</>
+          )}
+        </>
       </div>
       <div className="flex items-center">
         <div className="bg-stone-200 rounded-full w-full grid grid-cols-[1fr_2rem_1fr]">
@@ -129,9 +147,13 @@ function BasketItemsSectionItem({
       </div>
       <div className="flex items-center justify-center font-medium">
         ₱{" "}
-        {(basketItem.menuItem.price.toNumber() * basketItem.quantity).toFixed(
-          2
-        )}
+        <>
+          {hasDiscount ? (
+            <>{(discountedPrice * basketItem.quantity).toFixed(2)}</>
+          ) : (
+            <>{(originalPrice * basketItem.quantity).toFixed(2)}</>
+          )}
+        </>
       </div>
       <div className="flex items-center">
         <button

@@ -8,7 +8,15 @@ export const basketItemRouter = router({
         customerId: ctx.user.uid,
       },
       include: {
-        menuItem: true,
+        menuItem: {
+          include: {
+            discountItems: {
+              include: {
+                discount: true,
+              },
+            },
+          },
+        },
       },
     })
   }),

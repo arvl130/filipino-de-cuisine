@@ -1,10 +1,9 @@
 import { api } from "@/utils/api"
 import { useSession } from "@/utils/auth"
+import { getDiscountedPrice } from "@/utils/discounted-price"
 import { Discount, DiscountItem, MenuItem } from "@prisma/client"
-import Decimal from "decimal.js"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 
 function Button({
   menuItemId,
@@ -122,32 +121,10 @@ function ItemPrice({
     })[]
   }
 }) {
-  const currentDate = new Date()
-  const activeDiscountItems = menuItem.discountItems.filter((discountItem) => {
-    if (
-      currentDate.getTime() >= discountItem.discount.startAt.getTime() &&
-      currentDate.getTime() <= discountItem.discount.endAt.getTime()
-    ) {
-      return true
-    }
+  const { hasDiscount, originalPrice, discountedPrice } =
+    getDiscountedPrice(menuItem)
 
-    return false
-  })
-  const activeDiscounts = activeDiscountItems.map(
-    (activeDiscountItem) => activeDiscountItem.discount
-  )
-  const discountTotal = activeDiscounts.reduce(
-    (runningTally, activeDiscount) =>
-      activeDiscount.amount.plus(new Decimal(runningTally)).toNumber(),
-    0
-  )
-  const discountAmount = menuItem.price.toNumber() * discountTotal
-  const discountedPrice =
-    discountAmount > menuItem.price.toNumber()
-      ? 0
-      : menuItem.price.toNumber() - discountAmount
-
-  if (activeDiscounts.length > 0)
+  if (hasDiscount)
     return (
       <>
         <p>
@@ -156,7 +133,7 @@ function ItemPrice({
           </span>
 
           <sup className=" text-red-500 text-sm">
-            <s className="decoration-1">₱ {menuItem.price.toNumber()}</s>
+            <s className="decoration-1">₱ {originalPrice}</s>
           </sup>
         </p>
       </>
