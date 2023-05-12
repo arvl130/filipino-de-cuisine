@@ -82,7 +82,7 @@ function BasketItemsShortButtons() {
 
   return (
     <div>
-      {selectedMenuItemIds.length > 0 ? (
+      {selectedMenuItemIds.length > 0 && (
         <button
           type="button"
           className="border border-neutral-300 px-2 py-1 rounded-md drop-shadow-md bg-white hover:bg-neutral-50 transition duration-200"
@@ -90,7 +90,8 @@ function BasketItemsShortButtons() {
         >
           Clear Selection
         </button>
-      ) : (
+      )}
+      {selectedMenuItemIds.length === 0 && basketItems.length > 0 && (
         <button
           type="button"
           className="border border-neutral-300 px-2 py-1 rounded-md drop-shadow-md bg-white hover:bg-neutral-50 transition duration-200"
