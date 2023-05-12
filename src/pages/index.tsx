@@ -175,6 +175,9 @@ const menuItems = [
 ]
 
 function FeaturedDishesSection() {
+  const { data: featuredItems } = api.menuItem.getFeatured.useQuery()
+  if (featuredItems === undefined) return <></>
+
   return (
     <section className="[border-color:_#F5F5F5] border-2 pt-8 pb-12 px-6">
       <div className="grid grid-cols-[4rem_1fr_4rem]">
@@ -190,7 +193,7 @@ function FeaturedDishesSection() {
         <div></div>
       </div>
       <div className="flex justify-center gap-28 max-w-6xl mx-auto">
-        {menuItems.map((menuItem) => {
+        {featuredItems.map((menuItem) => {
           return (
             <FeaturedDishesSectionItem key={menuItem.id} menuItem={menuItem} />
           )

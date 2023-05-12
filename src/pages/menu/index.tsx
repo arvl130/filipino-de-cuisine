@@ -3,10 +3,18 @@ import { ProtectedSVGLink } from "@/components/account/ProtectedPage"
 import { LoadingSpinner } from "@/components/loading"
 import { MenuItem as MenuPageSectionItem } from "@/components/menu/MenuItem"
 import { api } from "@/utils/api"
-import { MenuItem } from "@prisma/client"
+import { Discount, DiscountItem, MenuItem } from "@prisma/client"
 import { useState } from "react"
 
-function MenuPageSections({ menuItems }: { menuItems: MenuItem[] }) {
+function MenuPageSections({
+  menuItems,
+}: {
+  menuItems: (MenuItem & {
+    discountItems: (DiscountItem & {
+      discount: Discount
+    })[]
+  })[]
+}) {
   const [selectedTab, setSelectedTab] = useState<
     "APPETIZER" | "MAIN DISH" | "DESSERT" | "DRINKS"
   >("APPETIZER")

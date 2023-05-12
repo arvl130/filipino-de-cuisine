@@ -1,8 +1,10 @@
 import { api } from "@/utils/api"
 import { useSession } from "@/utils/auth"
-import { MenuItem } from "@prisma/client"
+import { Discount, DiscountItem, MenuItem } from "@prisma/client"
+import Decimal from "decimal.js"
 import Image from "next/image"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 function Button({
   menuItemId,
@@ -111,7 +113,71 @@ function Button({
   }
 }
 
-export function MenuItem({ menuItem }: { menuItem: MenuItem }) {
+function ItemPrice({
+  menuItem,
+}: {
+  menuItem: MenuItem & {
+    discountItems: (DiscountItem & {
+      discount: Discount
+    })[]
+  }
+}) {
+  const currentDate = new Date()
+  const activeDiscountItems = menuItem.discountItems.filter((discountItem) => {
+    if (
+      currentDate.getTime() >= discountItem.discount.startAt.getTime() &&
+      currentDate.getTime() <= discountItem.discount.endAt.getTime()
+    ) {
+      return true
+    }
+
+    return false
+  })
+  const activeDiscounts = activeDiscountItems.map(
+    (activeDiscountItem) => activeDiscountItem.discount
+  )
+  const discountTotal = activeDiscounts.reduce(
+    (runningTally, activeDiscount) =>
+      activeDiscount.amount.plus(new Decimal(runningTally)).toNumber(),
+    0
+  )
+  const discountAmount = menuItem.price.toNumber() * discountTotal
+  const discountedPrice =
+    discountAmount > menuItem.price.toNumber()
+      ? 0
+      : menuItem.price.toNumber() - discountAmount
+
+  if (activeDiscounts.length > 0)
+    return (
+      <>
+        <p>
+          <span className="font-bold text-red-500 text-3xl">
+            ₱ {discountedPrice}{" "}
+          </span>
+
+          <sup className=" text-red-500 text-sm">
+            <s className="decoration-1">₱ {menuItem.price.toNumber()}</s>
+          </sup>
+        </p>
+      </>
+    )
+
+  return (
+    <p className="font-bold text-red-500 text-3xl">
+      ₱ {menuItem.price.toNumber()}
+    </p>
+  )
+}
+
+export function MenuItem({
+  menuItem,
+}: {
+  menuItem: MenuItem & {
+    discountItems: (DiscountItem & {
+      discount: Discount
+    })[]
+  }
+}) {
   return (
     <article className="relative w-[min(100%,_20rem)] grid grid-rows-[auto_1fr]">
       <div className="h-24 z-[1]">
@@ -127,9 +193,7 @@ export function MenuItem({ menuItem }: { menuItem: MenuItem }) {
         <h3 className="font-bold text-2xl pt-3">{menuItem.name}</h3>
         <p className="[color:_#78716C] my-1">{menuItem.category}</p>
         <p className="mb-5 flex items-center">{menuItem.description}</p>
-        <p className="font-bold text-red-500 text-3xl">
-          ₱ {menuItem.price.toNumber()}
-        </p>
+        <ItemPrice menuItem={menuItem} />
       </div>
       <div className="text-center">
         <Button menuItemId={menuItem.id} isActive={menuItem.isActive} />

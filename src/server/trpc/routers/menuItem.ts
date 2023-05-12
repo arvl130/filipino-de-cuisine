@@ -2,8 +2,32 @@ import { publicProcedure, router } from "../trpc"
 import { z } from "zod"
 
 export const menuItemRouter = router({
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.menuItem.findMany()
+  getAll: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.menuItem.findMany({
+      include: {
+        discountItems: {
+          include: {
+            discount: true,
+          },
+        },
+      },
+    })
+  }),
+  getFeatured: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.menuItem.findMany({
+      where: {
+        id: {
+          in: [3, 6, 7],
+        },
+      },
+      include: {
+        discountItems: {
+          include: {
+            discount: true,
+          },
+        },
+      },
+    })
   }),
   getOne: publicProcedure
     .input(
