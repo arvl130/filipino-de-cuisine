@@ -7,6 +7,7 @@ import {
 } from "@/server/payment-gateway"
 import { TRPCError } from "@trpc/server"
 import { getBaseUrl } from "@/utils/base-url"
+import { getDiscountedPrice } from "@/utils/discounted-price"
 
 export const onlineOrderRouter = router({
   getAll: protectedProcedure.query(({ ctx }) => {
@@ -72,11 +73,43 @@ export const onlineOrderRouter = router({
             in: selectedItemIds,
           },
         },
+        include: {
+          discountItems: {
+            include: {
+              discount: true,
+            },
+          },
+        },
       })
 
+      const selectedItemWithMenuItem = input.selectedItems.map(
+        (selectedItem) => {
+          const menuItem = selectedMenuItems.find(
+            (menuItem) => menuItem.id === selectedItem.id
+          )
+
+          if (menuItem === undefined)
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: "Invalid ID found on one or more selected items",
+            })
+
+          return {
+            id: selectedItem.id,
+            quantity: selectedItem.quantity,
+            menuItem,
+          }
+        }
+      )
+
       const totalAmountToPay =
-        selectedMenuItems.reduce((currentValue, menuItem) => {
-          return menuItem.price.toNumber() + currentValue
+        selectedItemWithMenuItem.reduce((runningTally, selectedItem) => {
+          const { hasDiscount, originalPrice, discountedPrice } =
+            getDiscountedPrice(selectedItem.menuItem)
+          if (hasDiscount)
+            return runningTally + selectedItem.quantity * discountedPrice
+
+          return runningTally + selectedItem.quantity * originalPrice
         }, 0) + input.deliveryFee
 
       const totalAmountToPayInCentavos = totalAmountToPay * 100
