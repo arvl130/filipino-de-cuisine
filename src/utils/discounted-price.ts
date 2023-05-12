@@ -6,13 +6,14 @@ export function getDiscountedPrice(
     discountItems: (DiscountItem & {
       discount: Discount
     })[]
-  }
+  },
+  givenDate?: Date
 ) {
-  const currentDate = new Date()
+  const date = givenDate !== undefined ? givenDate : new Date()
   const activeDiscountItems = menuItem.discountItems.filter((discountItem) => {
     if (
-      currentDate.getTime() >= discountItem.discount.startAt.getTime() &&
-      currentDate.getTime() <= discountItem.discount.endAt.getTime()
+      date.getTime() >= discountItem.discount.startAt.getTime() &&
+      date.getTime() <= discountItem.discount.endAt.getTime()
     ) {
       return true
     }
