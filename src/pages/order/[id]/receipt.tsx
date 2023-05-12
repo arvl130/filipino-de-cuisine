@@ -2,7 +2,15 @@ import { CircledArrowLeft } from "@/components/HeroIcons"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
 import { LoadingSpinner } from "@/components/loading"
 import { api } from "@/utils/api"
-import { OnlineOrder, Order, OrderItem } from "@prisma/client"
+import { getDiscountedPrice } from "@/utils/discounted-price"
+import {
+  Discount,
+  DiscountItem,
+  MenuItem,
+  OnlineOrder,
+  Order,
+  OrderItem,
+} from "@prisma/client"
 import { User } from "firebase/auth"
 import Image from "next/image"
 import Link from "next/link"
@@ -122,8 +130,10 @@ function BillingSection({
 
 function ReadOnlyOrderItemsSectionItem({
   selectedItem,
+  createdAt,
 }: {
   selectedItem: { id: number; quantity: number }
+  createdAt: Date
 }) {
   const {
     data: menuItem,
@@ -154,6 +164,11 @@ function ReadOnlyOrderItemsSectionItem({
       </article>
     )
 
+  const { hasDiscount, originalPrice, discountedPrice } = getDiscountedPrice(
+    menuItem,
+    createdAt
+  )
+
   return (
     <article className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 h-36">
       <div>
@@ -167,13 +182,16 @@ function ReadOnlyOrderItemsSectionItem({
       </div>
       <div className="flex items-center font-medium px-6">{menuItem.name}</div>
       <div className="flex items-center justify-center font-medium">
-        ₱ {menuItem.price.toFixed(2)}
+        ₱ {hasDiscount ? discountedPrice.toFixed(2) : originalPrice.toFixed(2)}
       </div>
       <div className="flex items-center justify-center">
         {selectedItem.quantity}
       </div>
       <div className="flex items-center justify-center font-medium">
-        ₱ {(menuItem.price.toNumber() * selectedItem.quantity).toFixed(2)}
+        ₱{" "}
+        {hasDiscount
+          ? (discountedPrice * selectedItem.quantity).toFixed(2)
+          : (originalPrice * selectedItem.quantity).toFixed(2)}
       </div>
     </article>
   )
@@ -184,13 +202,27 @@ export function ReadOnlyOrderItemsSection({
 }: {
   onlineOrder: OnlineOrder & {
     order: Order & {
-      orderItems: OrderItem[]
+      orderItems: (OrderItem & {
+        menuItem: MenuItem & {
+          discountItems: (DiscountItem & {
+            discount: Discount
+          })[]
+        }
+      })[]
     }
   }
 }) {
-  const subTotal = onlineOrder.order.orderItems.reduce((prev, selectedItem) => {
-    return prev + selectedItem.price.toNumber()
-  }, 0)
+  const subTotal = onlineOrder.order.orderItems.reduce(
+    (runningTally, orderItem) => {
+      const { hasDiscount, originalPrice, discountedPrice } =
+        getDiscountedPrice(orderItem.menuItem, onlineOrder.order.createdAt)
+      if (hasDiscount)
+        return runningTally + orderItem.quantity * discountedPrice
+
+      return runningTally + orderItem.quantity * originalPrice
+    },
+    0
+  )
   const subTotalWithDeliveryFee = subTotal + onlineOrder.deliveryFee.toNumber()
 
   return (
@@ -210,6 +242,7 @@ export function ReadOnlyOrderItemsSection({
             return (
               <ReadOnlyOrderItemsSectionItem
                 key={orderItem.id}
+                createdAt={onlineOrder.order.createdAt}
                 selectedItem={{
                   id: orderItem.menuItemId,
                   quantity: orderItem.quantity,
