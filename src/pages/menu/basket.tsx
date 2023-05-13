@@ -111,19 +111,16 @@ function BasketItemsShortButtons() {
 function AuthenticatedPage() {
   return (
     <>
-      <div className="grid grid-cols-[1fr_20rem] gap-8 mb-6">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Link href="/menu" className="text-emerald-500">
-              <CircledArrowLeft />
-            </Link>
-            <h2 className="font-semibold text-2xl flex items-end">Basket</h2>
-          </div>
-          <BasketItemsShortButtons />
+      <div className="flex justify-between items-center mb-6 w-[min(100%,_calc(72rem_-_25rem))]">
+        <div className="flex items-center gap-2">
+          <Link href="/menu" className="text-emerald-500">
+            <CircledArrowLeft />
+          </Link>
+          <h2 className="font-semibold text-2xl flex items-end">Basket</h2>
         </div>
-        <div></div>
+        <BasketItemsShortButtons />
       </div>
-      <div className="grid grid-cols-[1fr_20rem] gap-8">
+      <div className="grid xl:grid-cols-[1fr_20rem] gap-8">
         <BasketItemsSection />
         <OrderSummarySection />
       </div>

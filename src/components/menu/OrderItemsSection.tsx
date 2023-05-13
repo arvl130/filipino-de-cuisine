@@ -76,100 +76,198 @@ function BasketItemsSectionItem({
   const isItemSelected = selectedMenuItemIds.includes(basketItem.menuItemId)
 
   return (
-    <article
-      className={`grid grid-cols-[4rem_8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 h-36 transition duration-200 ${
-        isDeletingBasketItem ? "opacity-50" : ""
-      }`}
-    >
-      <div className="flex justify-center items-center">
-        <input
-          type="checkbox"
-          className="h-6 w-6"
-          checked={isItemSelected}
-          onChange={(e) => {
-            if (e.currentTarget.checked) addMenuItemId(basketItem.menuItemId)
-            else removeMenuItemId(basketItem.menuItemId)
-          }}
-        />
-      </div>
-      <div>
-        <Image
-          alt="Adobo"
-          src={basketItem.menuItem.imgUrl}
-          width={100}
-          height={100}
-          className="h-full w-36 object-contain"
-        />
-      </div>
-      <div className="flex items-center font-medium">
-        {basketItem.menuItem.name}
-      </div>
-      <div className="flex items-center justify-center font-medium">
-        ₱{" "}
-        <>
-          {hasDiscount ? (
-            <>{discountedPrice.toFixed(2)}</>
-          ) : (
-            <>{originalPrice.toFixed(2)}</>
-          )}
-        </>
-      </div>
-      <div className="flex items-center">
-        <div className="bg-stone-200 rounded-full w-full grid grid-cols-[1fr_2rem_1fr]">
+    <>
+      {/* Desktop */}
+      <article
+        className={`hidden sm:grid grid-cols-[4rem_8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 h-36 transition duration-200 ${
+          isDeletingBasketItem ? "opacity-50" : ""
+        }`}
+      >
+        <div className="flex justify-center items-center">
+          <input
+            type="checkbox"
+            className="h-6 w-6"
+            checked={isItemSelected}
+            onChange={(e) => {
+              if (e.currentTarget.checked) addMenuItemId(basketItem.menuItemId)
+              else removeMenuItemId(basketItem.menuItemId)
+            }}
+          />
+        </div>
+        <div>
+          <Image
+            alt="Adobo"
+            src={basketItem.menuItem.imgUrl}
+            width={100}
+            height={100}
+            className="h-full w-36 object-contain"
+          />
+        </div>
+        <div className="flex items-center font-medium">
+          {basketItem.menuItem.name}
+        </div>
+        <div className="flex items-center justify-center font-medium">
+          ₱{" "}
+          <>
+            {hasDiscount ? (
+              <>{discountedPrice.toFixed(2)}</>
+            ) : (
+              <>{originalPrice.toFixed(2)}</>
+            )}
+          </>
+        </div>
+        <div className="flex items-center">
+          <div className="bg-stone-200 rounded-full w-full grid grid-cols-[1fr_2rem_1fr]">
+            <button
+              type="button"
+              disabled={isDeletingBasketItem || basketItem.quantity === 1}
+              className="disabled:text-stone-400"
+              onClick={() =>
+                updateBasketItem({
+                  id: basketItem.id,
+                  quantity: basketItem.quantity - 1,
+                })
+              }
+            >
+              -
+            </button>
+            <span className="text-center py-2">{basketItem.quantity}</span>
+            <button
+              type="button"
+              disabled={isDeletingBasketItem || basketItem.quantity === 15}
+              className="disabled:text-stone-400"
+              onClick={() =>
+                updateBasketItem({
+                  id: basketItem.id,
+                  quantity: basketItem.quantity + 1,
+                })
+              }
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <div className="flex items-center justify-center font-medium">
+          ₱{" "}
+          <>
+            {hasDiscount ? (
+              <>{(discountedPrice * basketItem.quantity).toFixed(2)}</>
+            ) : (
+              <>{(originalPrice * basketItem.quantity).toFixed(2)}</>
+            )}
+          </>
+        </div>
+        <div className="flex items-center">
           <button
             type="button"
-            disabled={isDeletingBasketItem || basketItem.quantity === 1}
-            className="disabled:text-stone-400"
+            disabled={isDeletingBasketItem}
+            className="disabled:text-stone-300 flex items-center"
             onClick={() =>
-              updateBasketItem({
+              deleteBasketItem({
                 id: basketItem.id,
-                quantity: basketItem.quantity - 1,
               })
             }
           >
-            -
-          </button>
-          <span className="text-center py-2">{basketItem.quantity}</span>
-          <button
-            type="button"
-            disabled={isDeletingBasketItem || basketItem.quantity === 15}
-            className="disabled:text-stone-400"
-            onClick={() =>
-              updateBasketItem({
-                id: basketItem.id,
-                quantity: basketItem.quantity + 1,
-              })
-            }
-          >
-            +
+            {isDeletingBasketItem ? <InlineLoadingSpinner /> : <CrossMark />}
           </button>
         </div>
-      </div>
-      <div className="flex items-center justify-center font-medium">
-        ₱{" "}
-        <>
-          {hasDiscount ? (
-            <>{(discountedPrice * basketItem.quantity).toFixed(2)}</>
-          ) : (
-            <>{(originalPrice * basketItem.quantity).toFixed(2)}</>
-          )}
-        </>
-      </div>
-      <div className="flex items-center">
-        <button
-          type="button"
-          disabled={isDeletingBasketItem}
-          className="disabled:text-stone-300 flex items-center"
-          onClick={() =>
-            deleteBasketItem({
-              id: basketItem.id,
-            })
-          }
-        >
-          {isDeletingBasketItem ? <InlineLoadingSpinner /> : <CrossMark />}
-        </button>
-      </div>
-    </article>
+      </article>
+      {/* Mobile */}
+      <article
+        className={`sm:hidden border-b border-stone-200 transition duration-200 pb-3 ${
+          isDeletingBasketItem ? "opacity-50" : ""
+        }`}
+      >
+        <div className="grid gap-3 grid-cols-[auto_1fr] items-center mb-3">
+          <div>
+            <input
+              type="checkbox"
+              className="h-6 w-6"
+              checked={isItemSelected}
+              onChange={(e) => {
+                if (e.currentTarget.checked)
+                  addMenuItemId(basketItem.menuItemId)
+                else removeMenuItemId(basketItem.menuItemId)
+              }}
+            />
+          </div>
+          <div className="flex justify-center">
+            <Image
+              alt="Adobo"
+              src={basketItem.menuItem.imgUrl}
+              width={100}
+              height={100}
+              className="h-full w-36 object-contain"
+            />
+          </div>
+        </div>
+        <div className="flex justify-between mb-3">
+          <div className="font-medium">{basketItem.menuItem.name}</div>
+          <div className="justify-center font-medium">
+            ₱{" "}
+            <>
+              {hasDiscount ? (
+                <>{(discountedPrice * basketItem.quantity).toFixed(2)}</>
+              ) : (
+                <>{(originalPrice * basketItem.quantity).toFixed(2)}</>
+              )}
+            </>
+          </div>
+        </div>
+        <div className="flex items-center mb-3">
+          <div className="bg-stone-200 rounded-full w-full grid grid-cols-[1fr_2rem_1fr]">
+            <button
+              type="button"
+              disabled={isDeletingBasketItem || basketItem.quantity === 1}
+              className="disabled:text-stone-400"
+              onClick={() =>
+                updateBasketItem({
+                  id: basketItem.id,
+                  quantity: basketItem.quantity - 1,
+                })
+              }
+            >
+              -
+            </button>
+            <span className="text-center py-2">{basketItem.quantity}</span>
+            <button
+              type="button"
+              disabled={isDeletingBasketItem || basketItem.quantity === 15}
+              className="disabled:text-stone-400"
+              onClick={() =>
+                updateBasketItem({
+                  id: basketItem.id,
+                  quantity: basketItem.quantity + 1,
+                })
+              }
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <button
+            type="button"
+            disabled={isDeletingBasketItem}
+            className="disabled:text-stone-300 flex justify-center items-center bg-stone-200 hover:bg-stone-300 transition duration-200 rounded-full w-full py-2 px-4"
+            onClick={() =>
+              deleteBasketItem({
+                id: basketItem.id,
+              })
+            }
+          >
+            {isDeletingBasketItem ? (
+              <>
+                <InlineLoadingSpinner />{" "}
+                <span className="text-stone-500">Removing ...</span>
+              </>
+            ) : (
+              <span className="h-8 flex items-center">Remove from Basket</span>
+            )}
+          </button>
+        </div>
+      </article>
+    </>
   )
 }
 
@@ -181,7 +279,7 @@ export function BasketItemsSection() {
   } = api.basketItem.getAll.useQuery()
   return (
     <section>
-      <div className="grid grid-cols-[4rem_8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 text-stone-500">
+      <div className="hidden sm:grid grid-cols-[4rem_8rem_1fr_6rem_6rem_6rem_3rem] gap-4 border-b border-stone-200 text-stone-500">
         <div></div>
         <div className="text-center">Product</div>
         <div></div>
