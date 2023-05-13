@@ -58,15 +58,25 @@ export function ProtectedReservationButton() {
 
 function HeroSection() {
   return (
-    <section className="max-w-6xl mx-auto px-6 grid grid-cols-[1fr_32rem] h-[calc(100svh_-_4rem)]">
-      <div className="flex flex-col justify-center">
-        <p className="text-3xl font-bold">Welcome to Filipino de Cuisine!</p>
+    <section className="max-w-6xl mx-auto px-6 grid md:grid-cols-[1fr_32rem] md:h-[calc(100svh_-_4rem)]">
+      <div className="flex justify-center md:hidden items-end">
+        <Image
+          src="/assets/home/adobo.png"
+          width={300}
+          height={300}
+          alt="Adobo with rice on a plate"
+        />
+      </div>
+      <div className="flex flex-col justify-center pb-12 md:pb-0">
+        <p className="text-3xl font-bold text-center sm:text-left">
+          Welcome to Filipino de Cuisine!
+        </p>
         <p className="[color:_#78716C]">
           Your destination for authentic and delicious Filipino food. Our
           passion is to bring the flavors of the Philippines to your table, with
           dishes that are rich in tradition and culture.
         </p>
-        <div className="inline-flex gap-3 mt-3">
+        <div className="grid sm:inline-flex gap-3 mt-3">
           <Link
             href="/menu"
             className="px-6 bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white text-lg rounded-md pb-2 pt-3 font-semibold"
@@ -76,7 +86,7 @@ function HeroSection() {
           <ProtectedReservationButton />
         </div>
       </div>
-      <div className="flex items-center">
+      <div className="hidden md:flex items-center">
         <Image
           src="/assets/home/adobo.png"
           width={1000}
@@ -132,7 +142,7 @@ function TestimonialsSection() {
           See what our clients say about our services
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-10 max-w-6xl mx-auto">
+      <div className="grid sm:grid-cols-3 gap-10 max-w-6xl mx-auto">
         <TestimonialsSectionItem />
         <TestimonialsSectionItem />
         <TestimonialsSectionItem />
@@ -192,7 +202,7 @@ function FeaturedDishesSection() {
         </div>
         <div></div>
       </div>
-      <div className="flex justify-center gap-28 max-w-6xl mx-auto">
+      <div className="flex justify-center gap-x-24 flex-wrap max-w-6xl mx-auto">
         {featuredItems.map((menuItem) => {
           return (
             <FeaturedDishesSectionItem key={menuItem.id} menuItem={menuItem} />
@@ -205,7 +215,7 @@ function FeaturedDishesSection() {
 
 function StepsSection() {
   return (
-    <section className="px-6 max-w-5xl mx-auto grid gap-12 grid-cols-[1fr_auto_1fr_auto_1fr] py-24">
+    <section className="px-6 max-w-5xl mx-auto grid gap-6 sm:gap-12 sm:grid-cols-[1fr_auto_1fr_auto_1fr] py-12 sm:py-24">
       <article>
         <p className="[color:_#E0E0E0] text-5xl font-bold">01</p>
         <h3 className="font-semibold">Online Reservation</h3>
@@ -214,7 +224,7 @@ function StepsSection() {
           and time, as well as the number of guests.{" "}
         </p>
       </article>
-      <div className="flex items-center">
+      <div className="hidden sm:flex items-center">
         <div className="[background-color:_#E0E0E0] w-[2px] h-16"></div>
       </div>
       <article>
@@ -226,7 +236,7 @@ function StepsSection() {
           information.
         </p>
       </article>
-      <div className="flex items-center">
+      <div className="hidden sm:flex items-center">
         <div className="[background-color:_#E0E0E0] w-[2px] h-16"></div>
       </div>
       <article>
@@ -243,7 +253,7 @@ function StepsSection() {
 
 function CallToActionSection() {
   return (
-    <section className="px-6 pb-20 pt-6 max-w-5xl mx-auto grid grid-cols-2 gap-12">
+    <section className="px-6 pb-20 pt-6 max-w-5xl mx-auto grid sm:grid-cols-2 gap-12">
       <div className="flex justify-end">
         <Image
           src="/assets/home/call-to-action.png"
@@ -258,7 +268,7 @@ function CallToActionSection() {
           Don&apos;t miss out on the mouth-watering flavors of Filipino de
           Cuisine!
         </p>
-        <div className="inline-flex gap-3">
+        <div className="grid sm:inline-flex gap-3">
           <Link
             href="/menu"
             className="px-6 bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white text-lg rounded-md pb-2 pt-3 font-semibold"
