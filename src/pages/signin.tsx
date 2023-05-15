@@ -166,7 +166,10 @@ export default function SignInPage() {
                 )}
               </div>
               <p className="mb-3 text-right">
-                <Link href="/" className="text-stone-500 text-sm">
+                <Link
+                  href="/forgot-password"
+                  className="text-stone-500 text-sm"
+                >
                   Forgot Password?
                 </Link>
               </p>
