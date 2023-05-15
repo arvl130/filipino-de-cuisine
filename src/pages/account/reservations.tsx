@@ -46,7 +46,7 @@ function ReservationsListSection({
       <section className="text-center">
         <p className="mb-3">You have not yet made any reservations.</p>
         <Link
-          href="/menu"
+          href="/reservation"
           className="px-6 bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white text-lg rounded-md pb-2 pt-3 font-semibold inline-block"
         >
           Make a Reservation
