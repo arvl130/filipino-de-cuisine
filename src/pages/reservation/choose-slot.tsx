@@ -7,7 +7,15 @@ import { api } from "@/utils/api"
 import { useRouter } from "next/router"
 import { LoadingSpinner } from "@/components/loading"
 
-function TimeslotButton({ hour, minute }: { hour: number; minute: number }) {
+function TimeslotButton({
+  hour,
+  minute,
+  adjacent,
+}: {
+  hour: number
+  minute: number
+  adjacent: number[][]
+}) {
   const { reservationDate, selectedTimeslots, addTimeslot, removeTimeslot } =
     useReservationDetailsStore()
 
@@ -18,6 +26,16 @@ function TimeslotButton({ hour, minute }: { hour: number; minute: number }) {
     hour,
     minute,
   }).toISO()
+
+  const adjacentDates = adjacent.map((adj) => {
+    return DateTime.fromObject({
+      day: parseInt(reservationDate.split("-")[2]),
+      month: parseInt(reservationDate.split("-")[1]),
+      year: parseInt(reservationDate.split("-")[0]),
+      hour: adj[0],
+      minute: adj[1],
+    }).toISO()!
+  })
 
   const {
     isLoading,
@@ -69,7 +87,18 @@ function TimeslotButton({ hour, minute }: { hour: number; minute: number }) {
         onClick={() => {
           if (selectedTimeslots.includes(startIsoDate))
             removeTimeslot(startIsoDate)
-          else addTimeslot(startIsoDate)
+          else {
+            if (
+              selectedTimeslots.some((selectedTimeslot) => {
+                if (adjacentDates.includes(selectedTimeslot)) return false
+
+                return true
+              })
+            )
+              return
+
+            addTimeslot(startIsoDate)
+          }
         }}
       >
         {hour > 12 ? `${hour - 12}` : hour}:
@@ -94,14 +123,56 @@ function ChooseTimeslotSection() {
     <section className="mb-3">
       <label className="font-medium">Time slot</label>
       <div className="grid grid-cols-4 gap-x-8 gap-y-3 justify-center mb-3">
-        <TimeslotButton hour={10} minute={0} />
-        <TimeslotButton hour={11} minute={15} />
-        <TimeslotButton hour={13} minute={30} />
-        <TimeslotButton hour={14} minute={45} />
-        <TimeslotButton hour={16} minute={0} />
-        <TimeslotButton hour={17} minute={15} />
-        <TimeslotButton hour={18} minute={30} />
-        <TimeslotButton hour={20} minute={45} />
+        <TimeslotButton hour={10} minute={0} adjacent={[[11, 15]]} />
+        <TimeslotButton
+          hour={11}
+          minute={15}
+          adjacent={[
+            [10, 0],
+            [13, 30],
+          ]}
+        />
+        <TimeslotButton
+          hour={13}
+          minute={30}
+          adjacent={[
+            [11, 15],
+            [14, 45],
+          ]}
+        />
+        <TimeslotButton
+          hour={14}
+          minute={45}
+          adjacent={[
+            [13, 30],
+            [16, 0],
+          ]}
+        />
+        <TimeslotButton
+          hour={16}
+          minute={0}
+          adjacent={[
+            [14, 45],
+            [17, 15],
+          ]}
+        />
+        <TimeslotButton
+          hour={17}
+          minute={15}
+          adjacent={[
+            [16, 0],
+            [18, 30],
+          ]}
+        />
+        <TimeslotButton
+          hour={18}
+          minute={30}
+          adjacent={[
+            [17, 15],
+            [20, 45],
+          ]}
+        />
+        <TimeslotButton hour={20} minute={45} adjacent={[[18, 30]]} />
       </div>
       <p className="text-stone-500 text-sm mb-3">
         Each time slot occupies about an hour.
