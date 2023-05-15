@@ -335,34 +335,40 @@ function ReservationDetailsSection({
         <p>Novaliches, Quezon City</p>
         <p>(02) 8806-3049</p>
       </article>
-      <article className="px-6">
-        <hr />
-      </article>
-      <article className="px-6 py-4">
-        <p className="font-semibold">A note from us</p>
-        <p className="max-w-sm mx-auto">
-          Thank you for booking with us! Your reservation at Filipino de Cuisine
-          is confirmed. You may cancel your reservation only up to the day
-          before your reserved date. Cancelled reservation are not automatically
-          refundable. Please contact our staff for more assistance.
-        </p>
-        {reservation.paymentStatus === "Fulfilled" &&
-          reservation.attendedStatus === "Pending" &&
-          dateForToday.getTime() < dateOfReservation.getTime() && (
-            <button
-              type="button"
-              className="bg-red-500 hover:bg-red-400 disabled:bg-red-300 transition duration-200 font-medium text-white pt-2 pb-2 px-4 rounded-md mt-2"
-              disabled={isLoading}
-              onClick={() =>
-                cancelReservation({
-                  id: reservation.id,
-                })
-              }
-            >
-              Cancel Reservation
-            </button>
-          )}
-      </article>
+
+      {reservation.paymentStatus === "Fulfilled" && (
+        <>
+          <article className="px-6">
+            <hr />
+          </article>
+          <article className="px-6 py-4">
+            <p className="font-semibold">A note from us</p>
+            <p className="max-w-sm mx-auto">
+              Thank you for booking with us! Your reservation at Filipino de
+              Cuisine is confirmed. You may cancel your reservation only up to
+              the day before your reserved date. Cancelled reservation are not
+              automatically refundable. Please contact our staff for more
+              assistance.
+            </p>
+            {reservation.paymentStatus === "Fulfilled" &&
+              reservation.attendedStatus === "Pending" &&
+              dateForToday.getTime() < dateOfReservation.getTime() && (
+                <button
+                  type="button"
+                  className="bg-red-500 hover:bg-red-400 disabled:bg-red-300 transition duration-200 font-medium text-white pt-2 pb-2 px-4 rounded-md mt-2"
+                  disabled={isLoading}
+                  onClick={() =>
+                    cancelReservation({
+                      id: reservation.id,
+                    })
+                  }
+                >
+                  Cancel Reservation
+                </button>
+              )}
+          </article>
+        </>
+      )}
       <article className="bg-neutral-100 font-medium py-4">
         Your Reservation ID is {reservation.id}
       </article>
