@@ -1,4 +1,4 @@
-# Filipino de Cuisine
+# 🍲Filipino de Cuisine
 
 ![Screenshot of the website](https://raw.githubusercontent.com/arvl130/filipino-de-cuisine/master/preview.png)
 
