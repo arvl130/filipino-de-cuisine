@@ -1,5 +1,7 @@
 # Filipino de Cuisine
 
+![Screenshot of the website](https://raw.githubusercontent.com/arvl130/filipino-de-cuisine/master/preview.png)
+
 This is the website for the restaurant management system of Filipino de Cuisine—an imaginary Filipino restaurant.
 
 ## Setup
