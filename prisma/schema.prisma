@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider     = "postgresql"
+  provider     = "cockroachdb"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -18,17 +18,17 @@ model Message {
 }
 
 model Employee {
-  id            Int    @id @default(autoincrement())
+  id            Int    @id @default(sequence())
   username      String
-  password      String @db.Text
+  password      String
   contactNumber String
   position      String
-  imgUrl        String @db.Text
+  imgUrl        String
   email         String
 }
 
 model CustomerInfo {
-  id                   String   @id @db.VarChar(28)
+  id                   String   @id
   dateOfBirth          DateTime
   defaultContactNumber String
   defaultAddress       String
@@ -47,7 +47,7 @@ enum PaymentStatus {
 }
 
 model Order {
-  id            Int           @id @default(autoincrement())
+  id            Int           @id @default(sequence())
   mode          Mode
   createdAt     DateTime      @default(now())
   customerName  String
@@ -70,11 +70,11 @@ model WalkInOrder {
 
 model OnlineOrder {
   id              Int            @id
-  customerId      String         @db.VarChar(28)
+  customerId      String
   address         String
   contactNumber   String
   additionalNotes String
-  paymentIntentId String         @unique @db.VarChar(27)
+  paymentIntentId String         @unique
   deliveryFee     Decimal
   deliveryStatus  DeliveryStatus @default(Pending)
   order           Order          @relation(fields: [id], references: [id])
@@ -91,16 +91,16 @@ enum DeliveryStatus {
 }
 
 model Rate {
-  id         Int      @id @default(autoincrement())
+  id         Int      @id @default(sequence())
   rating     String
   review     String
   createdAt  DateTime @default(now())
-  customerId String   @db.VarChar(28)
+  customerId String
 }
 
 model BasketItem {
-  id         Int      @id @default(autoincrement())
-  customerId String   @db.VarChar(28)
+  id         Int      @id @default(sequence())
+  customerId String
   quantity   Int      @default(1)
   menuItemId Int
   menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
@@ -109,7 +109,7 @@ model BasketItem {
 }
 
 model OrderItem {
-  id         Int      @id @default(autoincrement())
+  id         Int      @id @default(sequence())
   orderId    Int
   quantity   Int
   price      Decimal
@@ -123,13 +123,13 @@ model OrderItem {
 }
 
 model MenuItem {
-  id            Int            @id @default(autoincrement())
+  id            Int            @id @default(sequence())
   name          String
-  description   String         @db.VarChar(500)
+  description   String
   category      String
   price         Decimal
   isActive      Boolean
-  imgUrl        String         @db.Text
+  imgUrl        String
   orderItems    OrderItem[]
   discountItems DiscountItem[]
   basketItems   BasketItem[]
@@ -144,15 +144,15 @@ enum AttendedStatus {
 }
 
 model Reservation {
-  id                        Int                        @id @default(autoincrement())
-  customerId                String                     @db.VarChar(28)
+  id                        Int                        @id @default(sequence())
+  customerId                String
   fee                       Decimal
   selectedDate              String
   paymentStatus             PaymentStatus              @default(Pending)
   attendedStatus            AttendedStatus             @default(Pending)
   createdAt                 DateTime                   @default(now())
-  additionalNotes           String                     @db.VarChar(255)
-  paymentIntentId           String                     @unique @db.VarChar(27)
+  additionalNotes           String
+  paymentIntentId           String                     @unique
   isArchived                Boolean                    @default(false)
   reservationSlots          ReservationSlot[]
   reservationSelectedTables ReservationSelectedTable[]
@@ -160,7 +160,7 @@ model Reservation {
 }
 
 model ReservationSelectedTime {
-  id            Int         @id @default(autoincrement())
+  id            Int         @id @default(sequence())
   time          String
   reservationId Int
   reservation   Reservation @relation(fields: [reservationId], references: [id])
@@ -169,7 +169,7 @@ model ReservationSelectedTime {
 }
 
 model ReservationSelectedTable {
-  id            Int         @id @default(autoincrement())
+  id            Int         @id @default(sequence())
   table         String
   reservationId Int
   reservation   Reservation @relation(fields: [reservationId], references: [id])
@@ -197,7 +197,7 @@ model ReservationTable {
 }
 
 model Discount {
-  id            Int            @id @default(autoincrement())
+  id            Int            @id @default(sequence())
   endAt         DateTime
   startAt       DateTime
   amount        Decimal
@@ -205,7 +205,7 @@ model Discount {
 }
 
 model DiscountItem {
-  id         Int      @id @default(autoincrement())
+  id         Int      @id @default(sequence())
   discountId Int
   menuItemId Int
   discount   Discount @relation(fields: [discountId], references: [id])
@@ -216,7 +216,7 @@ model DiscountItem {
 }
 
 model Sales {
-  id         Int      @id @default(autoincrement())
+  id         Int      @id @default(sequence())
   price      Decimal
   quantity   Int
   total      Decimal
@@ -237,7 +237,7 @@ enum Status {
 }
 
 model Equipment {
-  id          Int     @id @default(autoincrement())
+  id          Int     @id @default(sequence())
   name        String
   description String
   price       Decimal
@@ -246,7 +246,7 @@ model Equipment {
 }
 
 model Supplier {
-  id             Int             @id @default(autoincrement())
+  id             Int             @id @default(sequence())
   name           String
   description    String
   contactNumber  String
@@ -256,7 +256,7 @@ model Supplier {
 }
 
 model PurchaseOrder {
-  id                 Int                 @id @default(autoincrement())
+  id                 Int                 @id @default(sequence())
   createdAt          DateTime            @default(now())
   supplierId         Int
   supplier           Supplier            @relation(fields: [supplierId], references: [id])
@@ -266,7 +266,7 @@ model PurchaseOrder {
 }
 
 model PurchaseOrderItem {
-  id              Int           @id @default(autoincrement())
+  id              Int           @id @default(sequence())
   name            String
   quantity        Int
   purchaseOrderId Int
@@ -276,7 +276,7 @@ model PurchaseOrderItem {
 }
 
 model Ingredient {
-  id          Int      @id @default(autoincrement())
+  id          Int      @id @default(sequence())
   name        String
   description String
   price       Decimal
