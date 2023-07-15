@@ -146,6 +146,54 @@ function ItemPrice({
   )
 }
 
+export function MenuItemSkeleton() {
+  return (
+    <article className="relative w-[min(100%,_20rem)] grid grid-rows-[auto_1fr]">
+      <div className="h-24 z-[1]">
+        <div className="object-contain rounded-full w-[12rem] aspect-square left-0 right-0 mx-auto p-4">
+          <div className="bg-zinc-100 w-full h-full rounded-full"></div>
+        </div>
+      </div>
+      <div className="min-h-[26rem] border [border-color:_#78716C] rounded-2xl px-6 pt-24 pb-8 text-center grid grid-rows-[auto_auto_1fr_auto_auto]">
+        <h3 className="font-bold text-2xl pt-3">
+          <span className="inline-block w-[10rem] bg-zinc-100 rounded-md">
+            <br />
+          </span>
+        </h3>
+        <p className="[color:_#78716C] my-1">
+          <span className="inline-block w-[4rem] bg-zinc-100 rounded-md">
+            <br />
+          </span>
+        </p>
+        <p className="mb-5 flex items-center justify-center flex-col gap-2">
+          <span className="inline-block w-[14rem] bg-zinc-100 rounded-md">
+            <br />
+          </span>
+          <span className="inline-block w-[12rem] bg-zinc-100 rounded-md">
+            <br />
+          </span>
+          <span className="inline-block w-[10rem] bg-zinc-100 rounded-md">
+            <br />
+          </span>
+          <span className="inline-block w-[12rem] bg-zinc-100 rounded-md">
+            <br />
+          </span>
+        </p>
+        <p className="font-bold text-red-500 text-3xl">
+          <span className="inline-block w-[5ch] bg-zinc-100 rounded-md">
+            <br />
+          </span>
+        </p>
+      </div>
+      <div className="text-center">
+        <span className="inline-block bg-emerald-300 transition duration-200 w-36 text-white px-3 pb-1 pt-2 font-bold text-lg rounded-md -translate-y-5">
+          <br />
+        </span>
+      </div>
+    </article>
+  )
+}
+
 export function MenuItem({
   menuItem,
 }: {
@@ -166,7 +214,7 @@ export function MenuItem({
           className="object-contain rounded-full w-[min(100%,_12rem)] aspect-square left-0 right-0 mx-auto"
         />
       </div>
-      <div className="border [border-color:_#78716C] rounded-2xl px-6 pt-24 pb-8 text-center grid grid-rows-[auto_auto_1fr_auto_auto]">
+      <div className="min-h-[26rem] border [border-color:_#78716C] rounded-2xl px-6 pt-24 pb-8 text-center grid grid-rows-[auto_auto_1fr_auto_auto]">
         <h3 className="font-bold text-2xl pt-3">{menuItem.name}</h3>
         <p className="[color:_#78716C] my-1">{menuItem.category}</p>
         <p className="mb-5 flex items-center">{menuItem.description}</p>

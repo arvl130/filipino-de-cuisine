@@ -1,6 +1,9 @@
 import { Basket } from "@/components/HeroIcons"
 import { ProtectedSVGLink } from "@/components/account/ProtectedPage"
-import { MenuItem as FeaturedDishesSectionItem } from "@/components/menu/MenuItem"
+import {
+  MenuItem as FeaturedDishesSectionItem,
+  MenuItemSkeleton as FeaturedDishesSectionItemSkeleton,
+} from "@/components/menu/MenuItem"
 import { api } from "@/utils/api"
 import { useSession } from "@/utils/auth"
 import { Prisma } from "@prisma/client"
@@ -186,7 +189,28 @@ const menuItems = [
 
 function FeaturedDishesSection() {
   const { data: featuredItems } = api.menuItem.getFeatured.useQuery()
-  if (featuredItems === undefined) return <></>
+  if (featuredItems === undefined)
+    return (
+      <section className="[border-color:_#F5F5F5] border-2 pt-8 pb-12 px-6">
+        <div className="grid grid-cols-[4rem_1fr_4rem]">
+          <div className="flex justify-end">
+            <ProtectedSVGLink href="/menu/basket">
+              <Basket />
+            </ProtectedSVGLink>
+          </div>
+          <div className="text-center">
+            <h2 className="[color:_#78716C] mb-3">Customers Pick</h2>
+            <p className="font-bold text-3xl mb-12">Featured Dishes</p>
+          </div>
+          <div></div>
+        </div>
+        <div className="flex justify-center gap-x-24 flex-wrap max-w-6xl mx-auto">
+          <FeaturedDishesSectionItemSkeleton />
+          <FeaturedDishesSectionItemSkeleton />
+          <FeaturedDishesSectionItemSkeleton />
+        </div>
+      </section>
+    )
 
   return (
     <section className="[border-color:_#F5F5F5] border-2 pt-8 pb-12 px-6">
