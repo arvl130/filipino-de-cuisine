@@ -4,6 +4,10 @@
 
 This is the website for the restaurant management system of Filipino de Cuisine—an imaginary Filipino restaurant.
 
+## Entity Relationship Diagram
+
+![ERD of the system](https://raw.githubusercontent.com/arvl130/filipino-de-cuisine/master/erd.jpg)
+
 ## Setup
 
 This project requires at least Node.js v16.17 to be installed and uses `pnpm` for package management.
