@@ -77,7 +77,7 @@ export default function SignInPage() {
         <div className="flex justify-center">
           <SignInSignUpSwitcher />
         </div>
-        <div className="[box-shadow:_0px_1px_4px_1px_rgba(0,_0,_0,_0.25)] rounded-2xl shadow-md px-8 py-6 max-w-2xl my-12 mx-auto grid grid-cols-[1fr_14rem]">
+        <div className="[box-shadow:_0px_1px_4px_1px_rgba(0,_0,_0,_0.25)] rounded-2xl shadow-md px-8 py-6 max-w-2xl my-12 mx-auto sm:grid sm:grid-cols-[1fr_14rem]">
           <div>
             <h2 className="font-semibold text-xl text-center">Sign In</h2>
             <form
@@ -235,7 +235,7 @@ export default function SignInPage() {
               </Link>
             </p>
           </div>
-          <div className="pl-8">
+          <div className="hidden sm:block pl-8">
             <Image
               src="/assets/signin/side-banner.jpg"
               alt="side banner"
