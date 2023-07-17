@@ -12,7 +12,7 @@ import {
 import { User } from "firebase/auth"
 import { DateTime } from "luxon"
 import Link from "next/link"
-import { useState } from "react"
+import { Fragment, useState } from "react"
 
 function ReservationsListSection({
   reservations,
@@ -56,14 +56,14 @@ function ReservationsListSection({
 
   return (
     <>
-      <section className="border-b border-stone-400 grid grid-cols-6 font-medium mb-3">
+      <section className="border-b border-stone-400 grid grid-cols-2 lg:grid-cols-5 font-medium mb-3">
         <div className="text-center">
           <button
             type="button"
             className={`pb-2 px-3 ${
               currentTab === ""
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("")}
           >
@@ -76,7 +76,7 @@ function ReservationsListSection({
             className={`pb-2 px-3 ${
               currentTab === "Pending"
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("Pending")}
           >
@@ -89,7 +89,7 @@ function ReservationsListSection({
             className={`pb-2 px-3 ${
               currentTab === "Missed"
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("Missed")}
           >
@@ -102,7 +102,7 @@ function ReservationsListSection({
             className={`pb-2 px-3 ${
               currentTab === "Completed"
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("Completed")}
           >
@@ -115,7 +115,7 @@ function ReservationsListSection({
             className={`pb-2 px-3 ${
               currentTab === "Cancelled"
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("Cancelled")}
           >
@@ -123,9 +123,9 @@ function ReservationsListSection({
           </button>
         </div>
       </section>
-      <section className="max-w-4xl mx-auto px-6">
+      <section className="max-w-4xl mx-auto lg:px-6">
         <div>
-          <div className="grid grid-cols-[8rem_10rem_10rem_10rem_1fr] gap-3 text-stone-500 font-semibold py-3">
+          <div className="hidden lg:grid grid-cols-[8rem_10rem_10rem_10rem_1fr] gap-3 text-stone-500 font-semibold py-3">
             <div>Reservation ID</div>
             <div>Date</div>
             <div>Time</div>
@@ -141,27 +141,49 @@ function ReservationsListSection({
                   getEarliestAndLatestTime(reservation.reservationSelectedTimes)
 
                 return (
-                  <article
-                    key={reservation.id}
-                    className="grid grid-cols-[8rem_10rem_10rem_10rem_1fr] gap-3 py-3"
-                  >
-                    <div>{reservation.id}</div>
-                    <div>{formattedDate(reservation.createdAt)}</div>
-                    <div>
-                      {earliestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
-                      {" - "}
-                      {latestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
-                    </div>
-                    <div>{reservation.attendedStatus}</div>
-                    <div>
-                      <Link
-                        href={`/reservation/${reservation.id}`}
-                        className="text-emerald-500 font-medium"
-                      >
-                        View
-                      </Link>
-                    </div>
-                  </article>
+                  <Fragment key={reservation.id}>
+                    <article className="hidden lg:grid grid-cols-[8rem_10rem_10rem_10rem_1fr] gap-3 py-3">
+                      <div>{reservation.id}</div>
+                      {/* FIXME: This should be reservation date, not created date. */}
+                      <div>{formattedDate(reservation.createdAt)}</div>
+                      <div>
+                        {earliestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
+                        {" - "}
+                        {latestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
+                      </div>
+                      <div>{reservation.attendedStatus}</div>
+                      <div>
+                        <Link
+                          href={`/reservation/${reservation.id}`}
+                          className="text-emerald-500 font-medium"
+                        >
+                          View
+                        </Link>
+                      </div>
+                    </article>
+                    <article className="lg:hidden border border-zinc-300 px-6 py-3 rounded-md mb-3">
+                      <div className="text-lg font-medium">
+                        Reservation ID: {reservation.id}
+                      </div>
+                      {/* FIXME: This should be reservation date, not created date. */}
+                      <div>Date: {formattedDate(reservation.createdAt)}</div>
+                      <div>
+                        Time:{" "}
+                        {earliestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
+                        {" - "}
+                        {latestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
+                      </div>
+                      <div>Status: {reservation.attendedStatus}</div>
+                      <div>
+                        <Link
+                          href={`/reservation/${reservation.id}`}
+                          className="bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white block text-center py-1 w-full rounded-md font-medium"
+                        >
+                          View
+                        </Link>
+                      </div>
+                    </article>
+                  </Fragment>
                 )
               })}
             </>
@@ -176,7 +198,7 @@ function AuthenticatedPage({ user }: { user: User }) {
   const { data, isLoading, isError } = api.reservation.getAll.useQuery()
 
   return (
-    <div className="grid grid-cols-[16rem_1fr] gap-3">
+    <div className="grid lg:grid-cols-[16rem_1fr] gap-3">
       <AccountPageSwitcher user={user} />
       <section>
         <h2 className="px-6 text-2xl font-semibold pb-3">
