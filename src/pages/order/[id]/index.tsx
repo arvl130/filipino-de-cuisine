@@ -273,281 +273,313 @@ function OrderStatusSection({
     <section
       className={`grid ${
         onlineOrder.deliveryStatus !== "Cancelled" ? "grid-cols-4" : ""
-      } text-center pt-6 pb-12 px-12`}
+      } text-center pt-6 pb-12 sm:px-12`}
     >
       {onlineOrder.deliveryStatus === "Pending" && (
         <>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 rounded-l-md w-full flex items-center">
                 <div className="h-1 w-full bg-red-600 rounded-l"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/confirmed.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-20 w-20"
+                  className="h-10 w-10 sm:h-20 sm:w-20"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Order Confirmed</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Order Confirmed
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full flex items-center"></div>
-              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-stone-500 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/preparing.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-16 w-16"
+                  className="h-8 w-8 sm:h-16 sm:w-16"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Preparing in the Kitchen</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Preparing in the Kitchen
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full flex items-center"></div>
-              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-stone-500 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/on-the-way.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-14 w-14"
+                  className="h-7 w-7 sm:h-14 sm:w-14"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Out for Delivery</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Out for Delivery
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full rounded-r-md flex items-center"></div>
-              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-stone-500 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/delivered.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-14 w-14"
+                  className="h-7 w-7 sm:h-14 sm:w-14"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Order Delivered</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Order Delivered
+            </div>
           </div>
         </>
       )}
       {onlineOrder.deliveryStatus === "Preparing" && (
         <>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 rounded-l-md w-full flex items-center">
                 <div className="h-1 w-full bg-red-600 rounded-l"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/confirmed.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-20 w-20"
+                  className="h-10 w-10 sm:h-20 sm:w-20"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Order Confirmed</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Order Confirmed
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full flex items-center">
                 <div className="h-1 w-full bg-red-600"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/preparing.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-16 w-16"
+                  className="h-8 w-8 sm:h-16 sm:w-16"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Preparing in the Kitchen</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Preparing in the Kitchen
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full flex items-center"></div>
-              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-stone-500 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/on-the-way.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-14 w-14"
+                  className="h-7 w-7 sm:h-14 sm:w-14"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Out for Delivery</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Out for Delivery
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full rounded-r-md flex items-center"></div>
-              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-stone-500 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/delivered.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-14 w-14"
+                  className="h-7 w-7 sm:h-14 sm:w-14"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Order Delivered</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Order Delivered
+            </div>
           </div>
         </>
       )}
       {onlineOrder.deliveryStatus === "OutForDelivery" && (
         <>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 rounded-l-md w-full flex items-center">
                 <div className="h-1 w-full bg-red-600 rounded-l"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/confirmed.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-20 w-20"
+                  className="h-10 w-10 sm:h-20 sm:w-20"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Order Confirmed</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Order Confirmed
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full flex items-center">
                 <div className="h-1 w-full bg-red-600"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/preparing.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-16 w-16"
+                  className="h-8 w-8 sm:h-16 sm:w-16"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Preparing in the Kitchen</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Preparing in the Kitchen
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full flex items-center">
                 <div className="h-1 w-full bg-red-600"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/on-the-way.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-14 w-14"
+                  className="h-7 w-7 sm:h-14 sm:w-14"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Out for Delivery</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Out for Delivery
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full rounded-r-md flex items-center"></div>
-              <div className="bg-stone-500 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-stone-500 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/delivered.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-14 w-14"
+                  className="h-7 w-7 sm:h-14 sm:w-14"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Order Delivered</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Order Delivered
+            </div>
           </div>
         </>
       )}
       {onlineOrder.deliveryStatus === "Received" && (
         <>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 rounded-l-md w-full flex items-center">
                 <div className="h-1 w-full bg-red-600 rounded-l"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/confirmed.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-20 w-20"
+                  className="h-10 w-10 sm:h-20 sm:w-20"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Order Confirmed</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Order Confirmed
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full flex items-center">
                 <div className="h-1 w-full bg-red-600"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/preparing.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-16 w-16"
+                  className="h-8 w-8 sm:h-16 sm:w-16"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Preparing in the Kitchen</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Preparing in the Kitchen
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full flex items-center">
                 <div className="h-1 w-full bg-red-600"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/on-the-way.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-14 w-14"
+                  className="h-7 w-7 sm:h-14 sm:w-14"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Out for Delivery</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Out for Delivery
+            </div>
           </div>
           <div>
-            <div className="h-24 flex items-center relative">
+            <div className="h-12 sm:h-24 flex items-center relative">
               <div className="bg-stone-500 h-2 w-full rounded-r-md flex items-center">
                 <div className="h-1 w-full bg-red-600 rounded-r"></div>
               </div>
-              <div className="bg-red-600 h-24 w-24 absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="bg-red-600 h-12 sm:h-24 aspect-square absolute left-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-medium">
                 <Image
                   src="/assets/orders/delivered.png"
                   alt="idk"
                   height={100}
                   width={100}
-                  className="h-14 w-14"
+                  className="h-7 w-7 sm:h-14 sm:w-14"
                 />
               </div>
             </div>
-            <div className="font-medium mt-1">Order Delivered</div>
+            <div className="font-medium mt-1 text-sm sm:text-base">
+              Order Delivered
+            </div>
           </div>
         </>
       )}
@@ -597,30 +629,68 @@ export function OrderItemsSectionItem({
   )
 
   return (
-    <article className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 h-36">
-      <div>
-        <Image
-          alt="Adobo"
-          src={menuItem.imgUrl}
-          width={100}
-          height={100}
-          className="h-full w-36 object-contain"
-        />
-      </div>
-      <div className="flex items-center font-medium px-6">{menuItem.name}</div>
-      <div className="flex items-center justify-center font-medium">
-        ₱ {hasDiscount ? discountedPrice.toFixed(2) : originalPrice.toFixed(2)}
-      </div>
-      <div className="flex items-center justify-center">
-        {selectedItem.quantity}
-      </div>
-      <div className="flex items-center justify-center font-medium">
-        ₱{" "}
-        {hasDiscount
-          ? (discountedPrice * selectedItem.quantity).toFixed(2)
-          : (originalPrice * selectedItem.quantity).toFixed(2)}
-      </div>
-    </article>
+    <>
+      {/* Desktop */}
+      <article className="hidden sm:grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 h-36">
+        <div>
+          <Image
+            alt="Adobo"
+            src={menuItem.imgUrl}
+            width={100}
+            height={100}
+            className="h-full w-36 object-contain"
+          />
+        </div>
+        <div className="flex items-center font-medium px-6">
+          {menuItem.name}
+        </div>
+        <div className="flex items-center justify-center font-medium">
+          ₱{" "}
+          {hasDiscount ? discountedPrice.toFixed(2) : originalPrice.toFixed(2)}
+        </div>
+        <div className="flex items-center justify-center">
+          {selectedItem.quantity}
+        </div>
+        <div className="flex items-center justify-center font-medium">
+          ₱{" "}
+          {hasDiscount
+            ? (discountedPrice * selectedItem.quantity).toFixed(2)
+            : (originalPrice * selectedItem.quantity).toFixed(2)}
+        </div>
+      </article>
+      {/* Mobile */}
+      <article className="sm:hidden border-b border-stone-200 transition duration-200">
+        <div>
+          <Image
+            alt="Adobo"
+            src={menuItem.imgUrl}
+            width={100}
+            height={100}
+            className="h-full w-36 object-contain"
+          />
+        </div>
+        <div className="grid grid-cols-[1fr_auto]">
+          <div className="flex items-center font-medium">
+            {menuItem.name} ({selectedItem.quantity}x)
+          </div>
+          <div className="flex items-center justify-center font-medium">
+            ₱{" "}
+            {hasDiscount
+              ? discountedPrice.toFixed(2)
+              : originalPrice.toFixed(2)}
+          </div>
+        </div>
+        <div className="grid grid-cols-[1fr_auto]">
+          <div className="flex items-center font-medium">Item Subtotal: </div>
+          <div className="flex items-center justify-end font-medium">
+            ₱{" "}
+            {hasDiscount
+              ? (discountedPrice * selectedItem.quantity).toFixed(2)
+              : (originalPrice * selectedItem.quantity).toFixed(2)}
+          </div>
+        </div>
+      </article>
+    </>
   )
 }
 
@@ -654,7 +724,10 @@ function OrderItemsSection({
 
   return (
     <section className="max-w-4xl mx-auto">
-      <div className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 text-stone-500">
+      <p className="sm:hidden font-medium inline-block mb-3">
+        Selected Products
+      </p>
+      <div className="hidden sm:grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 text-stone-500">
         <div className="text-center">Product</div>
         <div></div>
         <div className="text-center">Price</div>
@@ -804,7 +877,7 @@ function AuthenticatedPage({ user }: { user: User }) {
         </Link>
         <h2 className="font-semibold text-2xl flex items-end">Order Status</h2>
       </div>
-      <div className="flex justify-between px-12">
+      <div className="flex justify-between sm:px-12">
         <p>Order ID: {query.id}</p>
         <div>
           {data.order.paymentStatus === "Fulfilled" && (
@@ -842,7 +915,7 @@ function AuthenticatedPage({ user }: { user: User }) {
 
 export default function ViewOrderPage() {
   return (
-    <main className="max-w-7xl mx-auto w-full px-3 sm:px-6 py-4 sm:py-12">
+    <main className="max-w-7xl mx-auto w-full px-6 py-4 sm:py-12">
       <ProtectedPage>
         {({ user }) => <AuthenticatedPage user={user} />}
       </ProtectedPage>
