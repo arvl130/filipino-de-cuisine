@@ -232,8 +232,8 @@ export default function FrequentlyAskedQuestionsPage() {
   const [currentTab, setCurrentTab] = useState<TabCategory>("PAYMENT")
   return (
     <main className={`${inter.variable} max-w-6xl mx-auto w-full px-6 py-12`}>
-      <header className="grid grid-cols-2 items-end mb-10">
-        <div>
+      <header className="grid sm:grid-cols-2 items-end mb-10">
+        <div className="mb-3 sm:mb-0">
           <p>FAQs</p>
           <h2 className="font-bold text-2xl text-emerald-500 font-inter">
             FREQUENTLY ASKED QUESTIONS
@@ -245,7 +245,7 @@ export default function FrequentlyAskedQuestionsPage() {
         </p>
       </header>
       <section>
-        <header className="border-b border-stone-400 flex justify-around font-medium mb-10">
+        <header className="border-b border-stone-400 flex flex-wrap gap-3 justify-around font-medium mb-10">
           <button
             type="button"
             className={`${
@@ -313,15 +313,15 @@ export default function FrequentlyAskedQuestionsPage() {
             Account
           </button>
         </header>
-        <section className="grid grid-cols-3 gap-3 mb-6">
+        <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
           {questionsAndAnswers
             .filter(({ category }) => category === currentTab)
             .map(({ question, answer }, index) => (
               <SectionItem question={question} answer={answer} key={index} />
             ))}
         </section>
-        <section className="flex justify-between bg-stone-100 px-12 py-8 rounded-md items-center">
-          <div>
+        <section className="flex flex-col lg:flex-row justify-between bg-stone-100 px-12 py-8 rounded-md items-center">
+          <div className="mb-3 lg:mb-0">
             <p className="font-semibold text-red-500">Still have questions?</p>
             <p>
               Can&apos;t find the answer you&apos;re looking for? Our team would
