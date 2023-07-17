@@ -752,13 +752,13 @@ function OrderItemsSection({
           })}
         </>
       )}
-      <div className="flex justify-between px-6 py-3">
+      <div className="flex justify-between sm:px-6 py-3">
         <p className="font-semibold">Delivery Fee</p>
         <p className="font-semibold">
           ₱ {onlineOrder.deliveryFee.toNumber().toFixed(2)}
         </p>
       </div>
-      <div className="flex justify-between px-6 py-3 text-xl">
+      <div className="flex justify-between sm:px-6 py-3 text-xl">
         <p className="font-semibold">TOTAL</p>
         <p className="font-semibold">₱ {subTotalWithDeliveryFee.toFixed(2)}</p>
       </div>
