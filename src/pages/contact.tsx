@@ -56,73 +56,68 @@ export default function ContactUsPage() {
   })
 
   return (
-    <section className="contact-us">
-      <div className="contact">
-        <div className="contactus">
-          <h6> Contact Us</h6>
-          <h1>GET IN TOUCH</h1>
-          <p>
-            Feel free to contact us anytime.
-            <br></br>We will get back to you as possible as we can!
+    <section className="contact-us max-w-6xl mx-auto px-6 py-24">
+      <div className="contact lg:grid lg:grid-cols-2">
+        <section className="mb-12 lg:mb-0">
+          <h2 className="text-2xl">Contact Us</h2>
+          <p className="font-bold mb-3 text-4xl">GET IN TOUCH</p>
+          <p className="text-lg">Feel free to contact us anytime.</p>
+          <p className="text-lg mb-12">
+            We will get back to you as possible as we can!
           </p>
 
-          <div className="details">
-            <div className="bg">
-              <div className="img">
-                <Image
-                  src="/assets/contact/LOCATION.png"
-                  width={50}
-                  height={50}
-                  alt="location"
-                />
-              </div>
+          <article className="grid grid-cols-[auto_1fr] gap-6 items-center mb-8">
+            <div className="w-24 aspect-square [box-shadow:_0px_4px_4px_2px_rgba(0,_0,_0,_0.25)] rounded-md bg-black flex justify-center items-center">
+              <Image
+                src="/assets/contact/LOCATION.png"
+                width={50}
+                height={50}
+                alt="location"
+              />
             </div>
 
-            <div className="location">
-              <h1>Our Location</h1>
-              <p>
-                673 Quirino Highway, San Bartolome
-                <br></br>
-                Novaliches, Quezon City
-              </p>
+            <div className="text-lg">
+              <h3 className="font-semibold">Our Location</h3>
+              <p>673 Quirino Highway, San Bartolome</p>
+              <p>Novaliches, Quezon City</p>
+            </div>
+          </article>
+
+          <article className="grid grid-cols-[auto_1fr] gap-6 items-center mb-8">
+            <div className="w-24 aspect-square [box-shadow:_0px_4px_4px_2px_rgba(0,_0,_0,_0.25)] rounded-md bg-black flex justify-center items-center">
+              <Image
+                src="/assets/contact/NUMBER.png"
+                width={50}
+                height={50}
+                alt="location"
+              />
             </div>
 
-            <div className="bg">
-              <div className="img">
-                <Image
-                  src="/assets/contact/BUSINESS.png"
-                  width={50}
-                  height={50}
-                  alt="business hours"
-                />
-              </div>
-            </div>
-
-            <div className="location">
-              <h1>Phone Number</h1>
+            <div className="text-lg">
+              <h3 className="font-semibold">Phone Number</h3>
               <p>(02) 8806-3049</p>
             </div>
+          </article>
 
-            <div className="bg">
-              <div className="img">
-                <Image
-                  src="/assets/contact/NUMBER.png"
-                  width={50}
-                  height={50}
-                  alt="phone number"
-                />
-              </div>
+          <article className="grid grid-cols-[auto_1fr] gap-6 items-center">
+            <div className="w-24 aspect-square [box-shadow:_0px_4px_4px_2px_rgba(0,_0,_0,_0.25)] rounded-md bg-black flex justify-center items-center">
+              <Image
+                src="/assets/contact/BUSINESS.png"
+                width={50}
+                height={50}
+                alt="location"
+              />
             </div>
 
-            <div className="location">
-              <h1>Business Hours</h1>
-              <p>8:00 AM - 10:00 PM </p>
+            <div className="text-lg">
+              <h3 className="font-semibold">Business Hours</h3>
+              <p>8:00 AM - 10:00 PM</p>
             </div>
-          </div>
-        </div>
+          </article>
+        </section>
 
         <div className="form">
-          <div className="contactform">
+          <div className="contactform w-full">
             <form
               className="textbox"
               onSubmit={handleSubmit((formData) => createMessage(formData))}
