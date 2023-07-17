@@ -161,7 +161,7 @@ function ReservationsListSection({
                         </Link>
                       </div>
                     </article>
-                    <article className="lg:hidden border border-zinc-300 px-6 py-3 rounded-md mb-3">
+                    <article className="lg:hidden border border-zinc-300 px-6 pt-3 pb-4 rounded-md mb-3">
                       <div className="text-lg font-medium">
                         Reservation ID: {reservation.id}
                       </div>
@@ -173,7 +173,9 @@ function ReservationsListSection({
                         {" - "}
                         {latestTimeslot.toLocaleString(DateTime.TIME_SIMPLE)}
                       </div>
-                      <div>Status: {reservation.attendedStatus}</div>
+                      <div className="mb-1">
+                        Status: {reservation.attendedStatus}
+                      </div>
                       <div>
                         <Link
                           href={`/reservation/${reservation.id}`}

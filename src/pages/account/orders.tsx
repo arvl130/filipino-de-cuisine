@@ -167,7 +167,7 @@ function OrdersListSection({
                       </div>
                     </article>
                     {/* Mobile */}
-                    <article className="lg:hidden border border-zinc-300 px-6 py-3 rounded-md mb-3">
+                    <article className="lg:hidden border border-zinc-300 px-6 pt-3 pb-4 rounded-md mb-3">
                       <div className="text-lg font-medium">
                         Order ID: {onlineOrder.id}
                       </div>
@@ -175,7 +175,9 @@ function OrdersListSection({
                         Date: {formattedDate(onlineOrder.order.createdAt)}
                       </div>
                       <div>Cost: ₱ {cost.toFixed(2)}</div>
-                      <div>Status: {onlineOrder.deliveryStatus}</div>
+                      <div className="mb-1">
+                        Status: {onlineOrder.deliveryStatus}
+                      </div>
                       <div>
                         <Link
                           href={`/order/${onlineOrder.id}`}
