@@ -22,7 +22,7 @@ function CustomerInfoSection({
   }
 
   return (
-    <div className="px-6 py-6 grid grid-cols-2 gap-y-6">
+    <div className="px-6 py-6 grid sm:grid-cols-2 gap-y-6">
       <article>
         <h3 className="font-semibold">Name</h3>
         <p>{user.displayName}</p>
@@ -57,7 +57,7 @@ function AuthenticatedPage({
   customerInfo: CustomerInfo
 }) {
   return (
-    <div className="grid grid-cols-[16rem_1fr] gap-3">
+    <div className="grid lg:grid-cols-[16rem_1fr] gap-3">
       <AccountPageSwitcher user={user} />
       <section>
         <h2 className="px-6 border-b border-stone-400 text-2xl font-semibold pb-3">
