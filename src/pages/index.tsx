@@ -109,7 +109,15 @@ function QuoteSection() {
   )
 }
 
-function TestimonialsSectionItem() {
+const MAX_STARS_COUNT = 5
+
+function TestimonialsSectionItem({
+  customerName,
+  stars,
+}: {
+  customerName: string
+  stars: 1 | 2 | 3 | 4 | 5
+}) {
   return (
     <article className="bg-white rounded-md px-6 pt-4">
       <div className="flex items-center gap-6 mb-3">
@@ -121,7 +129,7 @@ function TestimonialsSectionItem() {
             height={96}
           />
         </div>
-        <p className="font-bold text-xl">John Doe</p>
+        <p className="font-bold text-xl">{customerName}</p>
       </div>
       <p className="text-center [color:_#78716C]">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non
@@ -129,7 +137,14 @@ function TestimonialsSectionItem() {
       </p>
       <div className="text-center translate-y-4">
         <div className="inline-block bg-black text-white px-6 pt-2 pb-1 text-2xl rounded-lg">
-          ★★★★<span className="[color:_#78716C]">★</span>
+          {[...Array(stars)].map((star, index) => (
+            <span key={index}>★</span>
+          ))}
+          {[...Array(MAX_STARS_COUNT - stars)].map((star, index) => (
+            <span key={index} className="[color:_#78716C]">
+              ★
+            </span>
+          ))}
         </div>
       </div>
     </article>
@@ -146,9 +161,9 @@ function TestimonialsSection() {
         </p>
       </div>
       <div className="grid sm:grid-cols-3 gap-10 max-w-6xl mx-auto">
-        <TestimonialsSectionItem />
-        <TestimonialsSectionItem />
-        <TestimonialsSectionItem />
+        <TestimonialsSectionItem customerName="John Doe" stars={4} />
+        <TestimonialsSectionItem customerName="Jane Doe" stars={5} />
+        <TestimonialsSectionItem customerName="Mary Sue" stars={4} />
       </div>
     </section>
   )
