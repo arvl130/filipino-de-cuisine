@@ -5,7 +5,7 @@ import { api } from "@/utils/api"
 import { DeliveryStatus, OnlineOrder, Order, OrderItem } from "@prisma/client"
 import { User } from "firebase/auth"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, Fragment } from "react"
 
 function OrdersListSection({
   onlineOrders,
@@ -50,14 +50,14 @@ function OrdersListSection({
 
   return (
     <>
-      <section className="border-b border-stone-400 grid grid-cols-6 font-medium mb-3">
+      <section className="border-b border-stone-400 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 font-medium mb-3">
         <div className="text-center">
           <button
             type="button"
             className={`pb-2 px-3 ${
               currentTab === ""
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("")}
           >
@@ -70,7 +70,7 @@ function OrdersListSection({
             className={`pb-2 px-3 ${
               currentTab === "Pending"
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("Pending")}
           >
@@ -83,7 +83,7 @@ function OrdersListSection({
             className={`pb-2 px-3 ${
               currentTab === "Preparing"
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("Preparing")}
           >
@@ -96,7 +96,7 @@ function OrdersListSection({
             className={`pb-2 px-3 ${
               currentTab === "OutForDelivery"
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("OutForDelivery")}
           >
@@ -109,7 +109,7 @@ function OrdersListSection({
             className={`pb-2 px-3 ${
               currentTab === "Received"
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("Received")}
           >
@@ -122,7 +122,7 @@ function OrdersListSection({
             className={`pb-2 px-3 ${
               currentTab === "Cancelled"
                 ? "text-emerald-500 border-b-4 border-emerald-400"
-                : ""
+                : "border-b-4 border-white"
             }`}
             onClick={() => setCurrentTab("Cancelled")}
           >
@@ -130,9 +130,9 @@ function OrdersListSection({
           </button>
         </div>
       </section>
-      <section className="max-w-4xl mx-auto px-6">
+      <section className="max-w-4xl mx-auto lg:px-6">
         <div>
-          <div className="grid grid-cols-[6rem_10rem_10rem_10rem_1fr] gap-3 text-stone-500 font-semibold py-3">
+          <div className="hidden lg:grid grid-cols-[6rem_10rem_10rem_10rem_1fr] gap-3 text-stone-500 font-semibold py-3">
             <div>Order ID</div>
             <div>Date</div>
             <div>Cost</div>
@@ -150,23 +150,42 @@ function OrdersListSection({
                   }, 0) + onlineOrder.deliveryFee.toNumber()
 
                 return (
-                  <article
-                    key={onlineOrder.id}
-                    className="grid grid-cols-[6rem_10rem_10rem_10rem_1fr] gap-3 py-3"
-                  >
-                    <div>{onlineOrder.id}</div>
-                    <div>{formattedDate(onlineOrder.order.createdAt)}</div>
-                    <div>₱ {cost.toFixed(2)}</div>
-                    <div>{onlineOrder.deliveryStatus}</div>
-                    <div>
-                      <Link
-                        href={`/order/${onlineOrder.id}`}
-                        className="text-emerald-500 font-medium"
-                      >
-                        View
-                      </Link>
-                    </div>
-                  </article>
+                  <Fragment key={onlineOrder.id}>
+                    {/* Desktop */}
+                    <article className="hidden lg:grid grid-cols-[6rem_10rem_10rem_10rem_1fr] gap-3 py-3">
+                      <div>{onlineOrder.id}</div>
+                      <div>{formattedDate(onlineOrder.order.createdAt)}</div>
+                      <div>₱ {cost.toFixed(2)}</div>
+                      <div>{onlineOrder.deliveryStatus}</div>
+                      <div>
+                        <Link
+                          href={`/order/${onlineOrder.id}`}
+                          className="text-emerald-500 font-medium"
+                        >
+                          View
+                        </Link>
+                      </div>
+                    </article>
+                    {/* Mobile */}
+                    <article className="lg:hidden border border-zinc-300 px-6 py-3 rounded-md mb-3">
+                      <div className="text-lg font-medium">
+                        Order ID: {onlineOrder.id}
+                      </div>
+                      <div>
+                        Date: {formattedDate(onlineOrder.order.createdAt)}
+                      </div>
+                      <div>Cost: ₱ {cost.toFixed(2)}</div>
+                      <div>Status: {onlineOrder.deliveryStatus}</div>
+                      <div>
+                        <Link
+                          href={`/order/${onlineOrder.id}`}
+                          className="bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white block text-center py-1 w-full rounded-md font-medium"
+                        >
+                          View
+                        </Link>
+                      </div>
+                    </article>
+                  </Fragment>
                 )
               })}
             </>
@@ -181,7 +200,7 @@ function AuthenticatedPage({ user }: { user: User }) {
   const { data, isLoading, isError } = api.onlineOrder.getAll.useQuery()
 
   return (
-    <div className="grid grid-cols-[16rem_1fr] gap-3">
+    <div className="grid lg:grid-cols-[16rem_1fr] gap-3">
       <AccountPageSwitcher user={user} />
       <section>
         <h2 className="px-6 text-2xl font-semibold pb-3">Order Transactions</h2>
