@@ -894,11 +894,22 @@ function AuthenticatedPage({ user }: { user: User }) {
         <p className="text-center pt-6 pb-8">This order has been cancelled.</p>
       ) : (
         <>
-          {data.order.paymentStatus === "Pending" && (
-            <PaymentStatusSection id={data.paymentIntentId} orderId={data.id} />
-          )}
-          {data.order.paymentStatus === "Fulfilled" && (
-            <OrderStatusSection onlineOrder={data} />
+          {data.deliveryStatus === "Cancelled" ? (
+            <p className="text-center pt-6 pb-8">
+              This order delivery has been cancelled.
+            </p>
+          ) : (
+            <>
+              {data.order.paymentStatus === "Pending" && (
+                <PaymentStatusSection
+                  id={data.paymentIntentId}
+                  orderId={data.id}
+                />
+              )}
+              {data.order.paymentStatus === "Fulfilled" && (
+                <OrderStatusSection onlineOrder={data} />
+              )}
+            </>
           )}
         </>
       )}
