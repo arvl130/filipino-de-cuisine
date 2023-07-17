@@ -26,16 +26,6 @@ function ReservationsListSection({
   })[]
 }) {
   const [currentTab, setCurrentTab] = useState<"" | AttendedStatus>("")
-  function formattedDate(givenDate: Date) {
-    const year = givenDate.getFullYear()
-    const month = givenDate.getMonth() + 1
-    const date = givenDate.getDate()
-
-    const monthStr = month < 10 ? `0${month}` : `${month}`
-    const dateStr = date < 10 ? `0${date}` : `${date}`
-
-    return `${year}-${monthStr}-${dateStr}`
-  }
 
   const filteredReservations = reservations.filter((reservation) => {
     if (currentTab === "") return true
@@ -189,8 +179,7 @@ function ReservationsListSection({
                       <Fragment key={reservation.id}>
                         <article className="hidden lg:grid grid-cols-[8rem_10rem_10rem_10rem_1fr] gap-3 py-3">
                           <div>{reservation.id}</div>
-                          {/* FIXME: This should be reservation date, not created date. */}
-                          <div>{formattedDate(reservation.createdAt)}</div>
+                          <div>{reservation.selectedDate}</div>
                           <div>
                             {earliestTimeslot.toLocaleString(
                               DateTime.TIME_SIMPLE
@@ -214,10 +203,7 @@ function ReservationsListSection({
                           <div className="text-lg font-medium">
                             Reservation ID: {reservation.id}
                           </div>
-                          {/* FIXME: This should be reservation date, not created date. */}
-                          <div>
-                            Date: {formattedDate(reservation.createdAt)}
-                          </div>
+                          <div>Date: {reservation.selectedDate}</div>
                           <div>
                             Time:{" "}
                             {earliestTimeslot.toLocaleString(
