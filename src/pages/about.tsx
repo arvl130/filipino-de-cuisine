@@ -3,35 +3,39 @@ import Head from "next/head"
 
 function AboutSection() {
   return (
-    <section className="about">
-      <div className="description">
-        <div className="aboutus">
-          <h1>about us</h1>
-          <br></br>
-          <p>
-            Welcome to Filipino de Cuisine Restaurant, where we offer a unique
-            dining experience that showcases the flavors of Filipino cuisine.
-            Our restaurant is dedicated to providing delicious, high-quality
-            food that is made with fresh ingredients and authentic Filipino
-            recipes.
+    <section className="sm:grid sm:grid-cols-2">
+      <div className="px-6 lg:pl-6 lg:pr-0">
+        <div className="sm:max-w-lg sm:ml-auto w-full sm:grid sm:grid-rows-[24rem_auto]">
+          <div className="">
+            <h2 className="mt-12 mb-12 text-4xl font-bold">about us</h2>
+            <p className="sm:max-w-sm text-justify">
+              Welcome to Filipino de Cuisine Restaurant, where we offer a unique
+              dining experience that showcases the flavors of Filipino cuisine.
+              Our restaurant is dedicated to providing delicious, high-quality
+              food that is made with fresh ingredients and authentic Filipino
+              recipes.
+            </p>
+          </div>
+          <p className="text-left hidden sm:block font-bold [font-size:max(5rem,_11vw)] text-teal-500/70">
+            Filipino
           </p>
-
-          <h2> Filipino </h2>
         </div>
+      </div>
 
-        <div className="background">
-          <div className="image">
+      <div className="hidden sm:block [background:_linear-gradient(180deg,_#ffffff_0%,_rgba(16,_185,_129,_0.7)_56.25%,_#10b981_98.44%)]">
+        <div className="pr-6 max-w-lg mr-auto w-full grid grid-rows-[24rem_auto] h-full">
+          <div className="flex justify-center items-center">
             <Image
               src="/assets/about/PLATE DESIGN.png"
               width={350}
               height={350}
               alt="Palabok"
+              className="w-[min(calc(100%,_4rem))]"
             />
           </div>
-
-          <div className="food">
-            <h1>food</h1>
-          </div>
+          <p className="hidden sm:block font-bold [font-size:max(5rem,_11vw)] text-white">
+            food
+          </p>
         </div>
       </div>
     </section>
@@ -40,25 +44,26 @@ function AboutSection() {
 
 function DescriptionSection() {
   return (
-    <section className="description">
-      <div className="second">
-        <div className="image">
+    <section className="pb-12 pt-16 px-6">
+      <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-8">
+        <div className="max-h-96 flex justify-center">
           <Image
             src="/assets/about/IMAGE.jpg"
-            width={609}
+            width={500}
             height={500}
             alt="Palabok"
+            className="w-full h-full object-cover"
           />
         </div>
-
-        <div className="paragraph">
-          <p>
+        <div className="flex flex-col justify-center gap-6">
+          <p className="text-justify">
             Our team is passionate about food and creating memorable dining
             experiences for our customers. Our chefs have years of experience in
             preparing Filipino dishes, and they bring that expertise to our
             restaurant. We believe that food is more than just sustenance - it
             is a way to connect with others and experience new cultures.
-            <br></br> <br></br>
+          </p>
+          <p className="text-justify">
             At Filipino de Cuisine Restaurant, we strive to create an atmosphere
             that is welcoming and warm. We want our customers to feel like they
             are part of our family when they visit us. We take pride in
@@ -73,9 +78,9 @@ function DescriptionSection() {
 
 function LastSection() {
   return (
-    <section className="last">
-      <div className="description">
-        <p>
+    <section className="px-6">
+      <div className="max-w-5xl mx-auto px-6 pt-12 pb-24 mb-12 [background:_linear-gradient(180deg,_#10b981_0%,_rgba(16,_185,_129,_0.7)_25%,_rgba(16,_185,_129,_0)_100%)]">
+        <p className="text-justify max-w-4xl mx-auto">
           Our menu features a variety of Filipino dishes, including classic
           favorites like adobo, sinigang, and lechon, as well as unique dishes
           that showcase the diversity of Filipino cuisine. We use only the
@@ -87,7 +92,7 @@ function LastSection() {
   )
 }
 
-export default function about() {
+export default function AboutPage() {
   return (
     <>
       <Head>
