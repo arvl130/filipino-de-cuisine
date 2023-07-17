@@ -60,14 +60,14 @@ function EditInformationForm({
 
   return (
     <form
-      className="rounded-2xl border border-neutral-300 grid px-6 pt-4 pb-6"
+      className="rounded-2xl border border-neutral-300 grid px-3 lg:px-6 pt-4 pb-6"
       onSubmit={handleSubmit((formData) => updateCustomerInfo(formData))}
     >
       <label className="font-semibold">Contact number</label>
       <input
         type="text"
         placeholder="09XXYYYZZZZ"
-        className="bg-neutral-100 rounded-md px-4 py-2"
+        className="bg-neutral-100 rounded-md px-4 py-2 w-full"
         {...register("defaultContactNumber")}
         onChange={(e) => {
           const { value } = e.target
@@ -83,7 +83,7 @@ function EditInformationForm({
       <label className="font-semibold mt-3">Address</label>
       <input
         type="text"
-        className="bg-neutral-100 rounded-md px-4 py-2"
+        className="bg-neutral-100 rounded-md px-4 py-2 w-full"
         {...register("defaultAddress")}
       />
       {errors.defaultAddress && (
@@ -258,13 +258,13 @@ function AuthenticatedPage({
   const providerId = user.providerData[0].providerId
 
   return (
-    <div className="grid grid-cols-[16rem_1fr] gap-3">
+    <div className="grid lg:grid-cols-[16rem_1fr] gap-3">
       <AccountPageSwitcher user={user} />
       <section>
         <h2 className="px-6 border-b border-stone-400 text-2xl font-semibold pb-3 mb-6">
           Account Settings
         </h2>
-        <div className="[box-shadow:_0px_2px_4px_2px_rgba(0,_0,_0,_0.25);] rounded-2xl px-8 py-6 max-w-3xl mx-auto grid grid-cols-2 gap-6 mb-3">
+        <div className="[box-shadow:_0px_2px_4px_2px_rgba(0,_0,_0,_0.25);] rounded-2xl px-4 lg:px-8 py-6 max-w-3xl mx-auto grid lg:grid-cols-2 gap-6 mb-3">
           <article>
             <h3 className="font-semibold mb-1">Edit Information</h3>
             <EditInformationForm
