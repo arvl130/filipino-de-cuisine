@@ -33,7 +33,7 @@ export default function HeaderSection() {
         </div>
 
         <div className="description max-w-4xl mx-auto text-justify px-6 my-20">
-          <h6>
+          <h6 className="max-w-lg mx-auto lg:py-20">
             Welcome to Filipino de Cuisine restaurant&apos;s website. By
             accessing or using our website, you agree to be bound by the
             following terms and conditions:
@@ -121,7 +121,7 @@ export default function HeaderSection() {
             </li>
           </ol>
 
-          <h6>
+          <h6 className="max-w-lg mx-auto lg:py-20">
             By using our website, you acknowledge that you have read,
             understood, and agree to be bound by these terms and conditions. If
             you do not agree to these terms and conditions, please do not use
