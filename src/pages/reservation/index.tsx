@@ -74,8 +74,8 @@ function AuthenticatedPage({
   })
 
   return (
-    <div className="[box-shadow:_0px_1px_4px_1px_rgba(0,_0,_0,_0.25)] rounded-2xl shadow-md px-8 py-6 max-w-4xl mx-auto grid grid-cols-[16rem_1fr] gap-8">
-      <div>
+    <div className="[box-shadow:_0px_1px_4px_1px_rgba(0,_0,_0,_0.25)] rounded-2xl shadow-md px-8 py-6 max-w-4xl mx-auto sm:grid sm:grid-cols-[16rem_1fr] gap-8">
+      <div className="hidden sm:block">
         <Image
           src="/assets/reservation/side-bg.webp"
           alt="side banner"
@@ -102,14 +102,14 @@ function AuthenticatedPage({
           }
         )}
       >
-        <div className="grid grid-cols-2 gap-6 mb-3">
+        <div className="grid sm:grid-cols-2 gap-6 mb-3">
           <div className="flex flex-col">
             <label htmlFor="" className="font-medium">
               Name
             </label>
             <input
               type="text"
-              className="bg-neutral-100 rounded-md px-4 py-2 mb-1"
+              className="bg-neutral-100 rounded-md px-4 py-2 mb-1 w-full"
               {...register("name")}
             />
             {errors.name && (
@@ -122,7 +122,7 @@ function AuthenticatedPage({
             </label>
             <input
               type="text"
-              className="bg-neutral-100 rounded-md px-4 py-2 mb-1"
+              className="bg-neutral-100 rounded-md px-4 py-2 mb-1 w-full"
               {...register("contactNumber")}
               onChange={(e) => {
                 const { value } = e.target
@@ -136,7 +136,7 @@ function AuthenticatedPage({
             )}
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-6 mb-3">
+        <div className="grid sm:grid-cols-2 gap-6 mb-3">
           <div className="flex flex-col">
             <label htmlFor="" className="font-medium">
               Reservation Date
@@ -144,7 +144,7 @@ function AuthenticatedPage({
             <input
               type="date"
               min={tomorrowFormattedDate}
-              className="bg-neutral-100 rounded-md px-4 py-2 mb-1"
+              className="bg-neutral-100 rounded-md px-4 py-2 mb-1 w-full"
               {...register("reservationDate")}
             />
             {errors.reservationDate && (
@@ -153,7 +153,7 @@ function AuthenticatedPage({
               </p>
             )}
           </div>
-          <div></div>
+          <div className="hidden sm:block"></div>
         </div>
         <div className="flex flex-col mb-3">
           <label htmlFor="" className="font-medium">
@@ -172,7 +172,7 @@ function AuthenticatedPage({
         </div>
         <div className="mb-3">
           <p className="font-medium mb-1">Reservation Fee</p>
-          <div className="flex gap-6 px-2 justify-between max-w-xs">
+          <div className="flex flex-wrap gap-y-3 gap-x-6 px-2 justify-between max-w-xs">
             <label className="flex gap-2 items-center">
               <input
                 type="radio"

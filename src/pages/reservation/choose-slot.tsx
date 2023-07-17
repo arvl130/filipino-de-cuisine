@@ -122,7 +122,7 @@ function ChooseTimeslotSection() {
   return (
     <section className="mb-3">
       <label className="font-medium">Time slot</label>
-      <div className="grid grid-cols-4 gap-x-8 gap-y-3 justify-center mb-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-3 justify-center mb-3">
         <TimeslotButton hour={10} minute={0} adjacent={[[11, 15]]} />
         <TimeslotButton
           hour={11}
@@ -259,7 +259,7 @@ function ChooseTableslotSection() {
       <p className="text-stone-500 text-sm mb-3">
         Each table can fit 2-3 persons comfortably.
       </p>
-      <div className="flex gap-3 justify-between">
+      <div className="flex flex-wrap gap-3 justify-between">
         <div className="flex items-center gap-3">
           <div className="rounded-full h-6 w-6 bg-black"></div>
           Fully booked
@@ -349,8 +349,8 @@ function AuthenticatedPage() {
   if (reservationDate === "") return <LoadingSpinner />
 
   return (
-    <div className="[box-shadow:_0px_1px_4px_1px_rgba(0,_0,_0,_0.25)] rounded-2xl shadow-md px-8 py-6 max-w-4xl mx-auto grid grid-cols-[16rem_1fr] gap-8">
-      <div>
+    <div className="[box-shadow:_0px_1px_4px_1px_rgba(0,_0,_0,_0.25)] rounded-2xl shadow-md px-8 py-6 max-w-4xl mx-auto sm:grid sm:grid-cols-[16rem_1fr] gap-8">
+      <div className="hidden sm:block">
         <Image
           src="/assets/reservation/side-bg.webp"
           alt="side banner"
