@@ -18,8 +18,8 @@ import { useRouter } from "next/router"
 
 function MerchantSection() {
   return (
-    <section className="flex justify-between border-2 border-emerald-500 px-4 py-6 rounded-lg mb-5">
-      <div className="flex items-center gap-4">
+    <section className="sm:flex justify-between border-2 border-emerald-500 px-4 py-6 rounded-lg mb-5">
+      <div className="sm:flex text-center items-center gap-4">
         <Image
           src="/assets/website-logo.png"
           alt="Logo of Filipino de Cuisine"
@@ -111,14 +111,14 @@ function BillingSection({
   }
 
   return (
-    <section className="px-6 py-5 rounded-lg flex justify-between bg-neutral-100 mb-4">
-      <div>
+    <section className="px-6 py-5 rounded-lg sm:flex justify-between bg-neutral-100 mb-4">
+      <div className="mb-3 sm:mb-0">
         <p className="font-semibold text-lg">Billed to</p>
         <p>{onlineOrder.order.customerName}</p>
         <p>{onlineOrder.contactNumber}</p>
         <p>{onlineOrder.address}</p>
       </div>
-      <div className="text-right">
+      <div className="sm:text-right">
         <p className="font-medium text-lg">Order ID: 0019</p>
         <p>Date: {formattedDate(onlineOrder.order.createdAt)}</p>
         <p>Time: {formattedTime(onlineOrder.order.createdAt)}</p>
@@ -170,30 +170,68 @@ function ReadOnlyOrderItemsSectionItem({
   )
 
   return (
-    <article className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 h-36">
-      <div>
-        <Image
-          alt="Adobo"
-          src={menuItem.imgUrl}
-          width={100}
-          height={100}
-          className="h-full w-36 object-contain"
-        />
-      </div>
-      <div className="flex items-center font-medium px-6">{menuItem.name}</div>
-      <div className="flex items-center justify-center font-medium">
-        ₱ {hasDiscount ? discountedPrice.toFixed(2) : originalPrice.toFixed(2)}
-      </div>
-      <div className="flex items-center justify-center">
-        {selectedItem.quantity}
-      </div>
-      <div className="flex items-center justify-center font-medium">
-        ₱{" "}
-        {hasDiscount
-          ? (discountedPrice * selectedItem.quantity).toFixed(2)
-          : (originalPrice * selectedItem.quantity).toFixed(2)}
-      </div>
-    </article>
+    <>
+      {/* Desktop */}
+      <article className="hidden sm:grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 h-36">
+        <div>
+          <Image
+            alt="Adobo"
+            src={menuItem.imgUrl}
+            width={100}
+            height={100}
+            className="h-full w-36 object-contain"
+          />
+        </div>
+        <div className="flex items-center font-medium px-6">
+          {menuItem.name}
+        </div>
+        <div className="flex items-center justify-center font-medium">
+          ₱{" "}
+          {hasDiscount ? discountedPrice.toFixed(2) : originalPrice.toFixed(2)}
+        </div>
+        <div className="flex items-center justify-center">
+          {selectedItem.quantity}
+        </div>
+        <div className="flex items-center justify-center font-medium">
+          ₱{" "}
+          {hasDiscount
+            ? (discountedPrice * selectedItem.quantity).toFixed(2)
+            : (originalPrice * selectedItem.quantity).toFixed(2)}
+        </div>
+      </article>
+      {/* Mobile */}
+      <article className="sm:hidden border-b border-stone-200 transition duration-200">
+        <div>
+          <Image
+            alt="Adobo"
+            src={menuItem.imgUrl}
+            width={100}
+            height={100}
+            className="h-full w-36 object-contain"
+          />
+        </div>
+        <div className="grid grid-cols-[1fr_auto]">
+          <div className="flex items-center font-medium">
+            {menuItem.name} ({selectedItem.quantity}x)
+          </div>
+          <div className="flex items-center justify-center font-medium">
+            ₱{" "}
+            {hasDiscount
+              ? discountedPrice.toFixed(2)
+              : originalPrice.toFixed(2)}
+          </div>
+        </div>
+        <div className="grid grid-cols-[1fr_auto]">
+          <div className="flex items-center font-medium">Item Subtotal: </div>
+          <div className="flex items-center justify-end font-medium">
+            ₱{" "}
+            {hasDiscount
+              ? (discountedPrice * selectedItem.quantity).toFixed(2)
+              : (originalPrice * selectedItem.quantity).toFixed(2)}
+          </div>
+        </div>
+      </article>
+    </>
   )
 }
 
@@ -227,7 +265,8 @@ export function ReadOnlyOrderItemsSection({
 
   return (
     <section>
-      <div className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 text-stone-500">
+      <p className="sm:hidden font-medium">Products Ordered</p>
+      <div className="hidden sm:grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 text-stone-500">
         <div className="text-center">Product</div>
         <div></div>
         <div className="text-center">Price</div>
@@ -282,10 +321,6 @@ export function ReadOnlyOrderItemsSection({
   )
 }
 
-function TallySection() {
-  return <section className="mt-4">hi</section>
-}
-
 function AuthenticatedPage({}: { user: User }) {
   const { query, isReady } = useRouter()
   const { data, isLoading, isError } = api.onlineOrder.getOne.useQuery(
@@ -309,7 +344,7 @@ function AuthenticatedPage({}: { user: User }) {
         </Link>
         <h2 className="font-semibold text-2xl flex items-end">Receipt</h2>
       </div>
-      <div className="px-12">
+      <div className="sm:px-12">
         <MerchantSection />
         <BillingSection onlineOrder={data} />
         <ReadOnlyOrderItemsSection onlineOrder={data} />
@@ -320,7 +355,7 @@ function AuthenticatedPage({}: { user: User }) {
 
 export default function ViewReceiptPage() {
   return (
-    <main className="max-w-5xl mx-auto w-full px-3 sm:px-6 py-4 sm:py-12">
+    <main className="max-w-5xl mx-auto w-full px-6 py-4 sm:py-12">
       <ProtectedPage>
         {({ user }) => <AuthenticatedPage user={user} />}
       </ProtectedPage>
