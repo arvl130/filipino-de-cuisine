@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "@/components/HeroIcons"
 import { AccountPageSwitcher } from "@/components/account/AccountPageSwitcher"
 import { ProtectedPage } from "@/components/account/ProtectedPage"
 import { LoadingSpinner } from "@/components/loading"
@@ -6,6 +7,8 @@ import { DeliveryStatus, OnlineOrder, Order, OrderItem } from "@prisma/client"
 import { User } from "firebase/auth"
 import Link from "next/link"
 import { useState, Fragment } from "react"
+
+const MAX_VISIBLE_ENTRIES = 5
 
 function OrdersListSection({
   onlineOrders,
@@ -34,6 +37,30 @@ function OrdersListSection({
 
     return false
   })
+  const [currentPage, setCurrentPage] = useState(0)
+
+  function getVisibleOrders(
+    orders: (OnlineOrder & {
+      order: Order & {
+        orderItems: OrderItem[]
+      }
+    })[]
+  ) {
+    const start = currentPage * MAX_VISIBLE_ENTRIES
+    const end = start + MAX_VISIBLE_ENTRIES
+
+    return orders.slice(start, end)
+  }
+
+  function getPageCount(
+    orders: (OnlineOrder & {
+      order: Order & {
+        orderItems: OrderItem[]
+      }
+    })[]
+  ) {
+    return Math.ceil(orders.length / MAX_VISIBLE_ENTRIES)
+  }
 
   if (onlineOrders.length === 0)
     return (
@@ -59,7 +86,10 @@ function OrdersListSection({
                 ? "text-emerald-500 border-b-4 border-emerald-400"
                 : "border-b-4 border-white"
             }`}
-            onClick={() => setCurrentTab("")}
+            onClick={() => {
+              setCurrentTab("")
+              setCurrentPage(0)
+            }}
           >
             All
           </button>
@@ -72,7 +102,10 @@ function OrdersListSection({
                 ? "text-emerald-500 border-b-4 border-emerald-400"
                 : "border-b-4 border-white"
             }`}
-            onClick={() => setCurrentTab("Pending")}
+            onClick={() => {
+              setCurrentTab("Pending")
+              setCurrentPage(0)
+            }}
           >
             Pending
           </button>
@@ -85,7 +118,10 @@ function OrdersListSection({
                 ? "text-emerald-500 border-b-4 border-emerald-400"
                 : "border-b-4 border-white"
             }`}
-            onClick={() => setCurrentTab("Preparing")}
+            onClick={() => {
+              setCurrentTab("Preparing")
+              setCurrentPage(0)
+            }}
           >
             Preparing
           </button>
@@ -98,7 +134,10 @@ function OrdersListSection({
                 ? "text-emerald-500 border-b-4 border-emerald-400"
                 : "border-b-4 border-white"
             }`}
-            onClick={() => setCurrentTab("OutForDelivery")}
+            onClick={() => {
+              setCurrentTab("OutForDelivery")
+              setCurrentPage(0)
+            }}
           >
             Off to Delivery
           </button>
@@ -111,7 +150,10 @@ function OrdersListSection({
                 ? "text-emerald-500 border-b-4 border-emerald-400"
                 : "border-b-4 border-white"
             }`}
-            onClick={() => setCurrentTab("Received")}
+            onClick={() => {
+              setCurrentTab("Received")
+              setCurrentPage(0)
+            }}
           >
             Delivered
           </button>
@@ -124,7 +166,10 @@ function OrdersListSection({
                 ? "text-emerald-500 border-b-4 border-emerald-400"
                 : "border-b-4 border-white"
             }`}
-            onClick={() => setCurrentTab("Cancelled")}
+            onClick={() => {
+              setCurrentTab("Cancelled")
+              setCurrentPage(0)
+            }}
           >
             Cancelled
           </button>
@@ -143,53 +188,85 @@ function OrdersListSection({
             <div className="text-center mt-3">No orders found.</div>
           ) : (
             <>
-              {filteredOnlineOrders.map((onlineOrder) => {
-                const cost =
-                  onlineOrder.order.orderItems.reduce((prev, orderItem) => {
-                    return prev + orderItem.price.toNumber()
-                  }, 0) + onlineOrder.deliveryFee.toNumber()
+              <div className="min-h-[16rem]">
+                {getVisibleOrders(filteredOnlineOrders).map((onlineOrder) => {
+                  const cost =
+                    onlineOrder.order.orderItems.reduce((prev, orderItem) => {
+                      return prev + orderItem.price.toNumber()
+                    }, 0) + onlineOrder.deliveryFee.toNumber()
 
-                return (
-                  <Fragment key={onlineOrder.id}>
-                    {/* Desktop */}
-                    <article className="hidden lg:grid grid-cols-[6rem_10rem_10rem_10rem_1fr] gap-3 py-3">
-                      <div>{onlineOrder.id}</div>
-                      <div>{formattedDate(onlineOrder.order.createdAt)}</div>
-                      <div>₱ {cost.toFixed(2)}</div>
-                      <div>{onlineOrder.deliveryStatus}</div>
-                      <div>
-                        <Link
-                          href={`/order/${onlineOrder.id}`}
-                          className="text-emerald-500 font-medium"
-                        >
-                          View
-                        </Link>
-                      </div>
-                    </article>
-                    {/* Mobile */}
-                    <article className="lg:hidden border border-zinc-300 px-6 pt-3 pb-4 rounded-md mb-3">
-                      <div className="text-lg font-medium">
-                        Order ID: {onlineOrder.id}
-                      </div>
-                      <div>
-                        Date: {formattedDate(onlineOrder.order.createdAt)}
-                      </div>
-                      <div>Cost: ₱ {cost.toFixed(2)}</div>
-                      <div className="mb-1">
-                        Status: {onlineOrder.deliveryStatus}
-                      </div>
-                      <div>
-                        <Link
-                          href={`/order/${onlineOrder.id}`}
-                          className="bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white block text-center py-1 w-full rounded-md font-medium"
-                        >
-                          View
-                        </Link>
-                      </div>
-                    </article>
-                  </Fragment>
-                )
-              })}
+                  return (
+                    <Fragment key={onlineOrder.id}>
+                      {/* Desktop */}
+                      <article className="hidden lg:grid grid-cols-[6rem_10rem_10rem_10rem_1fr] gap-3 py-3">
+                        <div>{onlineOrder.id}</div>
+                        <div>{formattedDate(onlineOrder.order.createdAt)}</div>
+                        <div>₱ {cost.toFixed(2)}</div>
+                        <div>{onlineOrder.deliveryStatus}</div>
+                        <div>
+                          <Link
+                            href={`/order/${onlineOrder.id}`}
+                            className="text-emerald-500 font-medium"
+                          >
+                            View
+                          </Link>
+                        </div>
+                      </article>
+                      {/* Mobile */}
+                      <article className="lg:hidden border border-zinc-300 px-6 pt-3 pb-4 rounded-md mb-3">
+                        <div className="text-lg font-medium">
+                          Order ID: {onlineOrder.id}
+                        </div>
+                        <div>
+                          Date: {formattedDate(onlineOrder.order.createdAt)}
+                        </div>
+                        <div>Cost: ₱ {cost.toFixed(2)}</div>
+                        <div className="mb-1">
+                          Status: {onlineOrder.deliveryStatus}
+                        </div>
+                        <div>
+                          <Link
+                            href={`/order/${onlineOrder.id}`}
+                            className="bg-emerald-500 hover:bg-emerald-400 transition duration-200 text-white block text-center py-1 w-full rounded-md font-medium"
+                          >
+                            View
+                          </Link>
+                        </div>
+                      </article>
+                    </Fragment>
+                  )
+                })}
+              </div>
+              <div className="flex justify-between mb-12">
+                <button
+                  type="button"
+                  className={`disabled:text-zinc-300 flex items-center gap-1 font-medium px-4 py-2 rounded-md transition duration-200 ${
+                    currentPage === 0 ? "" : "hover:bg-zinc-200"
+                  }`}
+                  disabled={currentPage === 0}
+                  onClick={() =>
+                    setCurrentPage((currCurrentPage) => currCurrentPage - 1)
+                  }
+                >
+                  <ChevronLeft /> Previous
+                </button>
+                <button
+                  type="button"
+                  className={`disabled:text-zinc-300 flex items-center gap-1 font-medium px-4 py-2 rounded-md transition duration-200 ${
+                    currentPage === getPageCount(filteredOnlineOrders) - 1
+                      ? ""
+                      : "hover:bg-zinc-200"
+                  }`}
+                  disabled={
+                    currentPage === getPageCount(filteredOnlineOrders) - 1
+                  }
+                  onClick={() =>
+                    setCurrentPage((currCurrentPage) => currCurrentPage + 1)
+                  }
+                >
+                  Next <ChevronRight />
+                </button>
+              </div>
             </>
           )}
         </div>
