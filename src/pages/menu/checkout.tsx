@@ -55,7 +55,7 @@ function EditInformationModal({
   })
 
   return (
-    <div className="fixed inset-0 z-20 bg-black/20">
+    <div className="fixed inset-0 z-20 bg-black/20 px-3">
       <form
         className="bg-white max-w-xl mx-auto mt-24 rounded-2xl px-8 py-6"
         onSubmit={handleSubmit((data) => {
@@ -68,7 +68,7 @@ function EditInformationModal({
             <CrossMark />
           </button>
         </div>
-        <div className="px-8 py-4 mb-3">
+        <div className="sm:px-8 py-4 mb-3">
           <div className="grid mb-3">
             <label className="font-medium">Name</label>
             <input
@@ -294,7 +294,7 @@ function CheckoutModal({
   isDisabled: boolean
 }) {
   return (
-    <div className="fixed inset-0 z-20 bg-black/20 flex justify-center items-center">
+    <div className="fixed inset-0 z-20 bg-black/20 flex justify-center items-center px-3">
       <div className="bg-white max-w-lg w-full rounded-2xl px-8 py-6">
         <p className="text-justify mb-3">
           The following action will create your order, and you will be
@@ -565,32 +565,68 @@ function SelectedItemsSectionItem({
   )
 
   return (
-    <article className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 h-36 transition duration-200">
-      <div>
-        <Image
-          alt="Adobo"
-          src={basketItem.menuItem.imgUrl}
-          width={100}
-          height={100}
-          className="h-full w-36 object-contain"
-        />
-      </div>
-      <div className="flex items-center font-medium">
-        {basketItem.menuItem.name}
-      </div>
-      <div className="flex items-center justify-center font-medium">
-        ₱ {hasDiscount ? discountedPrice.toFixed(2) : originalPrice.toFixed(2)}
-      </div>
-      <div className="flex items-center justify-center">
-        {basketItem.quantity}
-      </div>
-      <div className="flex items-center justify-center font-medium">
-        ₱{" "}
-        {hasDiscount
-          ? (discountedPrice * basketItem.quantity).toFixed(2)
-          : (originalPrice * basketItem.quantity).toFixed(2)}
-      </div>
-    </article>
+    <>
+      {/* Desktop */}
+      <article className="hidden sm:grid sm:grid-cols-[8rem_1fr_6rem_6rem_6rem] h-36 gap-4 border-b border-stone-200 transition duration-200">
+        <div>
+          <Image
+            alt="Adobo"
+            src={basketItem.menuItem.imgUrl}
+            width={100}
+            height={100}
+            className="h-full w-36 object-contain"
+          />
+        </div>
+        <div className="flex items-center font-medium">
+          {basketItem.menuItem.name}
+        </div>
+        <div className="flex items-center justify-center font-medium">
+          ₱{" "}
+          {hasDiscount ? discountedPrice.toFixed(2) : originalPrice.toFixed(2)}
+        </div>
+        <div className="flex items-center justify-center">
+          {basketItem.quantity}
+        </div>
+        <div className="flex items-center justify-center font-medium">
+          ₱{" "}
+          {hasDiscount
+            ? (discountedPrice * basketItem.quantity).toFixed(2)
+            : (originalPrice * basketItem.quantity).toFixed(2)}
+        </div>
+      </article>
+      {/* Mobile */}
+      <article className="sm:hidden border-b border-stone-200 transition duration-200">
+        <div>
+          <Image
+            alt="Adobo"
+            src={basketItem.menuItem.imgUrl}
+            width={100}
+            height={100}
+            className="h-full w-36 object-contain"
+          />
+        </div>
+        <div className="grid grid-cols-[1fr_auto]">
+          <div className="flex items-center font-medium">
+            {basketItem.menuItem.name} ({basketItem.quantity}x)
+          </div>
+          <div className="flex items-center justify-center font-medium">
+            ₱{" "}
+            {hasDiscount
+              ? discountedPrice.toFixed(2)
+              : originalPrice.toFixed(2)}
+          </div>
+        </div>
+        <div className="grid grid-cols-[1fr_auto]">
+          <div className="flex items-center font-medium">Item Subtotal: </div>
+          <div className="flex items-center justify-end font-medium">
+            ₱{" "}
+            {hasDiscount
+              ? (discountedPrice * basketItem.quantity).toFixed(2)
+              : (originalPrice * basketItem.quantity).toFixed(2)}
+          </div>
+        </div>
+      </article>
+    </>
   )
 }
 
@@ -617,8 +653,11 @@ function SelectedItemsSection() {
   }
 
   return (
-    <section>
-      <div className="grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 text-stone-500">
+    <section className="mb-8 sm:mb-0">
+      <p className="sm:hidden font-medium inline-block mb-3">
+        Selected Products
+      </p>
+      <div className="hidden sm:grid grid-cols-[8rem_1fr_6rem_6rem_6rem] gap-4 border-b border-stone-200 text-stone-500">
         <div className="text-center">Product</div>
         <div></div>
         <div className="text-center">Price</div>
@@ -670,7 +709,7 @@ function AuthenticatedPage({ user }: { user: User }) {
         </Link>
         <h2 className="font-semibold text-2xl flex items-end">Checkout</h2>
       </div>
-      <div className="grid grid-cols-[1fr_20rem] gap-8">
+      <div className="sm:grid sm:grid-cols-[1fr_20rem] gap-8">
         {/* Left column */}
         <div>
           {isLoading ? (
