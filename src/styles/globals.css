@@ -122,7 +122,6 @@ section.privacy div.header div.image {
 
 /*CONTACT*/
 section.contact-us div.contact div.form div.contactform {
-  height: 556px;
   left: 768px;
   top: 187px;
   background: #ffffff;
@@ -131,8 +130,6 @@ section.contact-us div.contact div.form div.contactform {
 }
 
 section.contact-us div.contact div.form div.contactform form.textbox {
-  padding-top: 3rem;
-  padding-inline: 3rem;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;

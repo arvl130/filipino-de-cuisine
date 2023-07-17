@@ -117,7 +117,7 @@ export default function ContactUsPage() {
         </section>
 
         <div className="form">
-          <div className="contactform w-full">
+          <div className="contactform w-full px-6 py-6 sm:px-12 sm:py-12">
             <form
               className="textbox"
               onSubmit={handleSubmit((formData) => createMessage(formData))}
