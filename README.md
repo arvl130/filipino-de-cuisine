@@ -2,7 +2,7 @@
 
 ![Screenshot of the website](https://raw.githubusercontent.com/arvl130/filipino-de-cuisine/master/preview.png)
 
-This is the website for the restaurant management system of Filipino de Cuisine—an imaginary Filipino restaurant. [Order now](https://filipinodecuisine.ageulin.com) from our selection of fresh Filipino dishes.
+This is the website for the restaurant management system of Filipino de Cuisine—an imaginary Filipino restaurant. [Check our menu](https://filipinodecuisine.ageulin.com/menu) and [order now](https://filipinodecuisine.ageulin.com).
 
 ## Features
 
