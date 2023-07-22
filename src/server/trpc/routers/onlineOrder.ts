@@ -22,6 +22,11 @@ export const onlineOrderRouter = router({
           },
         },
       },
+      orderBy: {
+        order: {
+          createdAt: "desc",
+        },
+      },
     })
   }),
   getOne: protectedProcedure

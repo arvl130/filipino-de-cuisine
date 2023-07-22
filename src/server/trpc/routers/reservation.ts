@@ -24,6 +24,9 @@ export const reservationRouter = router({
         reservationSelectedTables: true,
         reservationSlots: true,
       },
+      orderBy: {
+        selectedDate: "desc",
+      },
     })
   }),
   getOne: protectedProcedure
