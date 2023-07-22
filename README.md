@@ -9,7 +9,7 @@ This is the website for the restaurant management system of Filipino de Cuisineâ
 - Responsive frontend design
 - Streamlined ordering and delivery monitoring
 - Efficient reservation scheduling and management
-- Secure payments with GCash or Maya
+- Secure payments with [GCash](https://www.gcash.com) or [Maya](https://www.maya.ph)
 - Sign in with Email, Google, and Facebook
 
 ## Tech Stack
