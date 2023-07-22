@@ -4,6 +4,23 @@
 
 This is the website for the restaurant management system of Filipino de Cuisine—an imaginary Filipino restaurant.
 
+## Features
+
+- Responsive frontend design
+- Streamlined ordering and delivery monitoring
+- Efficient reservation scheduling and management
+- Secure payments with GCash or Maya
+- Sign in with Email, Google, and Facebook
+
+## Tech Stack
+
+- [React](https://react.dev) and [Next.js](https://nextjs.org) with [tRPC](https://trpc.io) for frontend and backend
+- [Tailwind CSS](tailwindcss.com) for styling
+- [Firebase](https://firebase.google.com) for authentication
+- [Paymongo](https://www.paymongo.com) for payments
+- [MySQL](https://www.mysql.com) for the database
+- [Tanstack Query](https://tanstack.com/query/latest) for caching
+
 ## Entity Relationship Diagram
 
 ![ERD of the system](https://raw.githubusercontent.com/arvl130/filipino-de-cuisine/master/erd.jpg)
@@ -52,3 +69,9 @@ $ pnpm dev
 ```sh
 $ pnpm build
 ```
+
+## License
+
+This project is licensed under the MIT License.
+
+Copyright © 2023 Angelo Geulin, Angel Marie Lucero, Sheejay Bumanglag, Kenneth Paredes, Angelo Abellera, Mariel Elaine Lopez

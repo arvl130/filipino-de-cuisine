@@ -1,4 +1,4 @@
-Copyright (c) 2023 Angelo Geulin, Angel Marie Lucero, Sheejay Bumanglag, Angelo Abellera
+Copyright © 2023 Angelo Geulin, Angel Marie Lucero, Sheejay Bumanglag, Kenneth Paredes, Angelo Abellera, Mariel Elaine Lopez
 
 ```
 Permission is hereby granted, free of charge, to any person obtaining a copy of this
