@@ -20,19 +20,6 @@ export const basketItemRouter = router({
       },
     })
   }),
-  getOne: protectedProcedure
-    .input(
-      z.object({
-        id: z.number(),
-      })
-    )
-    .query(({ input, ctx }) => {
-      return ctx.prisma.basketItem.findUnique({
-        where: {
-          id: input.id,
-        },
-      })
-    }),
   create: protectedProcedure
     .input(
       z.object({
