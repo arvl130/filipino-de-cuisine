@@ -49,19 +49,4 @@ export const menuItemRouter = router({
         },
       })
     }),
-  getManyById: publicProcedure
-    .input(
-      z.object({
-        ids: z.number().array(),
-      })
-    )
-    .query(({ input, ctx }) => {
-      return ctx.prisma.menuItem.findMany({
-        where: {
-          id: {
-            in: input.ids,
-          },
-        },
-      })
-    }),
 })
