@@ -21,6 +21,10 @@ This is the website for the restaurant management system of Filipino de Cuisineâ
 - [MySQL](https://www.mysql.com) for the database
 - [Tanstack Query](https://tanstack.com/query/latest) for caching
 
+## Design Prototype
+
+- View in [Figma](https://www.figma.com/file/3OxPRtw4tOFIxzudOTWuqo/FILIPINO-DE-CUISINE)
+
 ## Entity Relationship Diagram
 
 ![ERD of the system](https://raw.githubusercontent.com/arvl130/filipino-de-cuisine/master/erd.jpg)
