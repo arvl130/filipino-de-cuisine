@@ -1,5 +1,5 @@
 import { prisma } from "@/server/db"
-import { PrismaClientValidationError } from "@prisma/client/runtime/data-proxy"
+import { PrismaClientValidationError } from "@prisma/client/runtime/library"
 import type { NextApiRequest, NextApiResponse } from "next"
 import { ZodError, z } from "zod"
 
