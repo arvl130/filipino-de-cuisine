@@ -121,8 +121,6 @@ function ItemPrice({
     })[]
   }
 }) {
-  console.log("Received menuItem:", menuItem)
-
   const { hasDiscount, originalPrice, discountedPrice } =
     getDiscountedPrice(menuItem)
 
