@@ -10,4 +10,7 @@ SuperJSON.registerCustom<Decimal, string>(
   "decimal.js"
 )
 
+// Whenever we want to use SuperJSON, we import from here so that
+// we can make sure custom types are registered in the SuperJSON
+// instance.
 export const SuperJsonWithDecimal = SuperJSON
