@@ -7,17 +7,17 @@ import { api } from "../utils/api"
 import { AuthProvider, useSession } from "@/utils/auth"
 import { useRouter } from "next/router"
 import SuperJSON from "superjson"
-import { Decimal } from "decimal.js"
+import { Prisma } from "@prisma/client"
 import { ReactNode, useState } from "react"
 import Head from "next/head"
 
-SuperJSON.registerCustom<Decimal, string>(
+SuperJSON.registerCustom<Prisma.Decimal, string>(
   {
-    isApplicable: (v): v is Decimal => Decimal.isDecimal(v),
+    isApplicable: (v): v is Prisma.Decimal => Prisma.Decimal.isDecimal(v),
     serialize: (v) => v.toJSON(),
-    deserialize: (v) => new Decimal(v),
+    deserialize: (v) => new Prisma.Decimal(v),
   },
-  "decimal.js"
+  "@prisma/client"
 )
 
 export function ProtectedNavbarLink({
