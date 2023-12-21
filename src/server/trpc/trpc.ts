@@ -2,7 +2,7 @@ import { initTRPC, TRPCError } from "@trpc/server"
 import { prisma } from "../db"
 import { CreateNextContextOptions } from "@trpc/server/adapters/next"
 import { getServerSession } from "../auth"
-import SuperJSON from "superjson"
+import { SuperJsonWithDecimal } from "@/utils/transformer"
 
 export async function createContext({ req, res }: CreateNextContextOptions) {
   const session = await getServerSession({ req, res })
@@ -14,7 +14,7 @@ export async function createContext({ req, res }: CreateNextContextOptions) {
 }
 
 const t = initTRPC.context<typeof createContext>().create({
-  transformer: SuperJSON,
+  transformer: SuperJsonWithDecimal,
   errorFormatter({ shape }) {
     return shape
   },

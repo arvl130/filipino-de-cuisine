@@ -3,13 +3,13 @@ import { createTRPCNext } from "@trpc/next"
 import type { RootRouter } from "../server/trpc/routers/root"
 import { getIdToken } from "firebase/auth"
 import { auth } from "./auth"
-import SuperJSON from "superjson"
 import { getBaseUrl } from "./base-url"
+import { SuperJsonWithDecimal } from "./transformer"
 
 export const api = createTRPCNext<RootRouter>({
   config({ ctx }) {
     return {
-      transformer: SuperJSON,
+      transformer: SuperJsonWithDecimal,
       links: [
         httpBatchLink({
           /**
