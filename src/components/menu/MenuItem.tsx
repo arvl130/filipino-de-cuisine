@@ -4,7 +4,6 @@ import { getDiscountedPrice } from "@/utils/discounted-price"
 import { Discount, DiscountItem, MenuItem } from "@prisma/client"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 
 function Button({
   menuItemId,
@@ -122,9 +121,7 @@ function ItemPrice({
     })[]
   }
 }) {
-  useEffect(() => {
-    console.log("Received menuItem:", menuItem)
-  }, [menuItem])
+  console.log("Received menuItem:", menuItem)
 
   const { hasDiscount, originalPrice, discountedPrice } =
     getDiscountedPrice(menuItem)
